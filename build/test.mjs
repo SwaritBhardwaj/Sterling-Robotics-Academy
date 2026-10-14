@@ -75,6 +75,10 @@ const expired = await token({ aud: ['aud123'], iss: 'https://sterling.cloudflare
 await t('expired token is refused', async () => assert.equal((await hit('/', xEnv, { 'cf-access-jwt-assertion': expired })).status, 401));
 const tampered = good.slice(0, -4) + 'AAAA';
 await t('tampered token is refused', async () => assert.equal((await hit('/', xEnv, { 'cf-access-jwt-assertion': tampered })).status, 401));
+await t('team domain pasted with https:// still works', async () => assert.equal((await hit('/', { ...xEnv, ACCESS_TEAM_DOMAIN: 'https://sterling.cloudflareaccess.com/' }, { 'cf-access-jwt-assertion': good })).status, 200));
+await t('without ACCESS_AUD, a valid team token signs in', async () => assert.equal((await hit('/', { ACCESS_TEAM_DOMAIN: 'sterling.cloudflareaccess.com' }, { 'cf-access-jwt-assertion': wrongAud })).status, 200));
+const otherTeam = await token({ aud: ['aud123'], iss: 'https://evil.cloudflareaccess.com', exp: Math.floor(Date.now() / 1000) + 600, email: ADMIN });
+await t('a token from another team is refused', async () => assert.equal((await hit('/', { ACCESS_TEAM_DOMAIN: 'sterling.cloudflareaccess.com' }, { 'cf-access-jwt-assertion': otherTeam })).status, 401));
 await t('a faked email header alone is refused', async () => assert.equal((await hit('/', xEnv, { 'cf-access-authenticated-user-email': ADMIN })).status, 401));
 
 // 5. Home page data

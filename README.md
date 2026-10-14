@@ -38,21 +38,14 @@ Files must be under 25 MB each. Put videos on YouTube as unlisted, never in the 
 
 ## One-time Cloudflare setup
 
-1. **Create the Worker:** Workers & Pages > Create > Import a repository > pick this repo.
-   - Build command: `npm run build`
-   - Deploy command: `npx wrangler deploy`
-   - Turn **Enable Preview builds** off.
-   - Turn **Protect with Cloudflare Access** on.
-   - Deploy.
-2. **Sign-in method:** Zero Trust > Settings > Authentication > add **One-time PIN**.
-3. **Access policy:** Zero Trust > Access > Applications > open the app created for the Worker. The policy should be Allow, Include **Everyone**. The site itself refuses anyone not in `students.json`, so the class list lives in one place. Copy the **Application Audience (AUD) tag**. Your team domain is under Zero Trust > Settings > Custom pages (`<team>.cloudflareaccess.com`).
-4. **Connect them:** Worker > Settings > Variables and secrets, add:
-   - `ACCESS_AUD` = the AUD tag
-   - `ACCESS_TEAM_DOMAIN` = `<team>.cloudflareaccess.com`
-   Then redeploy (Deployments > retry, or push any change).
-5. **Test** in a private browser window: sign in with your email, then with an email that is not enrolled (it should be refused).
+1. **Create the Worker:** Workers & Pages > Create > Import a repository > pick this repo. Build command `npm run build`, deploy command `npx wrangler deploy`, preview builds off. Deploy.
+2. **Email codes:** Cloudflare One (Zero Trust) > Integrations > Identity providers > add **One-time PIN**.
+3. **Lock the Worker:** Workers & Pages > sterling-robotics-academy > **Access** tab > Protect this Worker behind Access > **All traffic** > policy: Allow, Include Everyone (login method One-time PIN) > Apply Access. The site itself refuses anyone not in `students.json`.
+4. **Team domain:** Cloudflare One > Settings > Team domain, e.g. `sterling.cloudflareaccess.com`.
+5. **Variables:** Worker > Settings > Variables and secrets, add `ACCESS_TEAM_DOMAIN` (Text) = the team domain. Optional but stronger: `ACCESS_AUD` = the application's AUD tag. Deploy.
+6. **Test** in a private window: your email works, an unenrolled email is refused.
 
-Until step 4 is done the site shows "Almost ready" to everyone. Never set `DEV_EMAIL` on the live Worker: it is for local testing only.
+Until step 5 is done the site shows "Almost ready" to everyone. Never set `DEV_EMAIL` on the live Worker: it is for local testing only.
 
 ## Run locally
 
