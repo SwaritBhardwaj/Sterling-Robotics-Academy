@@ -1,0 +1,12 @@
+{
+  "name": "sterling-robotics-academy",
+  "main": "worker/index.js",
+  "compatibility_date": "2025-09-01",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "run_worker_first": true,
+    "not_found_handling": "404-page"
+  },
+  "observability": { "enabled": true }
+}

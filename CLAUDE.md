@@ -1,13 +1,13 @@
 # Sterling Robotics Academy course site
 
-Private course site on Cloudflare Pages for a 12-week robotics course (Elegoo Tumbller, grades 6 to 12, US families).
+Private course site on Cloudflare Workers (static assets + a Worker that runs first) for a 12-week robotics course (Elegoo Tumbller, grades 6 to 12, US families).
 
 ## Layout
 - `content/` is the only place course material lives. Markdown with a small `---` header.
   - `weeks/week-NN/index.md` (+ files, `solutions/`), `resources/`, `students/students.json` + `students/<slug>.md`
   - `site.json` (links, admins), `schedule.json` (cohort dates, unlock rules)
 - `build/build.mjs` turns content into `dist/`. `build/test.mjs` tests the access rules.
-- `functions/_middleware.js` + `lib/course.js`: sign-in (Cloudflare Access JWT), enrolment, week and solution locks, private student pages. `functions/api/me.js`: home page data.
+- `worker/index.js` (entry, config in `wrangler.jsonc`, `run_worker_first: true`) calls `lib/guard.js` + `lib/course.js`: sign-in (Cloudflare Access JWT), enrolment, week and solution locks, private student pages. `lib/me.js`: home page data at `/api/me`.
 - `assets/`: site.css (brochure look: white, ink #1D1D1F, blue #1F55D6, Instrument Serif/Sans, Geist Mono) and app.js.
 
 ## Rules

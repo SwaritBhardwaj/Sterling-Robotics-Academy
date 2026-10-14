@@ -1,5 +1,5 @@
 // Builds the course site from content/ into dist/.
-// Run: npm run build. Cloudflare Pages runs this on every push to main.
+// Run: npm run build. Cloudflare runs this on every push to main.
 import fs from 'node:fs';
 import path from 'node:path';
 import { marked } from 'marked';
@@ -149,7 +149,7 @@ function buildPages(srcDir, urlBase, active) {
 }
 buildPages(C('resources'), '/resources/', 'resources');
 
-/* ---------- student pages (private, checked by functions/_middleware.js) ---------- */
+/* ---------- student pages (private, checked by lib/guard.js) ---------- */
 for (const s of students) {
   const f = C(`students/${s.slug}.md`);
   const { body } = fs.existsSync(f) ? read(f) : { body: '_Notes from your 1:1 sessions will appear here._' };

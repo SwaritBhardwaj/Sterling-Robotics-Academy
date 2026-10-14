@@ -1,4 +1,4 @@
-// Tests the sign-in and lock rules in functions/ without deploying. Run: npm test
+// Tests the sign-in and lock rules in lib/ and worker/ without deploying. Run: npm test
 import { build } from 'esbuild';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -7,10 +7,11 @@ import assert from 'node:assert/strict';
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
 const tmp = path.join(ROOT, '.test-build');
 fs.mkdirSync(tmp, { recursive: true });
-await build({ entryPoints: { mw: path.join(ROOT, 'functions/_middleware.js'), me: path.join(ROOT, 'functions/api/me.js'), course: path.join(ROOT, 'lib/course.js') },
+await build({ entryPoints: { mw: path.join(ROOT, 'lib/guard.js'), me: path.join(ROOT, 'lib/me.js'), worker: path.join(ROOT, 'worker/index.js') },
   bundle: true, format: 'esm', platform: 'neutral', outdir: tmp, logLevel: 'error' });
 const mw = await import(path.join(tmp, 'mw.js'));
 const me = await import(path.join(tmp, 'me.js'));
+const worker = (await import(path.join(tmp, 'worker.js'))).default;
 const students = JSON.parse(fs.readFileSync(path.join(ROOT, 'content/students/students.json'), 'utf8'));
 const site = JSON.parse(fs.readFileSync(path.join(ROOT, 'content/site.json'), 'utf8'));
 const stu = students[0];
@@ -86,6 +87,14 @@ await t('/api/me: week 1 open, week 2 locked, next class is week 1 on 15 Nov', a
   assert.equal(j.next, 1); assert.equal(j.weeks[0].classDate, '2026-11-15'); assert.equal(j.weeks[11].classDate, '2027-01-31');
   assert.equal(j.weeks[1].unlockDate, '2026-11-16');
 });
+
+// 6. Whole Worker: assets only served after the checks pass
+Date.now = realNow;
+const served = [];
+const wEnv = { ...xEnv, ASSETS: { fetch: async req => { served.push(new URL(req.url).pathname); return new URL(req.url).pathname === '/data/weeks.json' ? new Response(weeksJson) : new Response('page'); } } };
+await t('worker refuses a request with no sign-in and serves nothing', async () => { served.length = 0; const r = await worker.fetch(new Request('https://x.workers.dev/weeks/week-01/'), wEnv); assert.equal(r.status, 401); assert.equal(served.length, 0); });
+await t('worker serves a page after a valid sign-in', async () => { const r = await worker.fetch(new Request('https://x.workers.dev/', { headers: { 'cf-access-jwt-assertion': good } }), wEnv); assert.equal(r.status, 200); assert.equal(await r.text(), 'page'); });
+await t('worker answers /api/me after sign-in', async () => { const r = await worker.fetch(new Request('https://x.workers.dev/api/me', { headers: { 'cf-access-jwt-assertion': good } }), wEnv); assert.equal(r.status, 200); assert.equal((await r.json()).admin, true); });
 
 Date.now = realNow; globalThis.fetch = realFetch;
 fs.rmSync(tmp, { recursive: true, force: true });
