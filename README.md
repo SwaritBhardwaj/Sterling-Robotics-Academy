@@ -42,10 +42,10 @@ Files must be under 25 MB each. Put videos on YouTube as unlisted, never in the 
 2. **Email codes:** Cloudflare One (Zero Trust) > Integrations > Identity providers > add **One-time PIN**.
 3. **Lock the Worker:** Zero Trust > Access controls > Applications > Add > Self-hosted, hostname `academy.sterlingrobotics.workers.dev`, policy **Class families** (Allow, Include Emails: every enrolled parent and student email, plus admins), login method One-time PIN only.
 4. **Team domain:** Cloudflare One > Settings > Team domain, e.g. `sterling.cloudflareaccess.com`.
-5. **Variables:** Worker > Settings > Variables and secrets, add `ACCESS_TEAM_DOMAIN` (Text) = the team domain. Optional but stronger: `ACCESS_AUD` = the application's AUD tag. Deploy.
+5. **Team domain setting:** it lives in `wrangler.jsonc` under `vars`, so every deploy from GitHub keeps it. Change it there if the team domain ever changes. Optional but stronger: add `ACCESS_AUD` (the application's AUD tag) under `vars` too.
 6. **Test** in a private window: your email works, an unenrolled email is refused.
 
-Until step 5 is done the site shows "Almost ready" to everyone. Never set `DEV_EMAIL` on the live Worker: it is for local testing only.
+Until the team domain is set the site shows "Almost ready" to everyone. Never set `DEV_EMAIL` on the live Worker: it is for local testing only.
 
 ## Run locally
 
