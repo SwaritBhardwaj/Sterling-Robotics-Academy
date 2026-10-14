@@ -1,0 +1,9 @@
+[
+  {
+    "slug": "sample-student",
+    "name": "Sample Student",
+    "grade": "7",
+    "cohort": "founding",
+    "emails": ["parent@example.com", "student@example.com"]
+  }
+]

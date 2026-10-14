@@ -1,0 +1,15 @@
+{
+  "timezoneOffset": "-05:00",
+  "unlockDaysBeforeClass": 6,
+  "solutionsUnlockDaysAfterClass": 6,
+  "cohorts": {
+    "founding": {
+      "label": "Founding cohort",
+      "firstClass": "2026-11-15"
+    },
+    "winter": {
+      "label": "Winter cohort",
+      "firstClass": "2027-01-10"
+    }
+  }
+}

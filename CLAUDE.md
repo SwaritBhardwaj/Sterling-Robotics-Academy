@@ -1,0 +1,17 @@
+# Sterling Robotics Academy course site
+
+Private course site on Cloudflare Pages for a 12-week robotics course (Elegoo Tumbller, grades 6 to 12, US families).
+
+## Layout
+- `content/` is the only place course material lives. Markdown with a small `---` header.
+  - `weeks/week-NN/index.md` (+ files, `solutions/`), `resources/`, `students/students.json` + `students/<slug>.md`
+  - `site.json` (links, admins), `schedule.json` (cohort dates, unlock rules)
+- `build/build.mjs` turns content into `dist/`. `build/test.mjs` tests the access rules.
+- `functions/_middleware.js` + `lib/course.js`: sign-in (Cloudflare Access JWT), enrolment, week and solution locks, private student pages. `functions/api/me.js`: home page data.
+- `assets/`: site.css (brochure look: white, ink #1D1D1F, blue #1F55D6, Instrument Serif/Sans, Geist Mono) and app.js.
+
+## Rules
+- Run `npm run build && npm test` before every push. All checks must pass.
+- Student pages hold notes about minors: never print them in logs, commit messages or anywhere public.
+- No secrets in the repo. Access settings are Cloudflare environment variables.
+- Writing style: plain, short sentences, no em dashes.

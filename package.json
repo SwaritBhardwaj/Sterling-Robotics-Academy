@@ -1,0 +1,15 @@
+{
+  "name": "sterling-robotics-academy",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build/build.mjs",
+    "test": "node build/test.mjs"
+  },
+  "dependencies": {
+    "marked": "12.0.2"
+  },
+  "devDependencies": {
+    "esbuild": "0.21.5"
+  }
+}
