@@ -8,10 +8,12 @@ slides:
 
 > What does each part of the robot do in the sense, decide, act loop?
 
+![Every part of the robot does one job in this loop. The battery powers all of it.](img/sense-decide-act.svg)
+
 ## By the end of this week
 - A built robot you have seen balance
 - A 10-second video of it balancing
-- The proof that power off means it falls, so the code does the balancing
+- The proof that ==power off means it falls==, so the code does the balancing
 - A working upload from Arduino IDE
 
 ## Have ready for class
