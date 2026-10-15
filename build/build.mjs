@@ -68,11 +68,15 @@ function md(text) {
   const src = text.replace(/==([^=\n]+)==/g, '<mark>$1</mark>');
   let html = marked.parse(src);
   html = html.replace(/<p><img src="([^"]+)" alt="([^"]*)"(?: title="[^"]*")?>\s*<\/p>/g,
-    (_, s, a) => `<figure class="taped"><img src="${s}" alt="${a}" loading="lazy">${a ? `<figcaption>${a}</figcaption>` : ''}</figure>`);
+    // the caption describes the figure, so the image itself gets an empty alt (no double reading)
+    (_, s, a) => `<figure class="taped"><img src="${s}" alt="" loading="lazy">${a ? `<figcaption>${a}</figcaption>` : ''}</figure>`);
   html = html.replace(/<p><a href="(https?:\/\/(?:www\.)?(?:youtube\.com|youtu\.be)[^"]+)">([^<]*)<\/a><\/p>/g,
     (m, u, t) => { const id = youtubeId(u); return id ? videoBlock(id, t.startsWith('http') ? 'Video' : t) : m; });
   html = html.replace(/<h3>(Must|Stretch|Optional|Bonus): ?([\s\S]*?)<\/h3>/g,
-    (_, k, t) => `<h3 class="task ${k.toLowerCase()}" data-tag="${k === 'Must' ? 'must do' : k.toLowerCase()}">${t}</h3>`);
+    (_, k, t) => `<h3 class="task ${k.toLowerCase()}" data-tag="${k === 'Must' ? 'must do' : k.toLowerCase()}"><span class="sr-only">${k === 'Must' ? 'Must do' : k}: </span>${t}</h3>`);
+  html = html.replace(/<h2>Have ready for class<\/h2>/, '<h2 id="have-ready">Have ready for class</h2>');
+  // a resource named without a link gets a pencil note, so nothing looks clickable that is not
+  html = html.replace(/(<h2>Resources<\/h2>\s*<ul>)([\s\S]*?)(<\/ul>)/, (_, a, list, z) => a + list.replace(/<li>(?![\s\S]*?<a )([\s\S]*?)<\/li>/g, '<li>$1 <span class="later">link coming before class</span></li>') + z);
   html = html.replace(/<a href="(https?:\/\/[^"]+)"/g, '<a href="$1" target="_blank" rel="noopener"');
   html = html.replace(/<pre><code>/g, '<div class="card-in"><button class="copy" type="button">copy</button><pre><code>').replace(/<\/code><\/pre>/g, '</code></pre></div>');
   return html;
@@ -95,12 +99,13 @@ function layout({ title, body, active = '', bodyClass = '' }) {
 <script>if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('motion')</script>
 </head>
 <body class="${bodyClass}">
+<a class="skip" href="#main">Skip to the page</a>
 <header class="head"><div class="head-in">
   <a class="brand" href="/"><b>Sterling</b><span>Robotics Academy</span></a>
   <nav aria-label="Main">${nav}</nav>
 </div></header>
-<main class="sheet">${body}</main>
-<footer class="foot"><p>Stuck or have a question? WhatsApp Swarit on ${esc(site.whatsapp)}, or email ${esc(site.email)}.</p></footer>
+<main class="sheet" id="main">${body}</main>
+<footer class="foot"><p>Stuck or have a question? WhatsApp Swarit on <a href="${esc(site.whatsappLink)}" target="_blank" rel="noopener">${esc(site.whatsapp)}</a>, or email <a href="mailto:${esc(site.email)}">${esc(site.email)}</a>.</p></footer>
 ${PREVIEW ? `<script>window.__ME=${JSON.stringify(previewMe)}</script>` : ''}
 <script src="/assets/app.js" defer></script>
 </body></html>`;
@@ -147,6 +152,9 @@ for (const [i, w] of weeks.entries()) {
   let html = md(w.body);
   let question = '';
   html = html.replace(/^<blockquote>\s*<p>([\s\S]*?)<\/p>\s*<\/blockquote>/, (_, q) => { question = q; return ''; });
+  // "Have ready for class" is what the highlighted line points to, so it comes first
+  const ready = html.match(/<h2 id="have-ready">[\s\S]*?(?=<h2|$)/);
+  if (ready) { const first = html.search(/<h2/); html = html.replace(ready[0], ''); html = html.slice(0, first) + ready[0] + html.slice(first); }
   const prev = weeks[i - 1], next = weeks[i + 1];
   const body = `
   <aside class="margin">
@@ -157,11 +165,11 @@ for (const [i, w] of weeks.entries()) {
   <article class="col prose">
     <h1>${esc(w.meta.title)}</h1>
     ${question ? `<p class="question">${question}</p>` : ''}
-    <p class="todo"><mark class="sweep">Before Sunday, get the things below ready. After class, do the tasks and submit them.</mark></p>
+    <p class="todo"><mark class="sweep" data-todo-week="${w.n}">Before Sunday, get the things below ready. After class, do the tasks and submit them.</mark></p>
     ${html}
     ${recording}
     ${filesBlock}${solBlock}
-    <section class="submit"><h2>Submit your work</h2><p>Send everything for this week in one go: links, photos and your filled-in tables.</p>
+    <section class="submit" id="submit"><h2>Submit your work</h2><p>Send everything for this week in one go: links, photos and your filled-in tables.</p>
       <p><a class="btn" data-submit="${w.n}" href="#" target="_blank" rel="noopener">Submit week ${w.n} <span class="arr" aria-hidden="true">→</span></a></p></section>
     <nav class="pager" aria-label="Weeks">${prev ? `<a href="${prev.url}" rel="prev"><span>previous</span>Week ${prev.n}: ${esc(prev.meta.title)}</a>` : '<span></span>'}${next ? `<a href="${next.url}" rel="next"><span>next</span>Week ${next.n}: ${esc(next.meta.title)}</a>` : '<span></span>'}</nav>
   </article>`;
