@@ -1,0 +1,36 @@
+# Obsidian
+.obsidian/workspace*
+.obsidian/cache
+.obsidian/community-plugins.json
+.obsidian/appearance.json
+.obsidian/core-plugins-migration.json
+.trash/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*~
+
+# Secrets, never commit
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+
+# Build output and code tooling never belong in the vault
+node_modules/
+dist/
+preview/
+.wrangler/
+wrangler*.json*
+package.json
+package-lock.json
+04-CONTENT/brochure/source/sterling-brochure.html

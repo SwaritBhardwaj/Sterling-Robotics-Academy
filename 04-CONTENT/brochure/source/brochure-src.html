@@ -1,0 +1,742 @@
+<meta charset="utf-8">
+<title>Sterling Winter Cohort Brochure</title>
+
+<!-- Layout: seven A4 pages on a white Apple-style grid; object-first photography, two-tone headlines, hairline annotation, one blue accent -->
+<style>
+  @font-face{font-family:'IS';src:url(__F_IS_R__) format('truetype');font-weight:400;font-style:normal}
+  @font-face{font-family:'IS';src:url(__F_IS_B__) format('truetype');font-weight:700;font-style:normal}
+  @font-face{font-family:'ISerif';src:url(__F_SER_I__) format('truetype');font-weight:400;font-style:italic}
+  @font-face{font-family:'ISerif';src:url(__F_SER_R__) format('truetype');font-weight:400;font-style:normal}
+  @font-face{font-family:'GM';src:url(__F_GM__) format('truetype');font-weight:400}
+
+  :root{
+    --white:#FFFFFF;
+    --ink:#1D1D1F;
+    --grey:#86868B;
+    --grey2:#5E5E63;
+    --line:#E2E2E6;
+    --panel:#F5F5F7;
+    --blue:#1F55D6;
+    --stage:#E6E6E9;
+    --sans:'IS',-apple-system,'Helvetica Neue',Helvetica,Arial,sans-serif;
+    --serif:'ISerif',Georgia,serif;
+    --mono:'GM',ui-monospace,Menlo,monospace;
+    color-scheme:light;
+  }
+  body{margin:0;background:var(--stage);color:var(--ink);font-family:var(--sans)}
+  .stage{display:flex;flex-direction:column;align-items:center;gap:28px;padding-inline:16px;padding-block:clamp(14px,3vw,36px)}
+  .sheet{width:min(100%,210mm);aspect-ratio:210/297;container-type:inline-size;position:relative;box-shadow:0 12px 44px rgba(0,0,0,.11);background:var(--white)}
+  .pg{position:absolute;inset:0;display:flex;flex-direction:column;padding:6cqw 7.4cqw 4.6cqw;box-sizing:border-box;overflow:hidden}
+
+  /* shared chrome */
+  .hdr{display:flex;justify-content:space-between;align-items:baseline}
+  .mark{display:flex;align-items:baseline;gap:1.3cqw}
+  .mark b{font-weight:700;font-size:2.55cqw;letter-spacing:-.02em}
+  .mark span,.lab{font-family:var(--mono);font-size:1.38cqw;letter-spacing:.14em;color:var(--grey);text-transform:uppercase}
+  .ftr{margin-top:auto;padding-top:2cqw;border-top:1px solid var(--line);display:flex;justify-content:space-between}
+  .ftr span{font-family:var(--mono);font-size:1.25cqw;letter-spacing:.14em;color:var(--grey);text-transform:uppercase}
+
+  .eyebrow{font-size:2cqw;color:var(--blue);letter-spacing:.005em}
+  h1,h2{margin:0;font-weight:700;letter-spacing:-.022em;word-spacing:.06em;text-wrap:balance}
+  p,.wk span,.cred,td,.li span{text-wrap:pretty}
+  h2{font-size:4.7cqw;line-height:1.08}
+  .g{color:var(--grey);display:block}
+  .note{font-size:1.85cqw;line-height:1.5;color:var(--grey2)}
+  .note b{color:var(--ink);font-weight:700}
+
+
+  /* page titles */
+  .ttl{margin-top:4.6cqw;font-weight:700;font-size:9.4cqw;letter-spacing:-.05em;line-height:.95;color:var(--ink)}
+  .pg h2.sub{margin-top:1.8cqw;font-size:3.05cqw;line-height:1.28;letter-spacing:-.015em;word-spacing:0;font-weight:700}
+  .pg h2.sub .g{display:inline}
+
+  /* ---------- page 1 ---------- */
+  .p1 .eyebrow{margin-top:8cqw;text-align:center;font-size:2.2cqw}
+  .p1 h1{margin-top:1.8cqw;text-align:center;font-size:4.7cqw;line-height:1.12}
+  .p1 .hero{flex:1;min-height:0;position:relative;margin:2.2cqw -3cqw 0}
+  .p1 .hero svg{position:absolute;inset:0;width:100%;height:100%}
+  .perks{display:grid;grid-template-columns:repeat(3,1fr);background:var(--panel);border-radius:1.6cqw;margin-top:1.4cqw}
+  .perk{padding:2.4cqw 2.4cqw}
+  .perk + .perk{border-left:1px solid var(--line)}
+  .perk .lab{color:var(--blue)}
+  .perk p{margin:.9cqw 0 0;font-size:1.95cqw;line-height:1.3;font-weight:700;letter-spacing:-.01em}
+  .specs{display:grid;grid-template-columns:repeat(4,1fr);margin:3cqw 0 2.6cqw}
+  .spec{text-align:center}
+  .spec + .spec{border-left:1px solid var(--line)}
+  .spec .n{font-weight:700;font-size:4.4cqw;letter-spacing:-.035em;line-height:1}
+  .spec .l{font-size:1.6cqw;line-height:1.35;color:var(--grey);margin-top:1cqw}
+  .p1 .ftr{align-items:baseline;gap:3cqw}
+  .p1 .ftr .note{font-size:1.55cqw}
+  .cta{font-size:1.8cqw;color:var(--blue);white-space:nowrap;font-weight:700;text-decoration:none;text-align:right;display:flex;flex-direction:column;gap:.5cqw}
+  .ftr .cta span.btn{font-family:var(--sans);font-size:1.75cqw;letter-spacing:0;text-transform:none;color:#fff;font-weight:700;background:var(--blue);border-radius:99px;padding:1.3cqw 2.6cqw;align-self:flex-end}
+  .p1 .ftr{align-items:center}
+  .cta small{font-family:var(--mono);font-weight:400;font-size:1.25cqw;letter-spacing:.06em;color:var(--grey2);text-align:center}
+
+  /* ---------- page 2 ---------- */
+  .p2 .top2{display:grid;grid-template-columns:1fr 22cqw;gap:4cqw;align-items:end;margin-top:2.4cqw}
+  .p2 h2{font-size:4.7cqw}
+  .photo{border-radius:1.6cqw;overflow:hidden;aspect-ratio:679/637;position:relative}
+  .photo img{width:100%;height:100%;object-fit:cover;display:block}
+  .photo .tag{position:absolute;left:2.2cqw;bottom:2cqw;background:rgba(255,255,255,.92);padding:1cqw 1.6cqw;border-radius:99px;font-family:var(--mono);font-size:1.3cqw;letter-spacing:.12em;color:var(--ink)}
+  .ledger{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(6,auto);grid-auto-flow:column;column-gap:4.4cqw;margin-top:2.8cqw}
+  .wk{display:grid;grid-template-columns:7cqw 1fr;align-items:baseline;gap:1cqw;padding:1.3cqw 0;border-top:1px solid var(--line)}
+  .wk .lab{padding-top:0}
+  .wk b{font-size:2.05cqw;letter-spacing:-.01em;display:block}
+  .wk span{font-size:1.7cqw;line-height:1.38;color:var(--grey2);display:block;margin-top:.35cqw}
+  .wk.last .lab,.wk.last b{color:var(--blue)}
+  .skills{margin:2cqw 0 0;font-size:1.85cqw;line-height:1.45;color:var(--grey2);max-width:48cqw}
+  .skills .lab{display:block;color:var(--blue);margin-bottom:.7cqw}
+  .outs-lab{margin-top:2.8cqw;color:var(--blue)}
+  .outs{display:grid;grid-template-columns:repeat(4,1fr);gap:1.4cqw;margin-top:1.6cqw}
+  .out{background:var(--panel);border-radius:1.2cqw;padding:1.6cqw 2cqw}
+  .out .n{font-family:var(--serif);font-style:italic;font-size:3.4cqw;color:var(--blue);line-height:1}
+  .out p{margin:1cqw 0 0;font-size:1.7cqw;line-height:1.3;font-weight:700}
+
+  /* ---------- page 3 ---------- */
+  .p3 h2{margin-top:5cqw}
+  .big{display:grid;grid-template-columns:auto 1fr;gap:5cqw;align-items:center;margin-top:4cqw}
+  .big .num{font-weight:700;font-size:28cqw;letter-spacing:-.07em;line-height:.8;color:var(--ink)}
+  .big .num i{font-style:normal;color:var(--ink);letter-spacing:-.04em}
+  .big .lab{color:var(--blue)}
+  .big p{margin:1.2cqw 0 0;font-size:2.35cqw;line-height:1.42;color:var(--grey2)}
+  .big p b{color:var(--ink)}
+  .week{margin-top:8cqw}
+  .week .days{display:grid;grid-template-columns:13cqw repeat(7,1fr);font-family:var(--mono);font-size:1.3cqw;letter-spacing:.12em;color:var(--grey);padding-bottom:1.2cqw;border-bottom:1px solid var(--line)}
+  .week .days span{text-align:center}
+  .row{display:grid;grid-template-columns:13cqw repeat(7,1fr);align-items:center;padding:2.8cqw 0;border-bottom:1px solid var(--line)}
+  .row .rl{font-size:1.75cqw;font-weight:700;line-height:1.2}
+  .row .rl small{display:block;font-weight:400;color:var(--grey);font-size:1.45cqw;margin-top:.3cqw}
+  .bar{height:3.8cqw;border-radius:99px;background:var(--ink);color:#fff;font-size:1.4cqw;display:flex;align-items:center;padding:0 1.6cqw;white-space:nowrap;overflow:hidden}
+  .bar.soft{background:var(--panel);color:var(--grey2);border:1px solid var(--line)}
+  .bar.blue{background:var(--blue)}
+  .bar.ghost{background:transparent;border:1px dashed var(--blue);color:var(--blue)}
+  .facts{display:grid;grid-template-columns:repeat(4,1fr);gap:2cqw;margin-top:8cqw}
+  .fact{border-top:2px solid var(--ink);padding-top:1.6cqw}
+  .fact b{font-size:2.3cqw;letter-spacing:-.01em}
+  .fact p{margin:.8cqw 0 0;font-size:1.85cqw;line-height:1.4;color:var(--grey2)}
+
+  /* ---------- page 4 ---------- */
+  .p4 h2{margin-top:5cqw}
+  .box{position:relative;margin:3.4cqw auto 0;width:60cqw;aspect-ratio:679/666}
+  .box img{width:100%;height:100%;display:block}
+  .box svg{position:absolute;inset:0;width:100%;height:100%}
+  .legend{display:grid;grid-template-columns:1fr 1fr;column-gap:4.4cqw;margin-top:3cqw}
+  .li{display:grid;grid-template-columns:3.8cqw 1fr;align-items:center;padding:1.25cqw 0;border-top:1px solid var(--line)}
+  .li i{font-style:normal;width:2.7cqw;height:2.7cqw;border-radius:50%;background:var(--blue);color:#fff;font-size:1.4cqw;font-weight:700;display:flex;align-items:center;justify-content:center}
+  .li b{font-size:1.85cqw;letter-spacing:-.01em}
+  .li span{font-size:1.6cqw;color:var(--grey2);margin-left:.6cqw}
+  .p4 .note{margin-top:2.6cqw}
+
+  .kitimg{margin:4cqw -2cqw 0}
+  .kitimg img{width:100%;height:auto;display:block}
+  .kitfacts{margin-top:5cqw}
+
+  /* ---------- page 5 ---------- */
+  .mentor{display:grid;grid-template-columns:36cqw 1fr;gap:4.4cqw;margin-top:3cqw;align-items:stretch}
+  .portrait{border-radius:1.6cqw;overflow:hidden;aspect-ratio:4/5}
+  .portrait img{width:100%;height:100%;object-fit:cover;display:block}
+  .mside{display:flex;flex-direction:column;justify-content:space-between;min-width:0}
+  .bio{margin:0;font-size:2.35cqw;line-height:1.42;color:var(--ink);font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+  .creds{margin-top:2.4cqw}
+  .cred{padding:1.25cqw 0;border-top:1px solid var(--line);font-size:1.95cqw;line-height:1.3}
+  .cred span{display:block;font-family:var(--mono);font-size:1.2cqw;letter-spacing:.14em;color:var(--blue);text-transform:uppercase;margin-bottom:.4cqw}
+  blockquote{margin:4.2cqw 0 0;font-family:var(--serif);font-style:italic;font-size:4.4cqw;line-height:1.15;letter-spacing:-.01em;text-wrap:balance}
+  blockquote em{color:var(--blue)}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);margin-top:4.2cqw;border-top:1px solid var(--line)}
+  .stat{padding-top:2.6cqw}
+  .stat + .stat{border-left:1px solid var(--line);padding-left:3cqw}
+  .stat .n{font-weight:700;font-size:6.4cqw;letter-spacing:-.045em;line-height:1}
+  .stat .l{font-size:1.9cqw;color:var(--grey);margin-top:1cqw}
+  .proven{margin-top:2.8cqw;display:grid;grid-template-columns:13cqw repeat(3,1fr);align-items:stretch;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .proven > .lab{padding:2.4cqw 0;display:flex;align-items:center}
+  .logos{display:contents}
+  .lg{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:1.1cqw;padding:2.2cqw 1cqw;border-left:1px solid var(--line);color:#4A4A4F;white-space:nowrap;min-width:0}
+  .lg .mk{height:4.6cqw;display:flex;align-items:center;justify-content:center}
+  .lg img{height:4.6cqw;width:auto;filter:grayscale(1) contrast(1.15);opacity:.8}
+  .lg img.sw{filter:grayscale(1) brightness(.55) contrast(1.6);opacity:.75}
+  .lg span{font-weight:700;font-size:1.85cqw;letter-spacing:-.01em}
+  .lg img.lpfull{height:6.2cqw;opacity:.85;filter:grayscale(1) contrast(1.2)}
+  .p5 .note{margin-top:2cqw;font-size:1.85cqw}
+
+  /* ---------- cohorts page ---------- */
+  .p6c h2{margin-top:4cqw}
+  .cohorts{display:grid;grid-template-columns:1fr 1fr;gap:2cqw;margin-top:4.4cqw}
+  .ch{background:var(--panel);border-radius:1.6cqw;padding:3.4cqw 3.4cqw 3cqw}
+  .ch .lab{color:var(--blue)}
+  .ch h3{margin:1.2cqw 0 0;font-size:3.2cqw;letter-spacing:-.015em}
+  .ch .when{font-weight:700;font-size:9.6cqw;letter-spacing:-.045em;line-height:1;margin-top:1.6cqw}
+  .ch .when small{display:block;margin-left:0 !important;vertical-align:0 !important;margin-top:1cqw;font-size:2cqw;letter-spacing:0;font-weight:400;color:var(--grey);margin-left:1.4cqw;vertical-align:.6cqw}
+  .ch p{margin:2cqw 0 0;font-size:2.05cqw;line-height:1.4;color:var(--grey2)}
+  .ch table{margin-top:2.4cqw;font-size:1.85cqw}
+  .ch td{padding:1.3cqw 0}
+  .ch td:first-child{color:var(--grey2)}
+  .tl-lab{margin-top:2.8cqw}
+  .tl{margin-top:1.6cqw}
+  .tl svg{display:block;width:100%;height:auto}
+  .same{margin-top:6cqw;padding-top:2cqw;border-top:1px solid var(--line)}
+  .sm{display:grid;grid-template-columns:repeat(4,1fr);gap:2cqw;margin-top:1.4cqw}
+  .sm b{display:block;font-size:2.5cqw;letter-spacing:-.01em}
+  .sm span{display:block;font-size:1.85cqw;color:var(--grey2);margin-top:.4cqw;line-height:1.35}
+  .p6c .note{margin-top:4cqw;font-size:2.05cqw}
+
+  /* ---------- page 6 ---------- */
+  .p6 h2{margin-top:5cqw}
+  .steps{display:grid;grid-template-columns:repeat(5,1fr);margin-top:6.4cqw;position:relative}
+  .steps::before{content:"";position:absolute;left:1.4cqw;right:calc(20% - 1.4cqw);top:1.4cqw;border-top:1px solid var(--line)}
+  .st{position:relative;padding-right:1.6cqw}
+  .st .dot{width:2.8cqw;height:2.8cqw;border-radius:50%;background:var(--white);border:1.5px solid var(--ink);box-sizing:border-box}
+  .st.on .dot{background:var(--blue);border-color:var(--blue)}
+  .st .lab{display:block;margin-top:1.6cqw}
+  .st b{display:block;font-size:2.05cqw;letter-spacing:-.01em;margin-top:.5cqw}
+  .st p{margin:.6cqw 0 0;font-size:1.6cqw;line-height:1.38;color:var(--grey2)}
+  .money{display:grid;grid-template-columns:1fr 1fr;gap:2cqw;margin-top:6.4cqw}
+  .card{background:var(--panel);border-radius:1.6cqw;padding:3.2cqw}
+  .price{font-weight:700;font-size:10cqw;letter-spacing:-.05em;line-height:.9}
+  .price small{display:block;font-size:2cqw;letter-spacing:0;font-weight:400;color:var(--grey);margin-top:1.4cqw;line-height:1.4;max-width:30ch}
+  .card ul{list-style:none;margin:2.4cqw 0 0;padding:0}
+  .card li{font-size:1.72cqw;line-height:1.35;padding:.85cqw 0;border-top:1px solid var(--line);display:flex;gap:1.2cqw}
+  .card li::before{content:"";flex-shrink:0;width:1.1cqw;height:1.1cqw;border-radius:50%;background:var(--blue);margin-top:.55cqw}
+  .card h3{margin:0;font-size:2.3cqw;letter-spacing:-.015em}
+  .card .lab{display:block;margin-bottom:1cqw}
+  table{width:100%;border-collapse:collapse;margin-top:1.4cqw;font-size:1.62cqw}
+  td{padding:1cqw 0;border-top:1px solid var(--line);vertical-align:top;line-height:1.35}
+  td:last-child{text-align:right;font-weight:700;white-space:nowrap;padding-left:1.6cqw}
+  .ref{margin-top:2.6cqw;padding-top:2.4cqw;border-top:1px solid var(--line)}
+  .ref .n{font-weight:700;font-size:4.6cqw;letter-spacing:-.04em;color:var(--blue);line-height:1}
+  .ref p{margin:.8cqw 0 0;font-size:1.62cqw;line-height:1.4;color:var(--grey2)}
+  .cal{margin-top:2.8cqw;margin-bottom:0}
+  .cal table{margin-top:0;font-size:1.75cqw}
+  .cal th{text-align:left;font-weight:700;font-size:2.3cqw;letter-spacing:-.015em;padding:0 0 1.2cqw;vertical-align:bottom}
+  .cal th small{display:block;font-family:var(--mono);font-weight:400;font-size:1.25cqw;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);margin-bottom:.6cqw}
+  .cal td{padding:.8cqw 0}
+  .cal td:first-child{color:var(--grey2);width:34%}
+  .cal td:not(:first-child){text-align:left;font-weight:700;padding-left:0;white-space:normal;width:33%}
+  .cal th.c1,.cal td.c1{padding-right:2cqw}
+  .cal p{margin:1.4cqw 0 0;font-size:1.6cqw;color:var(--grey2)}
+  .close{margin-top:auto;margin-bottom:3cqw;border:1.5px solid var(--blue);border-radius:1.6cqw;padding:2.8cqw 3.2cqw;display:grid;grid-template-columns:1fr 1fr;gap:3cqw}
+  .close > div + div{border-left:1px solid var(--line);padding-left:3cqw}
+  .close .lab{display:block;margin-bottom:.9cqw}
+  .close b{font-size:2.6cqw;letter-spacing:-.02em;white-space:nowrap;color:var(--blue)}
+  .close span{font-size:1.75cqw;color:var(--grey2)}
+
+
+  /* ---------- admission: payment flow ---------- */
+  .pay{display:grid;grid-template-columns:1fr 3cqw 1fr 3cqw 1fr;align-items:stretch;margin-top:3.4cqw}
+  .pc{border:1.5px solid var(--line);border-radius:1.6cqw;padding:2.3cqw 2.4cqw 2.1cqw}
+  .pc.on{border-color:var(--blue)}
+  .pc .lab{color:var(--blue)}
+  .pc .amt{font-weight:700;font-size:8.4cqw;letter-spacing:-.05em;line-height:1;margin-top:1.4cqw}
+  .pcl{display:inline-block;margin-top:1.3cqw;font-size:1.7cqw;font-weight:700;color:var(--blue);text-decoration:none}
+  .pc p{margin:1.2cqw 0 0;font-size:1.75cqw;line-height:1.38;color:var(--grey2)}
+  .arr{display:flex;align-items:center;justify-content:center;font-size:4.4cqw;color:var(--grey);line-height:1}
+  .outc{margin-top:1.8cqw;font-size:1.95cqw;color:var(--grey2);text-align:center}
+  .outc b{color:var(--blue)}
+  .total{display:grid;grid-template-columns:20cqw 1fr;gap:2.4cqw;align-items:center;background:var(--panel);border-radius:1.6cqw;padding:2.2cqw 3cqw;margin-top:2.8cqw}
+  .tt .amt{font-weight:700;font-size:8.4cqw;letter-spacing:-.05em;line-height:1;margin-top:.8cqw}
+  .tt p{margin:.8cqw 0 0;font-size:1.95cqw;color:var(--grey2)}
+  .inc{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;column-gap:2.4cqw}
+  .inc li{font-size:1.65cqw;line-height:1.3;padding:.7cqw 0;border-top:1px solid var(--line);display:flex;gap:1.1cqw}
+  .inc li::before{content:"";flex-shrink:0;width:1cqw;height:1cqw;border-radius:50%;background:var(--blue);margin-top:.55cqw}
+  .p6 .money{margin-top:2.2cqw;margin-bottom:2.4cqw}
+  .p6 td{padding:.65cqw 0}
+  .p6 .close{padding:2.2cqw 3cqw;margin-bottom:2cqw}
+  .p6 .card{padding:2.2cqw 2.8cqw}
+  .ref0 .n{font-weight:700;font-size:6.4cqw;letter-spacing:-.045em;color:var(--blue);line-height:1;margin-top:1.6cqw}
+  .ref0 p{margin:1.2cqw 0 0;font-size:1.75cqw;line-height:1.4;color:var(--grey2)}
+
+  /* ---------- page 7 ---------- */
+  .p7 h2{margin-top:4cqw}
+  .faq{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(5,auto);grid-auto-flow:column;column-gap:4.4cqw;margin-top:2cqw}
+  .qa{padding:1cqw 0;border-top:1px solid var(--line)}
+  .qa b{font-size:2.2cqw;letter-spacing:-.01em;display:block}
+  .qa p{margin:.7cqw 0 0;font-size:1.8cqw;line-height:1.45;color:var(--grey2)}
+  .contact{margin-top:auto;background:var(--ink);color:#fff;border-radius:1.6cqw;padding:3cqw 4cqw}
+  .contact .lab{color:#A1A1A6}
+  .contact h3{margin:1.2cqw 0 0;font-size:3.5cqw;line-height:1.08;letter-spacing:-.022em;word-spacing:.06em;font-weight:700}
+  .contact h3 .g{color:#8D8D93}
+  .cgrid{display:grid;grid-template-columns:1fr 14cqw;gap:4cqw;align-items:center}
+  .wbtn{display:inline-block;margin-top:2cqw;background:#fff;color:var(--ink);font-weight:700;font-size:1.95cqw;border-radius:99px;padding:1.4cqw 3cqw;text-decoration:none}
+  .qr{display:flex;flex-direction:column;align-items:center;gap:1cqw;text-decoration:none}
+  .qr img{width:14cqw;height:14cqw;background:#fff;padding:1.2cqw;border-radius:1cqw;box-sizing:border-box;display:block}
+  .qr span{font-family:var(--mono);font-size:1.15cqw;letter-spacing:.14em;color:#A1A1A6;text-transform:uppercase}
+  .lines{display:grid;grid-template-columns:repeat(3,1fr);gap:2cqw;margin-top:2.4cqw;padding-top:1.8cqw;border-top:1px solid #3A3A3F}
+  .lines span{display:block;font-family:var(--mono);font-size:1.25cqw;letter-spacing:.14em;color:#A1A1A6;text-transform:uppercase}
+  .lines b{display:block;font-size:2cqw;margin-top:.7cqw;font-weight:700;user-select:all}
+  .p7 .ftr{border-top:none;margin-top:2cqw}
+
+
+  /* ===== readable scale, consolidated (same design system, larger type) ===== */
+  .pg{padding:5.8cqw 7cqw 4.4cqw}
+  .mark b{font-size:2.9cqw}
+  .mark span,.lab{font-size:1.7cqw;letter-spacing:.13em}
+  .ftr span{font-size:1.6cqw}
+  .ttl{margin-top:4cqw;font-size:9.4cqw}
+  .pg h2.sub{font-size:3.6cqw;margin-top:1.6cqw;line-height:1.24}
+  .note{font-size:2.2cqw}
+  /* one button style, one link style */
+  .btn-p{display:inline-flex;align-items:center;background:var(--blue);color:#fff;border-radius:99px;padding:1.35cqw 3cqw;font-size:2.25cqw;font-weight:700;letter-spacing:-.005em;text-decoration:none;white-space:nowrap}
+  .lnk{color:var(--blue);font-weight:700;text-decoration:none;white-space:nowrap}
+  /* cover */
+  .p1 .eyebrow{margin-top:6cqw;font-size:2.6cqw}
+  .p1 h1{font-size:4.7cqw;line-height:1.14}
+  .perk{padding:2.4cqw 2.6cqw}
+  .perk p{font-size:2.25cqw}
+  .specs{margin:3cqw 0 2.8cqw}
+  .spec .n{font-size:5.2cqw}
+  .spec .l{font-size:1.95cqw}
+  .p1 .ftr{align-items:center;gap:3cqw;padding-top:2.6cqw}
+  .p1 .ftr .note{font-size:2.1cqw;line-height:1.45}
+  .p1 .cta{display:flex;flex-direction:column;align-items:center;gap:1cqw;text-decoration:none}
+  .p1 .cta small{font-family:var(--mono);font-size:1.55cqw;letter-spacing:.06em;color:var(--grey)}
+  /* course */
+  .p2 .top2{display:block;margin-top:2.2cqw}
+  .skills{font-size:2.2cqw;max-width:none;margin-top:2.6cqw}
+  .ledger{margin-top:4.2cqw;column-gap:4.4cqw}
+  .wk{grid-template-columns:7.4cqw 1fr;padding:1.8cqw 0}
+  .wk b{font-size:2.5cqw}
+  .wk span{font-size:2.1cqw;margin-top:.4cqw}
+  /* how it works */
+  .big{margin-top:4cqw}
+  .big .num{font-size:22cqw}
+  .big p{font-size:2.4cqw}
+  .week{margin-top:5.4cqw}
+  .week .days{grid-template-columns:16cqw repeat(7,1fr);font-size:1.55cqw}
+  .row{grid-template-columns:16cqw repeat(7,1fr);padding:2.4cqw 0}
+  .row .rl{font-size:2.3cqw}
+  .row .rl small{font-size:1.85cqw}
+  .bar{height:4.2cqw;font-size:1.75cqw;padding:0 1.8cqw}
+  .facts{margin-top:5.4cqw;grid-template-columns:repeat(4,1fr);gap:2.6cqw}
+  .fact b{font-size:2.45cqw}
+  .fact p{font-size:2.05cqw}
+  /* kit */
+  .kitimg{margin:3cqw -3cqw 0}
+  .klist{display:grid;grid-template-columns:1fr 1fr;column-gap:4.4cqw;margin-top:3cqw}
+  .kl{display:flex;align-items:center;gap:1.6cqw;padding:1.4cqw 0;border-top:1px solid var(--line);font-size:2.2cqw;font-weight:700;letter-spacing:-.01em}
+  .kl i{font-style:normal;flex-shrink:0;width:3cqw;height:3cqw;border-radius:50%;background:var(--blue);color:#fff;font-size:1.6cqw;display:flex;align-items:center;justify-content:center}
+  .kl span{font-weight:400;color:var(--grey2);font-size:2cqw}
+  /* mentor */
+  .mentor{grid-template-columns:36cqw 1fr;gap:4.4cqw;margin-top:4cqw;align-items:stretch}
+  .mentor .portrait{width:100%;align-self:start}
+  .mside{justify-content:space-between}
+  .bio{font-size:2.4cqw}
+  .creds{margin-top:2cqw}
+  .cred{font-size:2.2cqw;padding:1.35cqw 0}
+  .cred span{font-size:1.55cqw}
+  blockquote{font-size:4.4cqw;margin-top:4cqw}
+  .stats{margin-top:4cqw}
+  .stat{padding-top:2.6cqw}
+  .stat .n{font-size:6.2cqw}
+  .stat .l{font-size:2.05cqw}
+  .proven{grid-template-columns:13cqw repeat(3,1fr);margin-top:4cqw}
+  .lg span{font-size:2cqw}
+  .lg .mk,.lg img{height:4.8cqw}
+  .lg img.lpfull{height:6.6cqw}
+  /* cohorts */
+  .cohorts{margin-top:4cqw}
+  .ch{padding:3.4cqw 3.4cqw 3cqw}
+  .ch h3{font-size:3.2cqw}
+  .ch .when{font-size:9.6cqw}
+  .ch .when small{font-size:2.05cqw}
+  .ch p{font-size:2.15cqw}
+  .ch table{font-size:2.05cqw}
+  .ch td{padding:1.3cqw 0}
+  .same{margin-top:5cqw}
+  .sm{grid-template-columns:repeat(4,1fr);gap:2cqw;margin-top:1.6cqw}
+  .sm b{font-size:2.55cqw}
+  .sm span{font-size:2.05cqw}
+  .p6c .note{font-size:2.2cqw;margin-top:4.4cqw}
+  .p6c .note .lnk{margin-left:1cqw}
+  /* admission */
+  .pay{margin-top:4cqw}
+  .pc{padding:2.6cqw 2.6cqw 2.4cqw;display:flex;flex-direction:column}
+  .pc .amt{font-size:7.6cqw}
+  .pc p{font-size:2.05cqw}
+  .pcl{margin-top:auto;padding-top:1.4cqw;font-size:2.05cqw;font-weight:700;color:var(--blue);text-decoration:none;background:none}
+  .outc{font-size:2.25cqw;margin-top:2.6cqw}
+  .total{grid-template-columns:22cqw 1fr;padding:2.8cqw 3.2cqw;margin-top:3.4cqw}
+  .tt .amt{font-size:8cqw}
+  .tt p{font-size:2.05cqw}
+  .p6 .inc{grid-template-columns:1fr 1fr;column-gap:3cqw}
+  .inc li{font-size:2.05cqw;padding:1cqw 0}
+  .inc li::before{width:1.1cqw;height:1.1cqw;margin-top:.6cqw}
+  .p6 .money{margin-top:2.6cqw;margin-bottom:2.6cqw}
+  .p6 .card{padding:2.6cqw 3cqw}
+  .p6 table{font-size:2.05cqw}
+  .p6 td{padding:1cqw 0}
+  .ref0 .n{font-size:6.2cqw}
+  .ref0 p{font-size:2.05cqw}
+  .p6 .close{margin-top:auto;margin-bottom:3cqw;padding:2.6cqw 3.2cqw}
+  .close b{font-size:2.6cqw}
+  /* questions */
+  .faq{grid-template-rows:repeat(4,auto);margin-top:3cqw;margin-bottom:3.4cqw}
+  .qa{padding:1.6cqw 0}
+  .qa b{font-size:2.45cqw}
+  .qa p{font-size:2.1cqw;margin-top:.8cqw}
+  .contact{padding:3.8cqw 4.2cqw}
+  .contact h3{font-size:4cqw}
+  .contact .btn-p{margin-top:2.8cqw}
+  .lines{grid-template-columns:1fr 1fr;margin-top:3.2cqw;padding-top:2.4cqw}
+  .lines span{font-size:1.55cqw}
+  .lines b{font-size:2.4cqw}
+
+  .contact .alt{margin:1.8cqw 0 0;font-size:2cqw;color:#A1A1A6}
+  .faq{margin-bottom:2.2cqw}
+  .qa{padding:1.3cqw 0}
+  .contact{padding:3.2cqw 4cqw}
+  .contact .btn-p{margin-top:2.2cqw}
+  .lines{margin-top:2.6cqw;padding-top:2cqw}
+  @page{size:A4;margin:0}
+  @media print{
+    body{background:#fff}
+    .stage{padding:0;gap:0}
+    .sheet{width:210mm;height:297mm;aspect-ratio:auto;box-shadow:none;break-after:page;page-break-after:always}
+    .sheet:last-child{break-after:auto;page-break-after:auto}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+</style>
+
+<div class="stage">
+
+<!-- ================= PAGE 1 · COVER ================= -->
+<div class="sheet"><div class="pg p1">
+  <div class="hdr">
+    <div class="mark"><b>Sterling</b><span>Robotics Academy</span></div>
+    <div class="lab">2026&ndash;27 Cohorts</div>
+  </div>
+
+  <div class="eyebrow">A self-balancing robot, built from bare parts in twelve weeks.</div>
+  <h1><span class="g">Most kids follow the instructions.</span>Yours will understand why they work.</h1>
+
+  <div class="hero">
+    <svg viewBox="0 30 910 480" preserveAspectRatio="xMidYMid meet" aria-label="Self-balancing robot with labelled parts">
+      <image href="__HERO__" x="170" y="34" width="569" height="472"/>
+      <g fill="none" stroke="#1D1D1F" stroke-width="1.2">
+        <path d="M398 205 H150"/>
+        <path d="M417 354 H150"/>
+        <path d="M527 162 H760"/>
+        <path d="M602 262 H760"/>
+      </g>
+      <g fill="#1F55D6">
+        <circle cx="398" cy="205" r="5.5"/><circle cx="417" cy="354" r="5.5"/>
+        <circle cx="527" cy="162" r="5.5"/><circle cx="602" cy="262" r="5.5"/>
+      </g>
+      <g font-family="GM, monospace" font-size="21" letter-spacing="1.4" fill="#1D1D1F">
+        <text x="140" y="200" text-anchor="end">CONTROL</text><text x="140" y="225" text-anchor="end">BOARD</text>
+        <text x="140" y="349" text-anchor="end">GEARED</text><text x="140" y="374" text-anchor="end">MOTORS</text>
+        <text x="770" y="168">ULTRASONIC</text>
+        <text x="770" y="257">MOTION</text><text x="770" y="282">SENSOR</text>
+      </g>
+      <g font-family="IS, sans-serif" font-size="20" fill="#5E5E63">
+        <text x="140" y="252" text-anchor="end">runs the code</text>
+        <text x="140" y="401" text-anchor="end">drive it</text>
+        <text x="770" y="194">sees ahead</text>
+        <text x="770" y="309">feels the tilt</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="perks">
+    <div class="perk"><div class="lab">Every week</div><p>A 30&#8209;minute one&#8209;on&#8209;one with a mentor</p></div>
+    <div class="perk"><div class="lab">Delivered</div><p>The robot kit, shipped to your door</p></div>
+    <div class="perk"><div class="lab">At the end</div><p>Demo day and a Sterling certificate</p></div>
+  </div>
+
+  <div class="specs">
+    <div class="spec"><div class="n">2</div><div class="l">Start dates,<br>15 Nov or 10 Jan</div></div>
+    <div class="spec"><div class="n">12</div><div class="l">Sundays from a box<br>of parts to a robot</div></div>
+    <div class="spec"><div class="n">6&ndash;12</div><div class="l">Grades, admission<br>by entry test</div></div>
+    <div class="spec"><div class="n">$600</div><div class="l">Robot kit and weekly<br>mentor included</div></div>
+  </div>
+
+  <div class="ftr">
+    <div class="note"><b>Taught by Swarit Bhardwaj,</b> former robotics researcher at IIT&nbsp;Bombay.</div>
+    <a class="cta" href="https://wa.me/message/O2K3UG6UWJEBJ1"><b class="btn-p">Take the free entry test &rsaquo;</b><small>or WhatsApp +1 754 279 2415</small></a>
+  </div>
+</div></div>
+
+<!-- ================= PAGE 2 · THE PROJECT ================= -->
+<div class="sheet"><div class="pg p2">
+  <div class="hdr">
+    <div class="mark"><b>Sterling</b><span>Robotics Academy</span></div>
+    <div class="lab">The course</div>
+  </div>
+
+  <div class="ttl">The course</div>
+  <div class="top2">
+    <div>
+    <h2 class="sub"><span class="g">Twelve Sundays.</span> From a box of parts to a robot that stands on its own.</h2>
+      <p class="skills"><span class="lab">What they learn</span>Arduino coding, sensors, motors, feedback control and control systems.</p>
+    </div>
+  </div>
+
+  <div class="ledger">
+      <div class="wk"><div class="lab">Wk 01</div><div><b>Why things fall</b><span>A broom, a phone and their first code.</span></div></div>
+      <div class="wk"><div class="lab">Wk 02</div><div><b>Build the robot</b><span>Screw by screw, then switch it on.</span></div></div>
+      <div class="wk"><div class="lab">Wk 03</div><div><b>First real code</b><span>Teach it to decide: if this, then that.</span></div></div>
+      <div class="wk"><div class="lab">Wk 04</div><div><b>Make it talk back</b><span>See what it thinks. Fix broken code.</span></div></div>
+      <div class="wk"><div class="lab">Wk 05</div><div><b>The robot&#8217;s inner ear</b><span>The tiny chip that feels every tilt.</span></div></div>
+      <div class="wk"><div class="lab">Wk 06</div><div><b>Which way is up</b><span>Jumpy readings into one true angle.</span></div></div>
+      <div class="wk"><div class="lab">Wk 07</div><div><b>Wheels that obey</b><span>Speed, direction and stopping, in code.</span></div></div>
+      <div class="wk"><div class="lab">Wk 08</div><div><b>How drones stay steady</b><span>The big idea, and a first wobbly stand.</span></div></div>
+      <div class="wk"><div class="lab">Wk 09</div><div><b>Standing tall</b><span>It finds its balance and stands alone.</span></div></div>
+      <div class="wk"><div class="lab">Wk 10</div><div><b>Bounce back</b><span>Tuned until it survives a push.</span></div></div>
+      <div class="wk"><div class="lab">Wk 11</div><div><b>Finish line</b><span>A working robot, explained line by line.</span></div></div>
+      <div class="wk last"><div class="lab">Wk 12</div><div><b>Demo day</b><span>Show the family what they built.</span></div></div>
+  </div>
+
+  <div class="ftr"><span>Sterling Robotics Academy</span><span>02 / 08</span></div>
+</div></div>
+
+<!-- ================= PAGE 3 · THE WEEK ================= -->
+<div class="sheet"><div class="pg p3">
+  <div class="hdr">
+    <div class="mark"><b>Sterling</b><span>Robotics Academy</span></div>
+    <div class="lab">How it works</div>
+  </div>
+
+  <div class="ttl">How it works</div>
+  <h2 class="sub"><span class="g">One live class.</span> One mentor in your child's corner.</h2>
+
+  <div class="big">
+    <div class="num">1<i>:</i>1</div>
+    <div>
+      <div class="lab">Every single week</div>
+      <p><b>30 minutes, one on one.</b> Swarit teaches every live class. Each week your child also books time with Swarit or a mentor he trains, and fixes whatever is stuck.</p>
+    </div>
+  </div>
+
+  <div class="week">
+    <div class="days"><span></span><span>SUN</span><span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span></div>
+    <div class="row"><div class="rl">Live class<small>60 to 90 minutes</small></div><div class="bar">Live</div></div>
+    <div class="row"><div class="rl">Weekly tasks<small>1 to 4 hours</small></div><span></span><div class="bar soft" style="grid-column:span 5">At your child's own pace</div></div>
+    <div class="row"><div class="rl">Mentor 1:1<small>30 minutes</small></div><span></span><div class="bar ghost" style="grid-column:span 6">Any day you choose</div></div>
+    <div class="row"><div class="rl">Class group<small>all week</small></div><div class="bar blue" style="grid-column:span 7">Share progress, ask questions, help each other</div></div>
+  </div>
+
+  <div class="facts">
+    <div class="fact"><b>Recorded</b><p>Missed a Sunday? Watch it back.</p></div>
+    <div class="fact"><b>Yours to keep</b><p>Code, notes and recordings stay with you.</p></div>
+    <div class="fact"><b>The right level</b><p>The entry test places every child well.</p></div>
+    <div class="fact"><b>Certified</b><p>A Sterling certificate at the end.</p></div>
+  </div>
+
+  <div class="ftr"><span>Sterling Robotics Academy</span><span>03 / 08</span></div>
+</div></div>
+
+<!-- ================= PAGE 4 · THE KIT ================= -->
+<div class="sheet"><div class="pg p4">
+  <div class="hdr">
+    <div class="mark"><b>Sterling</b><span>Robotics Academy</span></div>
+    <div class="lab">The kit</div>
+  </div>
+
+  <div class="ttl">The kit</div>
+  <h2 class="sub"><span class="g">Delivered before the build class.</span> Your child keeps the robot.</h2>
+
+  <div class="kitimg"><img src="__KIT__" alt="Every part of the robot kit laid out and labelled: control board, ultrasonic sensor, motion sensor, geared motors, chassis plates, wheels, battery pack, standoffs and tools"></div>
+
+  <div class="klist">
+    <div>
+      <div class="kl"><i>1</i>Control board <span>the brain</span></div>
+      <div class="kl"><i>2</i>Ultrasonic <span>sees ahead</span></div>
+      <div class="kl"><i>3</i>Motion sensor <span>feels tilt</span></div>
+      <div class="kl"><i>4</i>Geared motors <span>drive it</span></div>
+    </div>
+    <div>
+      <div class="kl"><i>5</i>Chassis plates</div>
+      <div class="kl"><i>6</i>Wheels</div>
+      <div class="kl"><i>7</i>Battery pack <span>rechargeable</span></div>
+      <div class="kl"><i>8</i>Standoffs and tools</div>
+    </div>
+  </div>
+
+  <div class="ftr"><span>Sterling Robotics Academy</span><span>04 / 08</span></div>
+</div></div>
+
+<!-- ================= PAGE 5 · THE MENTOR ================= -->
+<div class="sheet"><div class="pg p5">
+  <div class="hdr">
+    <div class="mark"><b>Sterling</b><span>Robotics Academy</span></div>
+    <div class="lab">Your mentor</div>
+  </div>
+
+  <div class="ttl">Your mentor</div>
+  <h2 class="sub"><span class="g">Swarit Bhardwaj.</span> Founder and lead mentor.</h2>
+
+  <div class="mentor">
+    <div class="portrait"><img src="__HEAD__" alt="Swarit Bhardwaj, founder and lead mentor"></div>
+    <div class="mside">
+      <p class="bio">He teaches the way engineers actually work, so your child learns to think, not to memorise.</p>
+      <div class="creds">
+        <div class="cred"><span>Research</span>Former robotics researcher, IIT Bombay</div>
+        <div class="cred"><span>Industry</span>Autonomous vehicles, Swaayatt Robots</div>
+        <div class="cred"><span>Competition</span>Gold medalist, IndiaSkills Mechatronics</div>
+        <div class="cred"><span>University</span>Gold medalist, Mechatronics Engineering</div>
+        <div class="cred"><span>Postgraduate</span>Postgraduate studies, LaunchPilot Singapore</div>
+      </div>
+    </div>
+  </div>
+
+  <blockquote>&ldquo;Build it, break it, find out why, fix&nbsp;it. That is how I learned to engineer, and it is <em>exactly</em> how I teach.&rdquo;</blockquote>
+
+  <div class="stats">
+    <div class="stat"><div class="n">100+</div><div class="l">Students taught</div></div>
+    <div class="stat"><div class="n">1,000+</div><div class="l">Hours of teaching</div></div>
+    <div class="stat"><div class="n">3</div><div class="l">Years, the US and India</div></div>
+  </div>
+
+  <div class="proven">
+    <div class="lab">Proven at</div>
+    <div class="logos">
+      <div class="lg"><div class="mk"><img src="__IITB__" alt="IIT Bombay emblem"></div><span>IIT Bombay</span></div>
+      <div class="lg"><div class="mk"><img class="sw" src="__SWAY__" alt="Swaayatt Robots logo"></div><span>Swaayatt Robots</span></div>
+      <div class="lg lpw"><img class="lpfull" src="__LPFULL__" alt="LaunchPilot logo"></div>
+    </div>
+  </div>
+
+
+  <div class="ftr"><span>Sterling Robotics Academy</span><span>05 / 08</span></div>
+</div></div>
+
+<!-- ================= PAGE 6 · COHORTS ================= -->
+<div class="sheet"><div class="pg p6c">
+  <div class="hdr">
+    <div class="mark"><b>Sterling</b><span>Robotics Academy</span></div>
+    <div class="lab">Cohorts</div>
+  </div>
+
+  <div class="ttl">Cohorts</div>
+  <h2 class="sub"><span class="g">Two ways to start.</span> Pick the dates that suit your family.</h2>
+
+  <div class="cohorts">
+    <div class="ch">
+      <span class="lab">Limited seats only</span>
+      <h3>Founding cohort</h3>
+      <div class="when">15 Nov<small>Sunday 15 November 2026</small></div>
+      <p>A small class, so more questions get answered live.</p>
+      <table>
+        <tr><td>Enrolment closes</td><td>1 November</td></tr>
+        <tr><td>Balance due, kit ships</td><td>8 November</td></tr>
+        <tr><td>Live class</td><td>Every Sunday</td></tr>
+        <tr><td>Demo day</td><td>31 January 2027</td></tr>
+      </table>
+    </div>
+    <div class="ch">
+      <span class="lab">Full class</span>
+      <h3>Winter cohort</h3>
+      <div class="when">10 Jan<small>Sunday 10 January 2027</small></div>
+      <p>Starts after the winter holidays and runs straight through to March.</p>
+      <table>
+        <tr><td>Enrolment closes</td><td>20 December</td></tr>
+        <tr><td>Balance due, kit ships</td><td>3 January</td></tr>
+        <tr><td>Live class</td><td>Every Sunday</td></tr>
+        <tr><td>Demo day</td><td>28 March 2027</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="same">
+    <div class="lab">The same in both</div>
+    <div class="sm"><div><b>Robot kit</b><span>Delivered</span></div><div><b>12 Sundays</b><span>Same lessons</span></div><div><b>Weekly 1:1</b><span>30 minutes</span></div><div><b>$600</b><span>All included</span></div></div>
+  </div>
+
+  <p class="note">Seats are limited in both cohorts. <a class="lnk" href="https://wa.me/message/O2K3UG6UWJEBJ1">Book the free entry test &rsaquo;</a></p>
+
+  <div class="ftr"><span>Sterling Robotics Academy</span><span>06 / 08</span></div>
+</div></div>
+
+<!-- ================= PAGE 7 · ADMISSION ================= -->
+<div class="sheet"><div class="pg p6">
+  <div class="hdr">
+    <div class="mark"><b>Sterling</b><span>Robotics Academy</span></div>
+    <div class="lab">Admission</div>
+  </div>
+
+  <div class="ttl">Admission</div>
+  <h2 class="sub"><span class="g">Free test first.</span> Then $600 in two parts.</h2>
+
+  <div class="pay">
+    <div class="pc on"><span class="lab">1 · Entry test</span><div class="amt">Free</div><p>A 10&#8209;minute video call.</p><a class="pcl" href="https://wa.me/message/O2K3UG6UWJEBJ1">Book the test &rsaquo;</a></div>
+    <div class="arr">&rsaquo;</div>
+    <div class="pc"><span class="lab">2 · Reserve</span><div class="amt">$150</div><p>Once admitted. Counts toward the $600.</p></div>
+    <div class="arr">&rsaquo;</div>
+    <div class="pc"><span class="lab">3 · Balance</span><div class="amt">$450</div><p>A week before class one. Kit ships.</p></div>
+  </div>
+  <div class="outc"><b>You pay nothing until your child is admitted.</b> Pay securely online.</div>
+
+  <div class="total">
+    <div class="tt"><span class="lab">Total</span><div class="amt">$600</div><p>About $50 a week</p></div>
+    <ul class="inc">
+      <li>Robot kit, delivered</li>
+      <li>12 live classes</li>
+      <li>Weekly 1:1 mentor</li>
+      <li>All recordings</li>
+      <li>Demo day</li>
+      <li>Certificate</li>
+    </ul>
+  </div>
+
+  <div class="money">
+    <div class="card">
+      <span class="lab">If plans change</span>
+      <table>
+        <tr><td>Before the deadline</td><td>Full refund</td></tr>
+        <tr><td>Before kits ship</td><td>$75 back</td></tr>
+        <tr><td>After kits ship</td><td>No refund</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <span class="lab">Refer a family</span>
+      <div class="ref0"><div class="n">$50 + $50</div><p>Both of you get $50 off once their child is admitted.</p></div>
+    </div>
+  </div>
+
+  <div class="close">
+    <div><span class="lab">Founding cohort</span><b>Enrolment closes 1 Nov</b></div>
+    <div><span class="lab">Winter cohort</span><b>Enrolment closes 20 Dec</b></div>
+  </div>
+
+  <div class="ftr"><span>Sterling Robotics Academy</span><span>07 / 08</span></div>
+</div></div>
+
+<!-- ================= PAGE 7 · QUESTIONS + CONTACT ================= -->
+<div class="sheet"><div class="pg p7">
+  <div class="hdr">
+    <div class="mark"><b>Sterling</b><span>Robotics Academy</span></div>
+    <div class="lab">Questions</div>
+  </div>
+
+  <div class="ttl">Questions</div>
+  <h2 class="sub"><span class="g">The ones</span> parents ask first.</h2>
+
+  <div class="faq">
+    <div class="qa"><b>Does my child need experience?</b><p>Not required. Some coding or Arduino experience helps.</p></div>
+    <div class="qa"><b>What is the entry test?</b><p>Free. A 10&#8209;minute video call with Swarit. It checks thinking, not prior robotics.</p></div>
+    <div class="qa"><b>How much time each week?</b><p>Up to 90 minutes live, 1 to 4 hours of tasks, and a 30&#8209;minute one&#8209;on&#8209;one.</p></div>
+    <div class="qa"><b>What time are the classes?</b><p>Every Sunday, at a time confirmed before class one. Every class is recorded.</p></div>
+    <div class="qa"><b>What if we change our mind?</b><p>Full refund before your cohort&#8217;s deadline, $75 back until kits ship, no refund after.</p></div>
+    <div class="qa"><b>What if my child gets stuck?</b><p>They bring it to their weekly one&#8209;on&#8209;one, or ask the class group any day.</p></div>
+    <div class="qa"><b>Do we need to buy anything?</b><p>Only a laptop. The robot kit is included.</p></div>
+    <div class="qa"><b>Will this help with college?</b><p>It gives your child a real engineering project to show in applications.</p></div>
+  </div>
+
+  <div class="contact">
+    <div class="cgrid">
+      <div>
+        <div class="lab">One message to begin</div>
+        <h3><span class="g">Two start dates. Limited seats.</span>Book the free entry test today.</h3>
+        <a class="btn-p" href="https://wa.me/message/O2K3UG6UWJEBJ1">Message Swarit on WhatsApp &rsaquo;</a>
+        <p class="alt">Button not opening? Save +1 754 279 2415 and send &ldquo;Entry test&rdquo; on WhatsApp.</p>
+      </div>
+
+    </div>
+    <div class="lines">
+      <div><span>WhatsApp, US</span><b><a href="https://wa.me/message/O2K3UG6UWJEBJ1" style="color:inherit;text-decoration:none">+1 754 279 2415</a></b></div>
+      <div><span>Email</span><b>hellosterlingrobotics@gmail.com</b></div>
+    </div>
+  </div>
+
+  <div class="ftr"><span>Sterling Robotics Academy · 2026&ndash;27 Cohorts</span><span>08 / 08</span></div>
+</div></div>
+
+</div>
