@@ -6,7 +6,7 @@
 Give each child a record on the course site: tasks per week, submissions inside the site, Swarit's review, and check marks that show progress. Replaces submitting on WhatsApp or a form.
 
 ## Status
-**Spec.** PRD v0 drafted 2026-10-15, waiting on Swarit's 6 decisions (section 12). No code yet.
+**Spec.** PRD v1 (2026-10-15). Decided: quiz for every resource, submissions in the site, class board, free hints after solutions open, weekly publishing automated. Open: currency name, starting reward values. No code yet.
 
 ## Code
 Not started. Will live on `feature/student-platform`, branched off `redesign`. Never on `main` until approved.
