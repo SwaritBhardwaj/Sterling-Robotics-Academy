@@ -1,12 +1,12 @@
 # Student platform (progress, rewards, submissions)
 
-**PRD draft:** `09-GENERATED/reports/2026-10-15-student-platform-prd-v0.md`
+**PRD draft:** `09-GENERATED/reports/2026-10-15-student-platform-prd-v2.md` (current). Older: `2026-10-15-student-platform-prd-v0.md` (v0 and v1).
 
 ## Brief
 Give each child a record on the course site: tasks per week, submissions inside the site, Swarit's review, and check marks that show progress. Replaces submitting on WhatsApp or a form.
 
 ## Status
-**Spec.** PRD v1 (2026-10-15). Decided: quiz for every resource, submissions in the site, class board, free hints after solutions open, weekly publishing automated. Open: currency name, starting reward values. No code yet.
+**Spec.** PRD v2 (2026-10-15), full PRD built with the installed skills. Decided: quiz for every resource, submissions in the site, class board, free hints after solutions open, weekly publishing automated. Open: currency name, starting reward values, siblings sharing an email, deleting data on withdrawal. No code yet.
 
 ## Code
 Not started. Will live on `feature/student-platform`, branched off `redesign`. Never on `main` until approved.
