@@ -12,5 +12,5 @@
     "run_worker_first": true,
     "not_found_handling": "404-page"
   },
-  "vars": { "DEV_EMAIL": "student@example.com", "PREVIEW_CLOCK": "1" }
+  "vars": { "DEV_EMAIL": "student@example.com", "PREVIEW_CLOCK": "1", "PREVIEW_DEFAULT_DATE": "2026-11-10" }
 }

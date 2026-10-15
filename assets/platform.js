@@ -295,11 +295,11 @@
   function previewBar() {
     if (!me.preview) return;
     const dates = [
-      ['', 'Real today'], ['2026-11-09', 'Mon 9 Nov: week 1 opens'], ['2026-11-15', 'Sun 15 Nov: class 1'],
+      ['2026-11-09', 'Mon 9 Nov: week 1 opens'], ['2026-11-10', 'Tue 10 Nov: week 1 in progress'], ['2026-11-15', 'Sun 15 Nov: class 1'],
       ['2026-11-16', 'Mon 16 Nov: week 2 opens'], ['2026-11-21', 'Sat 21 Nov: week 1 hints free'], ['2026-11-23', 'Mon 23 Nov: week 3 opens'],
-      ['2026-12-14', 'Mon 14 Dec: week 6 opens'], ['2027-01-25', 'Mon 25 Jan: week 12 opens'],
+      ['2026-12-14', 'Mon 14 Dec: week 6 opens'], ['2027-01-25', 'Mon 25 Jan: week 12 opens'], ['real', 'Real today (course not started)'],
     ];
-    const cur = (document.cookie.match(/(?:^|; )sim_date=([^;]+)/) || [])[1] || '';
+    const cur = (document.cookie.match(/(?:^|; )sim_date=([^;]+)/) || [])[1] || '2026-11-10';
     const bar = document.createElement('div');
     bar.className = 'previewbar';
     bar.innerHTML = `<p><b>Preview</b> Pretend today is
