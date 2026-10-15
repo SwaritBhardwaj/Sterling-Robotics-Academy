@@ -9,7 +9,7 @@ Give each child a record on the course site: tasks per week, submissions inside 
 **Spec.** PRD v2 (2026-10-15), full PRD built with the installed skills. Decided: quiz for every resource, submissions in the site, class board, free hints after solutions open, weekly publishing automated. Also decided: currency Volts, hint prices 5 / 10 / 15, starting values, own email per child via an enrolment link, delete data on withdrawal, zero cost and low maintenance. Nothing open; next is the week 1 sample. No code yet.
 
 ## Code
-Not started. Will live on `feature/student-platform`, branched off `redesign`. Never on `main` until approved.
+`feature/student-platform` (branched off `redesign`, pushed 2026-10-15). **Prototype built:** week 1 in the new format, quizzes and hints checked by the Worker, Volts, submissions and Swarit's review page. Progress is saved in the browser for now; the D1 database comes next. 41 checks pass. Never on `main` until approved.
 
 ## Swarit's vision (15 Oct 2026, second message)
 - Child signs in, sees the current week at the top. Minimal, smooth, the eye is drawn subtly to what matters.
@@ -59,6 +59,14 @@ Not started. Will live on `feature/student-platform`, branched off `redesign`. N
 - [ ] Build on a feature branch with tests
 - [ ] Preview and review
 - [ ] Merge with the redesign in one push
+
+## Prototype (2026-10-15)
+- Temporary preview: https://sterling-preview.delicate-potential.workers.dev (about 60 minutes from 15:00 IST). Preview bar: pretend a date, switch Student or Swarit view, reset progress.
+- Content format: `content/weeks/week-01/` has `resources/` (each ends in a Quick quiz), `tasks/`, `private/answers.md`, `private/hints.md`. Reward values: `content/rewards.json`.
+- Not real yet: Volts, submissions and reviews live in the browser. Next: D1 tables, then the enrolment link.
+
+## Open issue found 15 Oct
+- **Solutions open before the deadline.** Solutions (and free hints) open Saturday 00:00 ET, but work is due Saturday 8 PM ET. A student could copy before submitting. Fix: open solutions Sunday morning, or move the deadline to Friday. Swarit to decide.
 
 ## Next action
 - Swarit answers the 6 decisions in the PRD. Then week 1 is rewritten in the new format as the sample.

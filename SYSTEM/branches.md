@@ -6,7 +6,8 @@ All in `SwaritBhardwaj/Sterling-Robotics-Academy` (private).
 |---|---|---|
 | `main` | Live course site | **Yes.** Every push deploys via Workers Builds and uses build minutes. Only on Swarit's explicit yes |
 | `redesign` | Site code with the notebook redesign | No |
-| `feature/*` | New site features (for example `feature/progress-db`), branched off `redesign` | No |
+| `feature/student-platform` | The student platform prototype (resources, quizzes, Volts, hints, submissions, review), branched off `redesign` | No |
+| `feature/*` | Other new site features, branched off `redesign` | No |
 | `vault` | **This vault.** Notes only, no code | **Never** |
 | `reference` | Code for the entry test and the original HTML teaching guide | Never |
 | `claude/*` | Claude Code session branches | No |

@@ -27,5 +27,16 @@ Main user: students on laptops. He picked the "Mentor's notebook" direction and 
 - `### Must: ...`, `### Stretch: ...`, `### Optional: ...`, `### Bonus: ...` get a margin tag.
 - Code blocks get a copy button.
 
+## Impeccable review, 15 Oct 2026
+Score 27/40 (two independent reviews: design and detector). Strong, specific world; held back by states and content handling. Fixed on `redesign` (commit d01fc6a):
+- Highlighter budget: yellow only for the one thing to do now. Menu, tags, hover, errors no longer yellow.
+- Do-now line on week pages follows the date and links to Have ready for class, which now comes first.
+- Templates: no rotation, bigger text, copy button never covers a line, "scroll sideways for more" when wide.
+- Submit: WhatsApp opens with "Week N work from <name>:" typed in; a sent marker shows on the week and in the contents.
+- Locked-week pages: menu, opening date, See all weeks, tappable contacts.
+- 17px floor for handwritten text, locked weeks pass contrast, numerals in Literata (Instrument Serif's "1" read as "l"), 44px phone menu, skip link, screen-reader text for tags, print styles.
+- DESIGN.md rewritten in the standard token format, with contrast table, type scale, states and week page order.
+Not fixed (content work): week 8 and others name files that are not uploaded yet (now marked "link coming before class"); ASCII templates could become real tables; "Kit needed" says little.
+
 ## Brochure look (for comparison)
 The brochure and the live `main` site use the "Lucid Machinery" look: white, ink `#1D1D1F`, one blue `#1F55D6`, Instrument Sans and Serif, Geist Mono.

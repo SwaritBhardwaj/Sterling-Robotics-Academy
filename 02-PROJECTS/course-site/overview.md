@@ -40,6 +40,7 @@ Batch these into one push a week to save build minutes.
 - [x] Site live with sign-in (Oct 2026)
 - [x] Notebook redesign built, liked 2026-10-15
 - [x] Redesign pushed to GitHub, temporary preview deployed 2026-10-15
+- [x] 2026-10-15 Impeccable critique (27/40) and fixes on `redesign`: one highlighter, do-now line follows the date, Have ready first, template scroll hints, WhatsApp prefilled, locked pages with menu, 17px type floor, print styles. DESIGN.md rewritten.
 - [ ] Swarit approves merging the redesign to `main`
 - [ ] Progress database (see `../progress-database/overview.md`)
 - [ ] Real families added, sample student removed (before 15 Nov)

@@ -21,3 +21,6 @@ YYYY-MM-DD HH:MM IST | actor | action | path | note
 2026-10-15 16:05 IST | claude | created | 09-GENERATED/reports/2026-10-15-student-platform-prd-v2.md | full PRD v2 with skills; project overview and tasks point to it
 2026-10-15 16:40 IST | claude | edited | PRD v2 to v2.1, project overview and tasks, TODOS.md, CLAUDE.md, SYSTEM/skills.md | Bolts, values, enrolment link, own child email, data deletion, release explanation; gstack installed in session
 2026-10-15 17:10 IST | claude | edited | PRD v2 to v2.2, project overview and tasks | correction: currency is Volts, not Bolts (misheard); hint prices 5/10/15; zero-cost section with Cloudflare free limits checked
+2026-10-15 15:09 IST | claude | pushed | site repo `redesign` d01fc6a | impeccable critique fixes and new DESIGN.md, 27 checks pass
+2026-10-15 15:09 IST | claude | pushed | site repo `feature/student-platform` | prototype + week 1 new format, 41 checks pass; temporary preview deployed
+2026-10-15 15:09 IST | claude | edited | progress-database, course-site, branches, artifacts, daily note | prototype, critique results, solutions-vs-deadline issue

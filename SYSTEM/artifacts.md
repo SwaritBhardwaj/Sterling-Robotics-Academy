@@ -17,7 +17,8 @@ Claude artifacts are private to Swarit's account until shared. Sharing one with 
 ## Temporary
 | What | Link | Made | Expires |
 |---|---|---|---|
-| Redesign preview Worker | https://sterling-preview.obvious-floor.workers.dev | 2026-10-15 13:15 IST | about 14:15 IST |
+| Redesign preview Worker | https://sterling-preview.obvious-floor.workers.dev | 2026-10-15 13:15 IST | expired |
+| Student platform prototype (week 1) | https://sterling-preview.delicate-potential.workers.dev | 2026-10-15 15:00 IST | about 16:00 IST |
 
 ## Superseded (do not use)
 Graphite edition 7PsC56C75inX8hjhT9NgwQ · Swiss edition 6wAJUgBMxSafwiEb5pxHoU · brochure rebuild 1g3BwDavsKFRytEU2w1ebM · old brochure QnuJoNBfbtxBva4tK9kDJR · cover page 47EheLfT5o4DWFg5aR41Gd · cover options 6udqnXGXPmoZkV8WfPRHtz · standalone test slides 6L3EuGAKC7LeWm9vAfdCpd.
