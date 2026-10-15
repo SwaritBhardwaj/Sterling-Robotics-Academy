@@ -1,11 +1,11 @@
 ---
-status: draft v2.1, for Swarit's review
+status: draft v2.2, for Swarit's review
 project: 02-PROJECTS/progress-database
 date: 2026-10-15
 supersedes: 2026-10-15-student-platform-prd-v0.md (v1)
 skills used: prd-writing, mvp-scoping, architecture-design, security-review, onboarding-flow
 ---
-# Student platform PRD (draft v2.1)
+# Student platform PRD (draft v2.2)
 
 _Version 2, 15 Oct 2026. Full PRD, because it touches children's data and payments-adjacent trust. Built on v1 (all of Swarit's decisions kept), restructured with the prd-writing, mvp-scoping, architecture-design, security-review and onboarding-flow skills. Items marked **Decide** need Swarit._
 
@@ -120,7 +120,7 @@ The aim is one small win before anything else.
 8. **My progress.** Balance, week-by-week check marks, robot milestones, all feedback, and a short history of what they earned and spent.
 
 ### 7.4 Rewards economy
-**Currency: Bolts** (decided 15 Oct).
+**Currency: Volts** (decided 15 Oct; corrected from Volts, which was a mishearing). The balance shows as a battery meter.
 
 **Values: decided 15 Oct** (welcome gift 10, retry pays 3). We start with these, watch weeks 1 and 2, then tune. They live in one settings file.
 
@@ -133,14 +133,14 @@ The aim is one small win before anything else.
 | Task marked Done | +10 |
 | Stretch or Bonus task Done | +20 |
 | Submitted before Saturday 8 PM ET | +5 |
-| Hint 1, a nudge | -3 |
-| Hint 2, the approach | -5 |
-| Hint 3, nearly the answer | -8 |
+| Hint 1, a nudge | -5 |
+| Hint 2, the approach | -10 |
+| Hint 3, nearly the answer | -15 |
 | Gift from Swarit | any |
 
 **What a normal week looks like** (5 resources, 4 tasks, all on time, all Done first try):
 
-| Earned from | Bolts |
+| Earned from | Volts |
 |---|---|
 | 5 quizzes passed first try | 25 |
 | 4 tasks submitted | 20 |
@@ -148,7 +148,7 @@ The aim is one small win before anything else.
 | 4 on-time bonuses | 20 |
 | **Total** | **about 105** |
 
-All three hints on one task cost 3 + 5 + 8 = 16. So a strong week buys every hint on about six tasks. **Open:** if hints should feel like a real trade, raise them to 5 / 10 / 15 (30 for all three). That matches Swarit's first example ("earned 20, a hint costs 5").
+All three hints on one task cost 5 + 10 + 15 = 30 (decided 15 Oct). A strong week can fully unlock about three tasks, so every hint is a real choice. This matches Swarit's first example ("earned 20, a hint costs 5").
 
 Rules:
 - Each resource and task pays out once.
@@ -345,6 +345,45 @@ Errors: 401 not signed in, 403 not allowed, 404 unknown id, 409 already done or 
 
 **Cost:** $0 a month on Cloudflare's free plan (Workers, D1, Access). Check the current free limits before launch.
 
+### 7.8b Zero cost and low maintenance (Swarit's requirement, 15 Oct)
+
+**Rule: no new vendor, no card on file, no monthly bill.** Everything runs on what we already use: Cloudflare (free plan), GitHub (private repo) and YouTube (unlisted videos).
+
+**Free limits vs what we expect to use** (checked 15 Oct 2026 against Cloudflare's docs)
+
+| Service | Free limit | Our expected use at 20 students | Headroom |
+|---|---|---|---|
+| D1 rows read | 5 million a day | under 0.5 million a day | 10x |
+| D1 rows written | 100,000 a day | under 2,000 a day | 50x |
+| D1 storage | 5 GB | under 50 MB (text only) | 100x |
+| D1 Time Travel (restore) | 7 days back | automatic | |
+| Workers Builds | 3,000 build minutes a month | about 10 to 20 (one push a week, about 1 minute each) | 150x |
+| Workers requests | 100,000 a day (check before launch) | under 10,000 a day | 10x |
+| Cloudflare Access sign-in | 50 users | up to 20 students + 1 admin | Limit is about 48 students in total |
+
+**Why it can't surprise-bill:** on the free plan, Cloudflare stops a service at its daily limit instead of charging. The site's pages keep working; only the progress features pause until midnight UTC. Paying is only possible if someone upgrades the account on purpose.
+
+**The one real ceiling:** Access is free up to 50 users. Past that it is a paid seat per user. Plan: remove each cohort's students from the sign-in list after its demo day, so active students stay under 50.
+
+**What we avoid because it costs money or needs a card:** R2 file storage (no uploads), email-sending services (no automatic emails), paid analytics, a custom domain (optional later, about $10 a year).
+
+**Low maintenance by design**
+
+| Choice | Why it keeps upkeep low |
+|---|---|
+| One runtime library (`marked`, pinned), no frontend framework | Almost nothing to update or break. No weekly security patches |
+| Plain HTML, CSS and JavaScript in the notebook design | No build tools beyond what runs today |
+| Database changes as numbered SQL files in the repo, applied on deploy | No hand-run database steps |
+| **Tests run before every deploy** (build command becomes `npm run build && npm test`) | A broken change never reaches students |
+| All 12 weeks deployed up front, released by date | No weekly pushes |
+| Weekly extras and gifts through the admin page | No code edits during the course |
+| Backups: D1 Time Travel (7 days, automatic) plus an admin "Download all data" button for the end of each cohort | No backup job to babysit |
+| Data cleanup: after demo day, one admin action removes the cohort's sign-ins and, on request, their data | Stays under the Access cap and keeps children's data minimal |
+| Kill switch to the plain notebook pages | If anything breaks mid-week, one setting restores a working site |
+| Library updates once per cohort, not continuously | One planned check, not constant noise |
+
+Expected upkeep once live: about 30 minutes a week (recording link, reviews excluded), plus about an hour between cohorts.
+
 ### 7.9 Edge cases
 1. **Siblings.** Decided 15 Oct: every child signs in with their own email, given on the enrolment link. Parents don't sign in. Two siblings are two separate students.
 2. **Late joiner in week 3.** Earlier weeks are open. The roster shows them as behind from day one. Swarit can excuse early tasks.
@@ -419,14 +458,16 @@ The cohort dates are fixed, so this plan uses real dates.
 | 3 | Class board that never ranks the bottom | **Decided** (15 Oct), $0 cost |
 | 4 | Hints free once solutions open | **Decided** (15 Oct) |
 | 5 | Weekly publishing automated | **Decided** (15 Oct). How it works: end of 7.6 |
-| 6 | Currency name | **Decided: Bolts** (15 Oct) |
+| 6 | Currency name | **Decided: Volts** (15 Oct; first recorded as Bolts by mistake) |
 | 7 | Starting values in 7.4, welcome gift 10, retry pays 3 | **Decided** (15 Oct) |
 | 8 | Siblings | **Decided:** each child has their own email via the enrolment link; parents on WhatsApp, children by email (15 Oct) |
 | 9 | Delete a child's data on withdrawal | **Decided: yes** (15 Oct) |
-| 10 | Hint prices 3 / 5 / 8, or 5 / 10 / 15 | **Open** (new). Recommendation: 5 / 10 / 15 |
+| 10 | Hint prices | **Decided: 5 / 10 / 15** (15 Oct) |
+| 11 | Zero cost and low maintenance | **Required** (15 Oct). See 7.8b |
 
 ## Change log
 - v0 (15 Oct): first draft from Swarit's vision.
 - v1 (15 Oct): Swarit's answers; quiz for every resource; publishing without weekly work.
 - v2 (15 Oct): rebuilt as a full PRD with the installed skills. Added: one objective and metrics, segments and value curve, MVP hypothesis and MoSCoW cut, first-sign-in plan with welcome gift, architecture (modules, data model, API, six decisions), 12 edge cases (siblings, late kits, Access seat limit), STRIDE security table, assumptions, release phases with rollback. Retry pays 3.
-- v2.1 (15 Oct): Bolts; values and welcome gift confirmed; children sign in with their own email from an enrolment link (now a Must); parents on WhatsApp; delete data on withdrawal; how releases work (deploy vs release); a sample week of earnings and the open hint-price question.
+- v2.1 (15 Oct): Volts; values and welcome gift confirmed; children sign in with their own email from an enrolment link (now a Must); parents on WhatsApp; delete data on withdrawal; how releases work (deploy vs release); a sample week of earnings and the open hint-price question.
+- v2.2 (15 Oct): currency corrected to Volts (was recorded as Bolts, a mishearing); hint prices 5 / 10 / 15; new section 7.8b on zero cost and low maintenance, with free limits checked against Cloudflare's docs and a usage estimate.

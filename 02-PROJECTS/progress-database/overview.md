@@ -6,7 +6,7 @@
 Give each child a record on the course site: tasks per week, submissions inside the site, Swarit's review, and check marks that show progress. Replaces submitting on WhatsApp or a form.
 
 ## Status
-**Spec.** PRD v2 (2026-10-15), full PRD built with the installed skills. Decided: quiz for every resource, submissions in the site, class board, free hints after solutions open, weekly publishing automated. Also decided: currency Bolts, starting values, own email per child via an enrolment link, delete data on withdrawal. Open: hint prices. No code yet.
+**Spec.** PRD v2 (2026-10-15), full PRD built with the installed skills. Decided: quiz for every resource, submissions in the site, class board, free hints after solutions open, weekly publishing automated. Also decided: currency Volts, hint prices 5 / 10 / 15, starting values, own email per child via an enrolment link, delete data on withdrawal, zero cost and low maintenance. Nothing open; next is the week 1 sample. No code yet.
 
 ## Code
 Not started. Will live on `feature/student-platform`, branched off `redesign`. Never on `main` until approved.
