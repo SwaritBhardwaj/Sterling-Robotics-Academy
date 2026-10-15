@@ -1,0 +1,11 @@
+{
+  "currency": "Volts",
+  "welcome": 10,
+  "quizFirst": 5,
+  "quizRetry": 3,
+  "taskSubmitted": 5,
+  "taskDone": 10,
+  "stretchDone": 20,
+  "onTime": 5,
+  "hints": [5, 10, 15]
+}

@@ -4,6 +4,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { marked } from 'marked';
+import { loadWeek, writeWeek } from './platform.mjs';
 
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
 const C = p => path.join(ROOT, 'content', p);
@@ -12,6 +13,9 @@ const OUT = path.join(ROOT, PREVIEW ? 'preview' : 'dist');
 const site = JSON.parse(fs.readFileSync(C('site.json'), 'utf8'));
 const schedule = JSON.parse(fs.readFileSync(C('schedule.json'), 'utf8'));
 const students = JSON.parse(fs.readFileSync(C('students/students.json'), 'utf8'));
+const rewards = JSON.parse(fs.readFileSync(C('rewards.json'), 'utf8'));
+const privateData = { answers: {}, hints: {} };
+const outlines = [];
 
 fs.rmSync(OUT, { recursive: true, force: true });
 fs.mkdirSync(OUT, { recursive: true });
@@ -92,6 +96,7 @@ function layout({ title, body, active = '', bodyClass = '' }) {
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="${FONTS}">
 <link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="/assets/platform.css">
 <script>if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('motion')</script>
 </head>
 <body class="${bodyClass}">
@@ -103,6 +108,7 @@ function layout({ title, body, active = '', bodyClass = '' }) {
 <footer class="foot"><p>Stuck or have a question? WhatsApp Swarit on ${esc(site.whatsapp)}, or email ${esc(site.email)}.</p></footer>
 ${PREVIEW ? `<script>window.__ME=${JSON.stringify(previewMe)}</script>` : ''}
 <script src="/assets/app.js" defer></script>
+<script src="/assets/platform.js" defer></script>
 </body></html>`;
 }
 
@@ -130,7 +136,8 @@ if (PREVIEW) {
 for (const [i, w] of weeks.entries()) {
   const dir = C(`weeks/${w.dir}`);
   const files = fs.readdirSync(dir, { withFileTypes: true }).filter(e => e.isFile() && e.name !== 'index.md' && !e.name.startsWith('.'));
-  copyDir(dir, path.join(OUT, 'weeks', w.dir), e => e.name === 'index.md' || e.name.startsWith('.'));
+  // Never copy Markdown sources or the private folder (quiz answers, hints) to the public site.
+  copyDir(dir, path.join(OUT, 'weeks', w.dir), e => e.name.endsWith('.md') || e.name === 'private' || e.name.startsWith('.'));
   const solDir = path.join(dir, 'solutions');
   const solFiles = fs.existsSync(solDir) ? fs.readdirSync(solDir).filter(f => !f.startsWith('.')) : [];
 
@@ -147,6 +154,13 @@ for (const [i, w] of weeks.entries()) {
   let html = md(w.body);
   let question = '';
   html = html.replace(/^<blockquote>\s*<p>([\s\S]*?)<\/p>\s*<\/blockquote>/, (_, q) => { question = q; return ''; });
+  if (w.meta.format === '2') {
+    const data = loadWeek(dir, w.n, read);
+    Object.assign(privateData.answers, data.answers);
+    Object.assign(privateData.hints, data.hints);
+    outlines.push(writeWeek({ md, esc, layout, write, videoBlock, youtubeId }, { w, weeks, i, data, recording, filesBlock, solBlock, questionHtml: question, introHtml: html, costs: rewards }));
+    continue;
+  }
   const prev = weeks[i - 1], next = weeks[i + 1];
   const body = `
   <aside class="margin">
@@ -168,7 +182,11 @@ for (const [i, w] of weeks.entries()) {
   write(`weeks/${w.dir}/index.html`, layout({ title: `Week ${w.n}: ${w.meta.title}`, body, active: 'weeks', bodyClass: 'week' }));
 }
 
-write('data/weeks.json', JSON.stringify(weeks.map(w => ({ n: w.n, title: w.meta.title, short: w.meta.short || w.meta.title, kit: w.meta.kit || '', question: w.question, url: w.url }))));
+write('data/weeks.json', JSON.stringify(weeks.map(w => ({ n: w.n, title: w.meta.title, short: w.meta.short || w.meta.title, kit: w.meta.kit || '', question: w.question, url: w.url, format: Number(w.meta.format || 1) }))));
+// Public outline of new-format weeks and the reward values. Answers and hints go only to the Worker bundle.
+write('data/platform.json', JSON.stringify({ rewards, weeks: outlines }));
+fs.mkdirSync(path.join(ROOT, 'build', '.generated'), { recursive: true });
+fs.writeFileSync(path.join(ROOT, 'build', '.generated', 'private.json'), JSON.stringify(privateData));
 
 const contents = weeks.map(w => `<li data-week="${w.n}"><a href="${w.url}"><span class="n">${w.n}</span><span class="t">${esc(w.meta.title)}</span><span class="d" data-week-when="${w.n}">${esc(w.meta.kit || '')}</span></a></li>`).join('');
 
@@ -192,7 +210,7 @@ write('index.html', layout({
     <ol class="contents" id="homeWeeks">${contents}</ol>
     <h2>Also in this notebook</h2>
     <ul class="leaders more">
-      <li><a href="/me">My page</a><span>your 1:1 notes and extra tasks</span></li>
+      <li><a href="/me">My page</a><span>your progress, Volts and 1:1 notes</span></li>
       <li><a href="/resources/">Resources</a><span>setup guides and free tools</span></li>
       <li><a href="#" id="oneOnOne" target="_blank" rel="noopener">Book a 1:1</a><span>30 minutes each week</span></li>
     </ul>
@@ -233,6 +251,15 @@ write('students/index.html', layout({
   title: 'Students', active: 'me',
   body: `<aside class="margin"><p class="note">Only you can see this list.</p></aside>
   <div class="col"><h1>Students</h1><ul class="leaders">${students.map(s => `<li><a href="/students/${s.slug}/">${esc(s.name)}</a><span>grade ${esc(s.grade || '')}, ${esc(s.cohort)}</span></li>`).join('')}</ul></div>`,
+}));
+
+/* ---------- admin review (admins only, checked by lib/guard.js; filled in by platform.js) ---------- */
+write('admin/index.html', layout({
+  title: 'Review', active: 'admin', bodyClass: 'adminpage',
+  body: `<aside class="margin"><p class="note">Only you can see this page.</p></aside>
+  <div class="col"><h1>Review</h1><p class="lede">Work waiting for you, oldest first. Mark it Done or Redo within 48 hours.</p>
+  <div id="reviewQueue"><p class="aside-note">Loading…</p></div>
+  <h2>Students</h2><div id="roster"></div></div>`,
 }));
 
 /* ---------- 404 + assets ---------- */

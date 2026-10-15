@@ -39,6 +39,9 @@
   }
 
   function render(me) {
+    // platform.js (Volts, quizzes, hints) listens for this
+    window.__me = me;
+    document.dispatchEvent(new CustomEvent('sra:me', { detail: me }));
     const nw = me.weeks.find(w => w.n === me.next);
     const open = me.weeks.filter(w => w.unlocked);
     const cur = nw && nw.unlocked ? nw : open[open.length - 1];

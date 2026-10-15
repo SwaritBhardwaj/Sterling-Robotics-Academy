@@ -1,6 +1,8 @@
 {
-  // Design previews only. Deployed with: npx wrangler deploy -c wrangler.preview.jsonc --temporary
-  // Never connected to Git, never uses build minutes, lives 60 minutes.
+  // Design and feature previews only. Deployed with: npx wrangler deploy -c wrangler.preview.jsonc --temporary
+  // Never connected to Git, never uses build minutes, lives 60 minutes. Sample data only.
+  // PREVIEW_CLOCK lets the preview pretend it is another day and switch between student and admin views.
+  // The live site never sets it, and it is ignored whenever ACCESS_TEAM_DOMAIN is set.
   "name": "sterling-preview",
   "main": "worker/index.js",
   "compatibility_date": "2025-09-01",
@@ -10,5 +12,5 @@
     "run_worker_first": true,
     "not_found_handling": "404-page"
   },
-  "vars": { "DEV_EMAIL": "swarit000@gmail.com" }
+  "vars": { "DEV_EMAIL": "student@example.com", "PREVIEW_CLOCK": "1" }
 }
