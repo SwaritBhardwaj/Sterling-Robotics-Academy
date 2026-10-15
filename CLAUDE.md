@@ -80,7 +80,7 @@ _Week of 2026-10-12. Draft written 2026-10-15 from the handoff. Swarit to confir
 
 ## Skills
 
-70 skills vendored on this branch in `.agents/skills/`, symlinked into `.claude/skills/`, pinned in `skills-lock.json`. Copied 2026-10-15 from the Influenzo vault (same versions). Update with `npx skills update`. Full list and examples: `SYSTEM/skills.md`. gstack is not installed (it is per machine, see `TODOS.md`).
+70 skills vendored on this branch in `.agents/skills/`, symlinked into `.claude/skills/`, pinned in `skills-lock.json`. Copied 2026-10-15 from the Influenzo vault (same versions). Update with `npx skills update`. Full list and examples: `SYSTEM/skills.md`. gstack installs per machine, not in the repo. Installed for the 2026-10-15 session; to keep it in every cloud session, see `TODOS.md`.
 
 Route by intent:
 

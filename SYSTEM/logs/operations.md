@@ -19,3 +19,4 @@ YYYY-MM-DD HH:MM IST | actor | action | path | note
 2026-10-15 15:10 IST | claude | edited | 09-GENERATED/reports/2026-10-15-student-platform-prd-v0.md (now v1) + project overview and tasks | Swarit decisions recorded, currency shortlist, publishing automation section
 2026-10-15 15:40 IST | claude | added | .agents/skills/ (59 folders), .claude/skills/ (70 links), skills-lock.json, SYSTEM/skills.md, CLAUDE.md Skills section | skills copied from the Influenzo vault at pinned versions; gstack not installed
 2026-10-15 16:05 IST | claude | created | 09-GENERATED/reports/2026-10-15-student-platform-prd-v2.md | full PRD v2 with skills; project overview and tasks point to it
+2026-10-15 16:40 IST | claude | edited | PRD v2 to v2.1, project overview and tasks, TODOS.md, CLAUDE.md, SYSTEM/skills.md | Bolts, values, enrolment link, own child email, data deletion, release explanation; gstack installed in session

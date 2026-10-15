@@ -90,7 +90,7 @@ Use a skill by typing `/skill-name` in Claude Code, or describe the task and Cla
 | LinkedIn | 12 | `sergebulaev/linkedin-skills`, copied by hand (not in the lock file). Draft-only: no Publora or Apify keys |
 
 ## Not installed
-- **gstack** (`garrytan/gstack`): installs per machine in `~/.claude/skills/gstack`. Cloud sessions start fresh, so it would need reinstalling every session. Its repo hook (blocks all skills until gstack is installed) was left out on purpose.
+- **gstack** (`garrytan/gstack`) is not in the repo: it installs per machine in `~/.claude/skills/gstack`. Installed in the 2026-10-15 session (v1.91, browser skipped). Add it to the cloud environment's setup script to keep it (see `TODOS.md`). Its repo hook (blocks all skills until gstack is installed) was left out on purpose.
 - `tools/grand-slam-offer-generator`: needs its own API key and bills separately.
 
 Skills run with full agent permissions. Read a new skill's `SKILL.md` before adding it.

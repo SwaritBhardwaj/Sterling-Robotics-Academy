@@ -1,7 +1,7 @@
 # Progress database: tasks
 
 ## Active
-- [ ] Swarit answers PRD v2 decisions 6 to 9: currency name, starting values, siblings, data deletion.
+- [ ] Swarit picks hint prices: 3 / 5 / 8 or 5 / 10 / 15 (PRD decision 10).
 - [ ] Draft all 12 weeks in the new format for review (target 25 Oct).
 - [ ] Rewrite week 1 in the new format (resources, tasks, hints, checkpoints) as the sample.
 - [ ] Swarit creates the D1 database (steps to follow).

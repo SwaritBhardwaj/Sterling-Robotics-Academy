@@ -1,11 +1,11 @@
 ---
-status: draft v2, for Swarit's review
+status: draft v2.1, for Swarit's review
 project: 02-PROJECTS/progress-database
 date: 2026-10-15
 supersedes: 2026-10-15-student-platform-prd-v0.md (v1)
 skills used: prd-writing, mvp-scoping, architecture-design, security-review, onboarding-flow
 ---
-# Student platform PRD (draft v2)
+# Student platform PRD (draft v2.1)
 
 _Version 2, 15 Oct 2026. Full PRD, because it touches children's data and payments-adjacent trust. Built on v1 (all of Swarit's decisions kept), restructured with the prd-writing, mvp-scoping, architecture-design, security-review and onboarding-flow skills. Items marked **Decide** need Swarit._
 
@@ -23,8 +23,8 @@ Why it matters: one mentor teaches up to 20 children. The course only works if k
 |---|---|
 | Swarit Bhardwaj | Owner, teacher, reviewer. Approves the spec, the content and every push to `main` |
 | Claude Code | Builds the platform, drafts the 12 weeks of content, runs tests and previews |
-| Students (grades 6 to 12) | Primary users |
-| Parents | Sign in with the child's account. Payers |
+| Students (grades 6 to 12) | Primary users. Each signs in with their own email, given on the enrolment link. Contacted by email |
+| Parents | Payers. Contacted on WhatsApp. They don't need their own sign-in; they can see progress on the child's screen or in Swarit's updates |
 | Mentors (later) | Possible reviewers from the winter cohort. Not in v1 |
 
 ## 3. Background
@@ -120,9 +120,9 @@ The aim is one small win before anything else.
 8. **My progress.** Balance, week-by-week check marks, robot milestones, all feedback, and a short history of what they earned and spent.
 
 ### 7.4 Rewards economy
-**Currency name: Decide.** Shortlist: **Volts** (recommended, shown as a battery meter), Sterlings, Bolts, Gyros, Gears.
+**Currency: Bolts** (decided 15 Oct).
 
-"Starting values" are the amounts below. We start with them, watch weeks 1 and 2, then tune. They live in one settings file.
+**Values: decided 15 Oct** (welcome gift 10, retry pays 3). We start with these, watch weeks 1 and 2, then tune. They live in one settings file.
 
 | Action | Amount |
 |---|---|
@@ -137,6 +137,18 @@ The aim is one small win before anything else.
 | Hint 2, the approach | -5 |
 | Hint 3, nearly the answer | -8 |
 | Gift from Swarit | any |
+
+**What a normal week looks like** (5 resources, 4 tasks, all on time, all Done first try):
+
+| Earned from | Bolts |
+|---|---|
+| 5 quizzes passed first try | 25 |
+| 4 tasks submitted | 20 |
+| 4 tasks Done | 40 |
+| 4 on-time bonuses | 20 |
+| **Total** | **about 105** |
+
+All three hints on one task cost 3 + 5 + 8 = 16. So a strong week buys every hint on about six tasks. **Open:** if hints should feel like a real trade, raise them to 5 / 10 / 15 (30 for all three). That matches Swarit's first example ("earned 20, a hint costs 5").
 
 Rules:
 - Each resource and task pays out once.
@@ -171,6 +183,17 @@ content/weeks/week-08/
 
 Swarit's weekly job: teach, paste the recording link, review submissions.
 
+**How releases work, and why not one branch per week.** Swarit's first idea was 12 branches (week 1 to week 12) and rebasing production onto each one weekly. Companies avoid that pattern:
+- A fix to week 3 would need copying into every later branch, and they drift apart.
+- Rebasing production rewrites its history, which breaks rollback and can lose work.
+- Someone still has to do it every week, which is the work we want to remove.
+
+The industry standard has two parts:
+1. **One main branch.** Work happens on short-lived branches, gets checked and previewed, then merges into `main`. Every push to `main` deploys automatically (CI/CD). We already have this with Workers Builds.
+2. **Deploying is separate from releasing.** Code and content go onto the server early, but stay hidden until a date or a switch turns them on. This is how streaming services upload a new episode days ahead and it appears at midnight, and how blogs and Shopify stores schedule posts and sales. In software it is called scheduled publishing, or a time-based feature flag.
+
+For Sterling: all 12 weeks are deployed before 9 Nov, already sitting on the server. Each week is released on its date by the Worker checking the calendar on every request. Nobody touches Git on a Monday.
+
 ### 7.7 MVP scope (MoSCoW)
 
 **Must have (v1, before 9 Nov)**
@@ -185,6 +208,8 @@ Swarit's weekly job: teach, paste the recording link, review submissions.
 | Review queue with Done / Redo + comment | Without it, submissions go nowhere | Low | S |
 | Home "next step" + My progress | The minimal, focused view Swarit described | Low | M |
 | Weekly extras form (recording link, notes, class time, Meet link) | The no-push weekly routine | Low | S |
+| **Enrolment link** (decided 15 Oct): after admission, the family gets a private link. It collects the child's name, grade, cohort and the child's own email, plus a parent consent tick. Swarit approves it in admin, and the child is added to the class list and the sign-in list | Every child needs their own sign-in before 9 Nov, without Swarit editing files | Med (sign-in list update needs a Cloudflare API key) | M |
+| **Delete a student's data** on withdrawal (decided 15 Oct): one admin button removes their records and their sign-in | Children's privacy, refund cases | Low | S |
 | Security rules and tests (section 7.10) | Children's data | Med | M |
 | Weeks 1 and 2 content in the new format | Students need something on 9 Nov | **High** (time) | L |
 
@@ -195,7 +220,6 @@ Swarit's weekly job: teach, paste the recording link, review submissions.
 | Roster sorted by "needs attention" with days-open flags | Ships in week 1 if time allows, otherwise before week 3 |
 | Class board for live classes | Before class 3 |
 | Weeks 3 to 12 content | A week ahead of each week opening, all done by early December |
-| Add a family from the admin page (roster in the database + Cloudflare API key) | When the second cohort starts enrolling |
 
 **Could have (v1.2+, if data supports it)**
 Streaks, badges at robot milestones, file uploads, email notice when work is reviewed, certificate generated at the end, mentor reviewer accounts.
@@ -322,18 +346,19 @@ Errors: 401 not signed in, 403 not allowed, 404 unknown id, 409 already done or 
 **Cost:** $0 a month on Cloudflare's free plan (Workers, D1, Access). Check the current free limits before launch.
 
 ### 7.9 Edge cases
-1. **Siblings share a parent email.** Today one email maps to one student. **Decide:** each child signs in with their own email (recommended), or a parent email can pick a child after sign-in.
+1. **Siblings.** Decided 15 Oct: every child signs in with their own email, given on the enrolment link. Parents don't sign in. Two siblings are two separate students.
 2. **Late joiner in week 3.** Earlier weeks are open. The roster shows them as behind from day one. Swarit can excuse early tasks.
 3. **Kit arrives late.** Kit tasks can't be done. Swarit marks them "excused" so they don't count against the student.
 4. **Quiz guessing.** Retries are allowed but pay less (3 instead of 5), and each resource pays once. Guessing gains little.
 5. **Resubmit after Done.** Allowed as a new version. No second payout.
 6. **Not enough balance for a hint.** The button says how many more they need and how to earn them. After solutions open, hints are free anyway.
 7. **Different time zones** (US coasts, Canada, Dubai). Deadlines are stored in ET and shown in the student's local time.
-8. **Withdrawal and refund.** Their data is deleted on request, and their emails come off the sign-in list.
+8. **Withdrawal and refund.** Decided 15 Oct: the child's data is deleted and their email comes off the sign-in list.
 9. **Shared family laptop.** A visible "Sign out" link. Sign-in sessions expire.
 10. **Reward values changed mid-week.** Past payouts stay as recorded. New values apply from then on.
 11. **Admin is also testing as a student.** A separate test student account, flagged so it never appears on the class board.
-12. **Sign-in seat limit.** Cloudflare Access is free for up to 50 users. With a parent and a child per family, that is about 24 families across both cohorts. Remove founding families' access after demo day, or plan for a paid tier if both cohorts fill.
+12. **Sign-in seat limit.** Cloudflare Access is free for up to 50 users. With children only (no parent sign-ins), that is up to about 48 students across both cohorts. Remove founding students' access after demo day.
+13. **Child under 13 gives an email.** US law (COPPA) treats a child's email as personal data. The enrolment link asks the parent to tick consent before the child's email is saved.
 
 ### 7.10 Security (STRIDE threat model)
 
@@ -366,7 +391,7 @@ Before launch: run a dependency audit and a review of every endpoint with the `s
 | 3 | Children sign in themselves with their own email | Grade 6 to 12 students usually have school or personal email | Parents end up doing it for them, so the activity data is really the parent's |
 
 ### 7.12 Out of scope (v1)
-File uploads, mentor accounts, email or WhatsApp notices, streaks, badges, certificates, editing full lessons in the browser, adding families from the admin page, leaderboards that rank everyone, chat, a phone app, third-party analytics.
+File uploads, mentor accounts, email or WhatsApp notices, streaks, badges, certificates, editing full lessons in the browser, parent sign-ins, leaderboards that rank everyone, chat, a phone app, third-party analytics.
 
 ## 8. Release
 
@@ -393,13 +418,15 @@ The cohort dates are fixed, so this plan uses real dates.
 | 2 | Submissions inside the site | **Decided** (15 Oct) |
 | 3 | Class board that never ranks the bottom | **Decided** (15 Oct), $0 cost |
 | 4 | Hints free once solutions open | **Decided** (15 Oct) |
-| 5 | Weekly publishing automated | **Decided** (15 Oct) |
-| 6 | Currency name | **Open.** Recommendation: Volts |
-| 7 | Start with the values in 7.4 (incl. welcome gift 10, retry pays 3) | **Open** |
-| 8 | Siblings: own email each (recommended) or pick a child after sign-in | **Open** (new) |
-| 9 | Delete a child's data when they withdraw | **Open** (new), recommended yes |
+| 5 | Weekly publishing automated | **Decided** (15 Oct). How it works: end of 7.6 |
+| 6 | Currency name | **Decided: Bolts** (15 Oct) |
+| 7 | Starting values in 7.4, welcome gift 10, retry pays 3 | **Decided** (15 Oct) |
+| 8 | Siblings | **Decided:** each child has their own email via the enrolment link; parents on WhatsApp, children by email (15 Oct) |
+| 9 | Delete a child's data on withdrawal | **Decided: yes** (15 Oct) |
+| 10 | Hint prices 3 / 5 / 8, or 5 / 10 / 15 | **Open** (new). Recommendation: 5 / 10 / 15 |
 
 ## Change log
 - v0 (15 Oct): first draft from Swarit's vision.
 - v1 (15 Oct): Swarit's answers; quiz for every resource; publishing without weekly work.
 - v2 (15 Oct): rebuilt as a full PRD with the installed skills. Added: one objective and metrics, segments and value curve, MVP hypothesis and MoSCoW cut, first-sign-in plan with welcome gift, architecture (modules, data model, API, six decisions), 12 edge cases (siblings, late kits, Access seat limit), STRIDE security table, assumptions, release phases with rollback. Retry pays 3.
+- v2.1 (15 Oct): Bolts; values and welcome gift confirmed; children sign in with their own email from an enrolment link (now a Must); parents on WhatsApp; delete data on withdrawal; how releases work (deploy vs release); a sample week of earnings and the open hint-price question.

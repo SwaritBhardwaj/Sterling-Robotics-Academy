@@ -22,6 +22,10 @@ Deferred work with enough context to pick up cold. Live priorities live in `CLAU
 ## Mirror of student week pages in the vault
 **Not done on purpose (2026-10-15).** Student pages live in the site repo `content/weeks/`, which is what deploys. A second copy here would drift. The teacher guide in `03-CURRICULUM/teaching-guide/` is the source they are written from. Revisit if Swarit wants them readable in Obsidian.
 
-## gstack
-**Deferred 2026-10-15.** Installs per machine, and cloud sessions start fresh. Install on Swarit's laptop if he wants `/office-hours`, `/plan-ceo-review` and the rest:
-`git clone --depth 1 https://github.com/garrytan/gstack.git ~/.claude/skills/gstack && cd ~/.claude/skills/gstack && ./setup --team`
+## gstack in every cloud session
+**Installed by hand in the 2026-10-15 session.** Cloud sessions start fresh, so it disappears. To keep it, Swarit pastes this into the cloud environment's Setup script (environment menu in the session title bar, then Edit):
+```
+[ -d ~/.claude/skills/gstack ] || git clone --depth 1 https://github.com/garrytan/gstack.git ~/.claude/skills/gstack
+cd ~/.claude/skills/gstack && ./setup --no-browser -q
+```
+On his laptop, the same without `--no-browser`.
