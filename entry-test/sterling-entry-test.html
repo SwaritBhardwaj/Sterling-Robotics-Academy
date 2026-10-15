@@ -1,0 +1,963 @@
+<title>Sterling Entry Test</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one page, two views. Slides = fixed 1600x900 stage scaled to the window, shared on the call. Grader = one phone-width column that saves every tap. Light only, by choice (matches the brochure). */
+:root{
+  --bg:#FFFFFF; --ink:#1D1D1F; --grey:#86868B; --grey2:#5E5E63; --line:#E2E2E6; --panel:#F5F5F7;
+  --blue:#1F55D6; --blue-soft:#EEF3FD;
+  --good:#1E7F4F; --good-soft:#E8F4EC; --warn:#9A5B00; --warn-soft:#FBF1E1; --bad:#B3261E; --bad-soft:#FBEAE8;
+  --f-sans:'Instrument Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --f-serif:'Instrument Serif',Georgia,'Times New Roman',serif;
+  --f-mono:'Geist Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{min-height:100%}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 var(--f-sans);-webkit-font-smoothing:antialiased}
+h1,h2,h3{margin:0;font-weight:400;text-wrap:balance}
+p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.lab{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--grey)}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+[data-view]{display:none}
+body[data-mode="choose"] [data-view="choose"],body[data-mode="slides"] [data-view="slides"],body[data-mode="grader"] [data-view="grader"]{display:block}
+body[data-mode="slides"]{overflow:hidden;height:100%}
+
+/* chooser */
+.choose{max-width:560px;margin:0 auto;padding-inline:20px;padding-block:64px;display:flex;flex-direction:column;gap:22px}
+.choose h1{font-family:var(--f-serif);font-size:52px;line-height:1}
+.choose p{color:var(--grey2)}
+.pick{display:grid;gap:12px}
+.pick button{text-align:left;border:1px solid var(--line);background:var(--bg);border-radius:16px;padding:18px 20px;display:flex;flex-direction:column;gap:4px}
+.pick button:hover{border-color:var(--blue)}
+.pick b{font-family:var(--f-serif);font-weight:400;font-size:28px}
+.pick span{color:var(--grey2);font-size:15px}
+
+/* ===== slides ===== */
+.viewport{position:fixed;inset:0;overflow:hidden;background:var(--bg)}
+.stage{width:1600px;height:900px;position:absolute;left:50%;top:50%;transform-origin:center center;background-color:var(--bg);
+  background-image:radial-gradient(circle,#E3E7F0 1.5px,transparent 1.6px);background-size:40px 40px;background-position:20px 20px}
+.slide{position:absolute;inset:0;padding:56px 96px 84px;display:flex;flex-direction:column;gap:18px}
+.marks i{position:absolute;width:26px;height:26px;border-color:#B9C3D8;border-style:solid;border-width:0}
+.marks i:nth-child(1){left:36px;top:36px;border-left-width:2px;border-top-width:2px}
+.marks i:nth-child(2){right:36px;top:36px;border-right-width:2px;border-top-width:2px}
+.marks i:nth-child(3){left:36px;bottom:36px;border-left-width:2px;border-bottom-width:2px}
+.marks i:nth-child(4){right:36px;bottom:36px;border-right-width:2px;border-bottom-width:2px}
+.top{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:24px}
+.brand{display:flex;align-items:baseline;gap:10px}
+.brand b{font-family:var(--f-serif);font-weight:400;font-size:34px;letter-spacing:-.01em}
+.brand span{font-family:var(--f-mono);font-size:15px;letter-spacing:.14em;color:var(--grey)}
+.track{display:flex;gap:10px}
+.tk{font-family:var(--f-mono);font-size:16px;letter-spacing:.06em;text-transform:uppercase;padding:8px 16px;border:1.5px solid var(--line);border-radius:999px;color:var(--grey);background:var(--bg);white-space:nowrap}
+.tk.done{color:var(--ink);border-color:#C6D2F0}
+.tk.on{background:var(--blue);border-color:var(--blue);color:#fff}
+.meta{justify-self:end;font-family:var(--f-mono);font-size:18px;letter-spacing:.08em;color:var(--grey);font-variant-numeric:tabular-nums}
+.sbody{flex:1;display:flex;flex-direction:column;justify-content:center;gap:34px;min-height:0}
+.eyebrow{font-family:var(--f-mono);font-size:20px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)}
+.sbody h1{font-family:var(--f-serif);font-weight:400;font-size:168px;line-height:.9;letter-spacing:-.02em;margin:0}
+.sbody h2{font-family:var(--f-serif);font-weight:400;font-size:74px;line-height:1.04;letter-spacing:-.01em;margin:0;text-wrap:balance}
+.lead{font-size:38px;line-height:1.35;max-width:1250px;text-wrap:pretty;margin:0}
+.sfoot{font-size:26px;color:var(--grey);margin:0;display:flex;align-items:center;gap:12px}
+.sfoot::before{content:"";width:28px;height:2px;background:var(--line)}
+.qlist{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:22px;counter-reset:q}
+.qlist li{display:grid;grid-template-columns:76px 1fr;align-items:center;font-size:40px;line-height:1.3;counter-increment:q}
+.qlist li::before{content:counter(q);width:54px;height:54px;border-radius:50%;border:2px solid var(--blue);color:var(--blue);display:grid;place-items:center;font-family:var(--f-mono);font-size:24px;background:var(--bg)}
+.split{display:grid;grid-template-columns:620px 1fr;gap:72px;align-items:center}
+.col{display:flex;flex-direction:column;gap:28px;min-width:0}
+.panel{background:var(--bg);border:1.5px solid var(--line);border-radius:28px;padding:22px;box-shadow:0 1px 0 rgba(29,29,31,.02)}
+.panel svg{width:100%;height:auto;display:block}
+.chips{display:flex;flex-wrap:wrap;gap:14px 10px;align-items:center}
+.schip{font-family:var(--f-mono);font-size:30px;padding:12px 22px;border-radius:999px;background:var(--panel);white-space:nowrap}
+.schip.turn{background:var(--blue-soft);color:var(--blue)}
+.arrow{font-size:26px;color:var(--grey)}
+.tiles{display:flex;flex-wrap:wrap;gap:24px;align-items:center}
+.tile{min-width:178px;height:178px;padding:0 22px;border-radius:30px;background:var(--bg);border:2px solid var(--line);display:grid;place-items:center;font-family:var(--f-mono);font-size:92px;font-weight:500;font-variant-numeric:tabular-nums}
+.tile.q{border:3px dashed var(--blue);color:var(--blue);background:var(--blue-soft)}
+.bonus{display:inline-flex;align-items:center;gap:10px;font-family:var(--f-mono);font-size:20px;letter-spacing:.12em;text-transform:uppercase;background:var(--blue);color:#fff;border-radius:999px;padding:8px 18px;align-self:flex-start}
+.code{font-family:var(--f-mono);font-size:26px;letter-spacing:.08em;color:var(--grey2);display:flex;align-items:center;gap:14px}
+.code b{font-weight:500;color:var(--ink);border:1.5px solid var(--line);border-radius:12px;padding:6px 14px;background:var(--bg)}
+.parts{display:flex;flex-wrap:wrap;gap:12px}
+.parts span{font-size:22px;padding:10px 18px;border-radius:14px;background:var(--panel)}
+.parts span i{font-style:normal;font-family:var(--f-mono);color:var(--blue);margin-right:8px}
+.bot .sway{transform-origin:180px 486px;animation:sway 3.2s ease-in-out infinite}
+@keyframes sway{0%,100%{transform:rotate(-2.2deg)}50%{transform:rotate(2.2deg)}}
+.progress{position:absolute;left:96px;right:96px;bottom:46px;height:4px;background:var(--line);border-radius:4px;overflow:hidden}
+.progress i{display:block;height:100%;background:var(--blue);border-radius:4px;transition:width .3s}
+.ctl{position:fixed;right:16px;bottom:16px;display:flex;gap:8px;opacity:0;transition:opacity .25s;z-index:5}
+.ctl.on{opacity:1}
+.ctl button{font:500 14px var(--f-sans);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:8px 14px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.ctl button:hover{border-color:var(--grey)}
+@media (prefers-reduced-motion:reduce){.bot .sway{animation:none}}
+
+/* ===== grader ===== */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:rgba(255,255,255,.95);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
+.bar-in{max-width:760px;margin:0 auto;padding:8px 16px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px}
+.timer{display:flex;align-items:center;gap:6px}
+.clock{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:22px;font-weight:500;min-width:3.6ch}
+.clock.over{color:var(--bad)}
+.ib{border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:5px 12px;font-size:14px;white-space:nowrap}
+.ib:hover{border-color:var(--grey)}
+.ib.primary{background:var(--blue);border-color:var(--blue);color:#fff}
+.ib:disabled{opacity:.45;cursor:not-allowed}
+.tot{margin-left:auto;display:flex;align-items:center;gap:8px}
+.tot b{font-family:var(--f-mono);font-weight:500;font-size:18px;font-variant-numeric:tabular-nums}
+.chip{display:inline-block;border-radius:999px;padding:3px 10px;font-size:13px;font-weight:500;background:var(--panel);color:var(--grey2);white-space:nowrap}
+.chip.good{background:var(--good-soft);color:var(--good)}
+.chip.mid{background:var(--blue-soft);color:var(--blue)}
+.chip.warn{background:var(--warn-soft);color:var(--warn)}
+.chip.bad{background:var(--bad-soft);color:var(--bad)}
+.save{font-size:12.5px;color:var(--grey)}
+.save.err{color:var(--bad)}
+.wrap{max-width:760px;margin:0 auto;padding-inline:16px;padding-block:18px 96px;display:flex;flex-direction:column;gap:22px}
+.ghead{display:flex;flex-direction:column;gap:6px}
+.ghead .row{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.ghead h1{font-family:var(--f-serif);font-size:42px;line-height:1}
+.livestat{font-size:14.5px;color:var(--grey2)}
+.livestat b{font-family:var(--f-mono);font-weight:500;color:var(--ink)}
+.linkbtn{background:none;border:0;padding:0;color:var(--blue);font-size:14.5px;text-decoration:underline;text-underline-offset:3px}
+.banner{border-radius:14px;padding:12px 14px;font-size:14.5px;display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.banner.info{background:var(--blue-soft);color:var(--blue)}
+.banner.warn{background:var(--warn-soft);color:var(--warn)}
+.now{border:1.5px solid var(--blue);border-radius:18px;padding:16px 18px;display:flex;flex-direction:column;gap:8px;background:var(--bg)}
+.now .say{font-size:16.5px}
+.now .ans{font-size:15.5px}
+.now .nt{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.setup{display:grid;grid-template-columns:1fr 1fr;gap:12px 14px}
+.field{display:flex;flex-direction:column;gap:5px;min-width:0}
+.field.full{grid-column:1/-1}
+.field label{font-size:13px;color:var(--grey2)}
+input[type=text],select,textarea{font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px 11px;width:100%}
+input[type=text]:focus,select:focus,textarea:focus{border-color:var(--blue);outline:none;box-shadow:0 0 0 3px var(--blue-soft)}
+details.rules{background:var(--panel);border-radius:16px;padding:14px 18px}
+details.rules summary{cursor:pointer;font-weight:500}
+details.rules ul{margin:10px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
+.part{border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:16px}
+.part.now-part{border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-soft)}
+.part h2{font-family:var(--f-serif);font-size:28px;line-height:1.1}
+.items{display:flex;flex-direction:column;gap:14px}
+.item{display:grid;grid-template-columns:70px 1fr;gap:10px;align-items:baseline}
+.item .k{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--grey)}
+.item.stretch .k{color:var(--blue)}
+.item.on .k{color:#fff;background:var(--blue);border-radius:6px;padding:1px 6px;justify-self:start}
+.item .v{min-width:0;display:flex;flex-direction:column;gap:4px}
+.say{font-size:16.5px}
+.ans{font-size:14.5px;color:var(--grey2)}
+.ans b{font-weight:600;color:var(--good)}
+.hint{font-size:14px;color:var(--grey)}
+.why{font-size:14.5px;color:var(--grey2);border-top:1px dashed var(--line);padding-top:12px}
+.scores{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.sc{border:1px solid var(--line);background:var(--bg);border-radius:12px;padding:10px 11px;text-align:left;display:flex;flex-direction:column;gap:4px;min-width:0}
+.sc .n{font-family:var(--f-mono);font-size:20px;font-weight:500;line-height:1}
+.sc .d{font-size:13px;line-height:1.35;color:var(--grey2)}
+.sc[aria-pressed="true"]{border-color:var(--blue);background:var(--blue-soft)}
+.sc[aria-pressed="true"] .n{color:var(--blue)}
+.checks{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.box{border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.box h3{font-family:var(--f-serif);font-size:24px}
+.box .note{font-size:13.5px;color:var(--grey2)}
+.ck{display:flex;gap:10px;align-items:flex-start;font-size:15px;cursor:pointer}
+.ck input{margin-top:4px;width:17px;height:17px;accent-color:var(--blue);flex:none}
+.box.flags .ck input{accent-color:var(--bad)}
+.result{background:var(--panel);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:16px}
+.res-top{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
+.res-top .big{font-family:var(--f-serif);font-size:44px;line-height:1}
+.res-top .chip{font-size:15px;padding:5px 14px}
+.res-why{color:var(--grey2);font-size:15px}
+.msg{display:flex;flex-direction:column;gap:8px}
+.msg-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.msg textarea{min-height:120px;resize:vertical;font-size:15px;line-height:1.5;background:var(--bg)}
+.actions{display:flex;flex-wrap:wrap;gap:8px}
+.actions .ib{padding:9px 16px;font-size:15px}
+.status{font-size:14px;color:var(--grey2)}
+.status.err{color:var(--bad)}
+.card{border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:12px}
+.card h3{font-family:var(--f-serif);font-size:26px}
+.past{display:flex;flex-direction:column}
+.prow{display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:center;text-align:left;border:0;border-top:1px solid var(--line);background:none;padding:12px 2px}
+.prow:first-child{border-top:0}
+.prow .nm{font-weight:500}
+.prow .meta{font-size:13px;color:var(--grey);grid-column:1}
+.prow .rt{grid-row:1/span 2;grid-column:2;display:flex;align-items:center;gap:8px}
+.prow.cur .nm::after{content:" · open";color:var(--blue);font-weight:400}
+.empty{color:var(--grey);font-size:14.5px}
+@media (max-width:620px){
+  .setup,.checks{grid-template-columns:1fr}
+  .scores{grid-template-columns:1fr 1fr}
+  .item{grid-template-columns:1fr;gap:2px}
+  .tot{margin-left:0}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<!-- chooser -->
+<section data-view="choose">
+  <div class="choose">
+    <span class="lab">Sterling Robotics Academy</span>
+    <h1>Entry test</h1>
+    <p>Open this page on both devices. Pick what this device does.</p>
+    <div class="pick">
+      <button id="pickSlides"><b>Slides</b><span>For the computer on the call. Share this window in Google Meet.</span></button>
+      <button id="pickGrader"><b>Grader</b><span>For your phone. Answers, scoring, reports. Everything saves as you tap.</span></button>
+    </div>
+  </div>
+</section>
+
+<!-- slides -->
+<section data-view="slides">
+  <div class="viewport" id="vp"><div class="stage" id="stage"></div></div>
+  <div class="ctl" id="ctl">
+    <button id="newBtn">New test</button>
+    <button id="prevBtn">‹ Back</button>
+    <button id="nextBtn">Next ›</button>
+    <button id="fsBtn">Full screen</button>
+    <button id="toGrader">Grader view</button>
+  </div>
+</section>
+
+<!-- grader -->
+<section data-view="grader">
+  <div class="bar"><div class="bar-in">
+    <div class="timer"><span class="clock" id="clock">10:00</span><button class="ib primary" id="startBtn">Start</button><button class="ib" id="resetTimer">Reset</button></div>
+    <span class="save" id="saveState"></span>
+    <div class="tot"><b id="totTop">0/12</b><span class="chip" id="bandTop">In progress</span></div>
+  </div></div>
+
+  <main class="wrap">
+    <header class="ghead">
+      <div class="row"><h1>Grader</h1><button class="linkbtn" id="toSlides">Switch to slides</button></div>
+      <p class="livestat" id="liveStat">Connecting…</p>
+    </header>
+
+    <div id="banner"></div>
+
+    <section class="now" id="nowCard" aria-live="polite"></section>
+
+    <section class="setup" aria-label="Student details">
+      <div class="field"><label for="child">Child's name</label><input type="text" id="child" placeholder="e.g. Aarav" autocomplete="off"></div>
+      <div class="field"><label for="parent">Parent's name</label><input type="text" id="parent" placeholder="e.g. Priya" autocomplete="off"></div>
+      <div class="field"><label for="grade">Grade</label><select id="grade"><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option></select></div>
+      <div class="field"><label for="cohort">Cohort</label><select id="cohort"><option value="founding">Founding, starts 15 Nov</option><option value="winter">Winter, starts 10 Jan</option></select></div>
+    </section>
+
+    <details class="rules">
+      <summary>How to run the test</summary>
+      <ul>
+        <li>Camera on. Face and both hands in view. No other tabs or phones on the desk.</li>
+        <li>Share only the slides window in Meet. Keep this page on your phone.</li>
+        <li>Read each question aloud while it's on the slide. After every answer, ask "Why?" or "How did you get that?"</li>
+        <li>Give one hint at most per question, and count it in the score.</li>
+        <li>A parent can sit nearby but doesn't answer.</li>
+        <li>For a retest, press New test on the slides. This page picks up the new questions.</li>
+      </ul>
+    </details>
+
+    <div id="parts" style="display:flex;flex-direction:column;gap:18px"></div>
+
+    <section class="checks">
+      <div class="box flags"><h3>Signs of outside help</h3><p class="note">Two or more ticks: press New test on the slides and redo parts 2 to 4.</p><div id="flags"></div></div>
+      <div class="box"><h3>Good signs</h3><p class="note">Not scored. Useful when a score sits on the line.</p><div id="signs"></div></div>
+    </section>
+
+    <section class="result" aria-live="polite">
+      <span class="lab">Result</span>
+      <div class="res-top"><span class="big mono" id="totBig">0/12</span><span class="chip" id="bandBig">In progress</span></div>
+      <p class="res-why" id="bandWhy"></p>
+      <div class="field"><label for="comment">Comment for the parent (goes in the report)</label><textarea id="comment" rows="3" placeholder="e.g. Aarav explained his gear answer really clearly."></textarea></div>
+      <div class="field"><label for="notes">Private notes (only you see these)</label><textarea id="notes" rows="2"></textarea></div>
+      <div class="actions"><button class="ib primary" id="finishBtn">Finish and make report</button></div>
+      <div id="reportBox" hidden style="display:flex;flex-direction:column;gap:14px">
+        <div class="actions">
+          <button class="ib primary" id="pdfBtn">Save PDF report</button>
+          <button class="ib" data-copy="msgParent">Copy WhatsApp message</button>
+        </div>
+        <p class="status" id="pdfStatus"></p>
+        <div class="msg"><span class="lab">WhatsApp message (attach the PDF)</span><textarea id="msgParent" readonly></textarea></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>Google Sheets</h3>
+      <p class="status" id="sheetStatus">Every finished test is added to your results Sheet in the "Sterling Entry Tests" folder.</p>
+      <div class="actions">
+        <a class="ib" id="sheetLink" href="#" target="_blank" rel="noopener" hidden>Open Sheet</a>
+        <button class="ib" id="syncBtn">Sync now</button>
+        <button class="ib" id="csvBtn">Export CSV</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>Past tests</h3>
+      <div class="past" id="past"><p class="empty">Loading…</p></div>
+    </section>
+
+    <section class="card">
+      <h3>Settings</h3>
+      <div class="field"><label for="pay">Payment link for the $150 reservation</label><input type="text" id="pay" placeholder="Paste your payment portal link" autocomplete="off"></div>
+      <div class="msg"><div class="msg-head"><span class="lab">Send after a parent books</span><button class="ib" data-copy="msgPrep">Copy</button></div><textarea id="msgPrep" readonly></textarea></div>
+    </section>
+  </main>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+/* Sterling entry test generator. Same code in, same questions out. Shared by the slides and the scorecard. */
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const GEN_POOLS = {
+  physStretch:[
+    {q:"A toy car's wheels spin on a smooth floor, but the car barely moves. Why? What would you change?", a:"Not enough grip (friction). Rubber tyres, a rougher surface, or more weight on the wheels."},
+    {q:"You drop a cricket ball and a tennis ball from the same height at the same time. Which lands first, and why?", a:"About the same time. Gravity speeds both up equally. Air slows the light ball very slightly. Most kids say the heavy one."},
+    {q:"Same motor, bigger wheels. Does the robot go faster or slower? What is the catch?", a:"Faster, because each turn covers more ground. The catch: it needs more force, so it may struggle to start or climb."}
+  ],
+  draw:[
+    {q:"Draw a battery, a switch and a bulb, so the switch turns the bulb on.", look:"One closed loop through all three parts."},
+    {q:"Draw one battery, one switch and two bulbs, so the switch turns both bulbs on together.", look:"The switch sits in the part of the loop both bulbs share."},
+    {q:"Draw one battery, two bulbs and two switches, so each switch controls its own bulb.", look:"Two separate branches, each with its own switch and bulb."}
+  ],
+  circQ:[
+    {q:"Two bulbs are in one loop, one after the other. One bulb breaks. What happens to the other one?", a:"It goes off too. The loop is broken, so no current flows."},
+    {q:"Two bulbs are each in their own loop on the same battery. One bulb breaks. What happens to the other one?", a:"It stays on. Its own loop is still complete."},
+    {q:"Your torch won't turn on. Name three things you would check.", a:"Battery dead or in backwards, the bulb, the switch, a loose wire or contact."}
+  ],
+  circStretch:[
+    {q:"A motor spins one way. What happens if you swap its two wires?", a:"It spins the other way. The current flows backward through it."},
+    {q:"You put the battery into a toy car backwards. What does the motor do?", a:"It spins the other way, so the car drives backward."},
+    {q:"You connect an LED the wrong way round. What happens, and why?", a:"It doesn't light. An LED only lets current flow one way."}
+  ]
+};
+function makeTest(code){
+  const r = mulberry32((Number(code)||0) * 2654435761 >>> 0);
+  const int = (lo,hi) => lo + Math.floor(r()*(hi-lo+1));
+  const pick = a => a[Math.floor(r()*a.length)];
+  const pl = (n,w) => `${n} ${w}${n===1?'':'s'}`;
+
+  /* robot path */
+  let d=0,x=0,y=0; const steps=[];
+  const move=n=>{ if(d===0)y+=n; else if(d===1)x+=n; else if(d===2)y-=n; else x-=n; steps.push(`Forward ${n}`); };
+  const turn=t=>{ d=(d+(t==='right'?1:3))%4; steps.push(`Turn ${t}`); };
+  move(int(2,5)); turn(pick(['right','left'])); move(int(2,5)); turn(pick(['right','left'])); move(int(2,5));
+  const last = pick(['right','left',null]); if(last) turn(last);
+  const pos=[]; if(x) pos.push(`${pl(Math.abs(x),'step')} to the ${x>0?'right':'left'}`); if(y) pos.push(`${pl(Math.abs(y),'step')} ${y>0?'toward':'away from'} the screen`);
+  const facing=['facing the screen','facing right','facing away from the screen','facing left'][d];
+  const robot = { steps, ans: pos.length ? `${pos.join(' and ')} from the start, ${facing}.` : `Back at the start, ${facing}.` };
+
+  /* number pattern */
+  const fam = pick(['gaps','x2p1','squares','fib']);
+  let seq, next, why, hint;
+  if(fam==='gaps'){ const s=int(1,5),k=int(1,2); let g=int(1,4); seq=[s]; const gaps=[]; for(let i=0;i<4;i++){ seq.push(seq[seq.length-1]+g); gaps.push(g); g+=k; } next=seq[seq.length-1]+g; gaps.push(g); why=`The gaps grow by ${k} each time: ${gaps.join(', ')}.`; hint='Look at the gaps between the numbers.'; }
+  else if(fam==='x2p1'){ const s=int(1,4); seq=[s,2*s,2*s+1,4*s+2,4*s+3]; next=8*s+6; why='Times 2, then add 1, over and over.'; hint='Each number becomes the next in one of two ways.'; }
+  else if(fam==='squares'){ const c=int(0,3); seq=[1,4,9,16,25].map(v=>v+c); next=36+c; why = c ? `Square numbers (1×1, 2×2, 3×3 ...) plus ${c}.` : 'Square numbers: 1×1, 2×2, 3×3 ...'; hint='Look at the gaps between the numbers.'; }
+  else { const a=int(1,3), b=a+int(1,2); seq=[a,b]; while(seq.length<5) seq.push(seq[seq.length-1]+seq[seq.length-2]); next=seq[3]+seq[4]; why='Each number is the two before it added together.'; hint='Look at the two numbers before each one.'; }
+  const pattern = { seq, next, why, hint };
+
+  /* gears */
+  const t=pick([8,10,12]), ratio=pick([2,3,4]), big=t*ratio, k=int(1,3);
+  const smallDrives = r() < 0.5;
+  const gear = smallDrives ? {
+    driver:'small', small:t, big, turns:ratio*k,
+    setup:`A small gear with ${t} teeth turns a big gear with ${big} teeth. The small gear turns ${ratio*k} times.`,
+    qs:['How many times does the big gear turn?','Which gear turns with more force?'],
+    a:`${pl(k,'time')}. The big gear has more force.`, why:`${ratio*k} × ${t} = ${ratio*k*t} teeth pass, and ${ratio*k*t} ÷ ${big} = ${k}. The big gear turns slower but stronger. This is why the robot uses geared motors.`
+  } : {
+    driver:'big', small:t, big, turns:k,
+    setup:`A big gear with ${big} teeth turns a small gear with ${t} teeth. The big gear turns ${pl(k,'time')}.`,
+    qs:['How many times does the small gear turn?','Which gear spins faster?'],
+    a:`${ratio*k} times. The small gear spins faster, with less force.`, why:`${k} × ${big} = ${k*big} teeth pass, and ${k*big} ÷ ${t} = ${ratio*k}.`
+  };
+
+  /* wheel distance */
+  const dcm = pick([15,20,25,30,40,50]), n = int(3,6);
+  const Ms = [1,2,3].filter(M => (M*100)%dcm===0), M = pick(Ms), tM = M*100/dcm;
+  const wheel = { dcm, setup:`A robot wheel moves ${dcm} cm forward every time it turns once.`,
+    qs:[`How far does the robot go in ${n} turns?`, `How many turns to go ${pl(M,'metre')}?`],
+    a:`${dcm*n} cm. ${tM} turns.`, why:`${n} × ${dcm} = ${dcm*n} cm. ${M*100} ÷ ${dcm} = ${tM}.` };
+
+  return { code:String(code), robot, pattern, gear, wheel,
+    physStretch: pick(GEN_POOLS.physStretch), draw: pick(GEN_POOLS.draw),
+    circQ: pick(GEN_POOLS.circQ), circStretch: pick(GEN_POOLS.circStretch) };
+}
+
+
+/* ---------- shared ---------- */
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const lsGet = k => { try { return localStorage.getItem(k); } catch(_) { return null; } };
+const lsSet = (k,v) => { try { localStorage.setItem(k,v); } catch(_) {} };
+const dbP = (window.claude && window.claude.use) ? window.claude.use('db').catch(() => null) : Promise.resolve(null);
+const A = { db:null, live:null, settings:{}, sheets:{}, tests:[] };
+const COHORTS = {
+  founding:{label:'Founding cohort', name:'founding cohort', start:'15 November', balance:'8 November', closes:'1 November'},
+  winter:{label:'Winter cohort', name:'winter cohort', start:'10 January', balance:'3 January', closes:'20 December'}
+};
+const isObj = v => v && typeof v === 'object' && !Array.isArray(v);
+function deepMerge(a, b){ const o = {...a}; for (const k in b) o[k] = isObj(b[k]) && isObj(o[k]) ? deepMerge(o[k], b[k]) : b[k]; return o; }
+
+/* one write at a time per document, bursts coalesced */
+const writers = {};
+function write(path, patch){
+  const w = writers[path] || (writers[path] = {pending:null, busy:false});
+  w.pending = deepMerge(w.pending || {}, patch);
+  setSave('saving'); flush(path);
+}
+async function flush(path){
+  const w = writers[path]; if (!A.db || w.busy || !w.pending) return;
+  w.busy = true; const p = w.pending; w.pending = null; const ref = A.db.doc(path);
+  let err = null;
+  try { await ref.update(p); }
+  catch(e) {
+    if (e && e.code === 'invalid_argument') { try { await ref.set(p); } catch(e2) { err = e2; } }
+    else if (e && e.code === 'unavailable') { await sleep(700 + Math.random()*900); try { await ref.update(p); } catch(e3) { err = e3; } }
+    else err = e;
+  }
+  w.busy = false;
+  if (err) setSave('error', err);
+  if (w.pending) flush(path); else if (!err) setSave(Object.values(writers).some(x => x.busy || x.pending) ? 'saving' : 'saved');
+}
+function setSave(s, e){
+  const el = $('saveState'); if (!el) return;
+  el.classList.toggle('err', s === 'error');
+  el.textContent = s === 'saving' ? 'Saving…' : s === 'saved' ? 'Saved' : s === 'off' ? 'Not saving: not signed in' :
+    s === 'error' ? (e && e.code === 'quota_exceeded' ? 'Storage full. Not saved.' : e && e.code === 'revoked' ? 'Access changed. Not saved.' : 'Not saved. Check your connection.') : '';
+}
+
+/* ---------- mode ---------- */
+function setMode(m){
+  document.body.dataset.mode = m; lsSet('sterling-mode', m);
+  if (m === 'slides') startSlides(); else if (m === 'grader') startGrader();
+}
+$('pickSlides').onclick = () => setMode('slides');
+$('pickGrader').onclick = () => setMode('grader');
+$('toGrader').onclick = () => setMode('grader');
+$('toSlides').onclick = () => setMode('slides');
+
+/* =================== SLIDES =================== */
+const SL = { started:false, code:null, testId:null, i:0, list:[] };
+function newCode(){ return String(1000 + Math.floor(Math.random()*9000)); }
+
+function gearSVG(g){
+  const k = 4.1, rs = g.small*k, rb = g.big*k, depth = 12, W = 640, H = 2*rb + 150, cy = rb + 62;
+  const L = g.driver==='small' ? {t:g.small,r:rs} : {t:g.big,r:rb};
+  const R = g.driver==='small' ? {t:g.big,r:rb} : {t:g.small,r:rs};
+  const x1 = (W - (2*L.r + 2*R.r + 2*depth))/2 + L.r + depth/2, x2 = x1 + L.r + R.r + depth;
+  const path = (cx,t,r) => { const p=[], per=2*Math.PI/t; for(let i=0;i<t;i++){ const b=i*per; [[r-depth/2,b],[r+depth/2,b+per*.22],[r+depth/2,b+per*.5],[r-depth/2,b+per*.72]].forEach(([q,a])=>p.push(`${(cx+q*Math.cos(a)).toFixed(1)},${(cy+q*Math.sin(a)).toFixed(1)}`)); } return 'M'+p.join('L')+'Z'; };
+  const ly = cy + Math.max(L.r,R.r) + 58;
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Two gears">
+    <path d="${path(x1,L.t,L.r)}" fill="#EEF3FD" stroke="#1F55D6" stroke-width="3"/><circle cx="${x1}" cy="${cy}" r="7" fill="#1F55D6"/>
+    <path d="${path(x2,R.t,R.r)}" fill="#F5F5F7" stroke="#1D1D1F" stroke-width="3"/><circle cx="${x2}" cy="${cy}" r="7" fill="#1D1D1F"/>
+    <text x="${x1}" y="${ly}" text-anchor="middle" font-family="Geist Mono, monospace" font-size="28" fill="#1F55D6">${L.t} teeth</text>
+    <text x="${x2}" y="${ly}" text-anchor="middle" font-family="Geist Mono, monospace" font-size="28" fill="#1D1D1F">${R.t} teeth</text>
+    <text x="${x1}" y="${cy - L.r - 30}" text-anchor="middle" font-family="Instrument Sans, sans-serif" font-size="26" fill="#1F55D6">turns ${g.turns}×</text></svg>`;
+}
+function wheelSVG(w){
+  const cx=170, cy=230, R=120, sp=[0,60,120,180,240,300].map(a=>{const r=a*Math.PI/180;return `<line x1="${cx}" y1="${cy}" x2="${(cx+R*.82*Math.cos(r)).toFixed(1)}" y2="${(cy+R*.82*Math.sin(r)).toFixed(1)}" stroke="#86868B" stroke-width="5"/>`}).join('');
+  return `<svg viewBox="0 95 640 330" role="img" aria-label="A wheel rolling forward">
+    <line x1="20" y1="${cy+R}" x2="620" y2="${cy+R}" stroke="#E2E2E6" stroke-width="4"/>
+    <circle cx="${cx}" cy="${cy}" r="${R}" fill="#F5F5F7" stroke="#1D1D1F" stroke-width="16"/>${sp}<circle cx="${cx}" cy="${cy}" r="12" fill="#1D1D1F"/>
+    <line x1="${cx}" y1="${cy+R+50}" x2="560" y2="${cy+R+50}" stroke="#1F55D6" stroke-width="4"/><path d="M560 ${cy+R+50} l-18 -11 v22 z" fill="#1F55D6"/>
+    <line x1="${cx}" y1="${cy+R+36}" x2="${cx}" y2="${cy+R+64}" stroke="#1F55D6" stroke-width="4"/>
+    <text x="${(cx+560)/2}" y="${cy+R+38}" text-anchor="middle" font-family="Geist Mono, monospace" font-size="30" fill="#1F55D6">${w.dcm} cm per turn</text></svg>`;
+}
+function robotSVG(callouts){
+  const ink = '#1D1D1F', blue = '#1F55D6', soft = '#EEF3FD', panel = '#F5F5F7';
+  const lab = (x,y,t,anchor) => `<text x="${x}" y="${y}" text-anchor="${anchor||'start'}" font-family="Geist Mono, monospace" font-size="17" letter-spacing="1.5" fill="#5E5E63">${t}</text>`;
+  return `<svg class="bot" viewBox="${callouts ? '-190 20 780 520' : '0 20 360 520'}" role="img" aria-label="A self-balancing robot">
+    <line x1="${callouts?-170:10}" y1="488" x2="${callouts?570:350}" y2="488" stroke="#D5DAE6" stroke-width="3"/>
+    <g class="sway">
+      <rect x="34" y="318" width="52" height="166" rx="22" fill="${ink}"/><rect x="274" y="318" width="52" height="166" rx="22" fill="${ink}"/>
+      <rect x="46" y="336" width="28" height="130" rx="12" fill="#3A3A3E"/><rect x="286" y="336" width="28" height="130" rx="12" fill="#3A3A3E"/>
+      <line x1="86" y1="401" x2="274" y2="401" stroke="${ink}" stroke-width="8"/>
+      <rect x="96" y="96" width="168" height="372" rx="24" fill="#fff" stroke="${ink}" stroke-width="6"/>
+      <rect x="96" y="96" width="168" height="120" rx="24" fill="${soft}" stroke="${ink}" stroke-width="6"/>
+      <circle cx="146" cy="156" r="30" fill="#fff" stroke="${blue}" stroke-width="6"/><circle cx="146" cy="156" r="12" fill="${blue}"/>
+      <circle cx="214" cy="156" r="30" fill="#fff" stroke="${blue}" stroke-width="6"/><circle cx="214" cy="156" r="12" fill="${blue}"/>
+      <rect x="118" y="240" width="124" height="74" rx="10" fill="${panel}" stroke="${ink}" stroke-width="4"/>
+      <rect x="132" y="256" width="34" height="22" rx="4" fill="${blue}"/><rect x="176" y="256" width="52" height="8" rx="4" fill="#C9D3EE"/><rect x="176" y="272" width="36" height="8" rx="4" fill="#C9D3EE"/>
+      <circle cx="140" cy="296" r="4" fill="${ink}"/><circle cx="156" cy="296" r="4" fill="${ink}"/><circle cx="172" cy="296" r="4" fill="${ink}"/>
+      <rect x="118" y="334" width="124" height="112" rx="10" fill="#fff" stroke="${ink}" stroke-width="4"/>
+      <line x1="138" y1="362" x2="222" y2="362" stroke="#D5DAE6" stroke-width="6" stroke-linecap="round"/><line x1="138" y1="390" x2="222" y2="390" stroke="#D5DAE6" stroke-width="6" stroke-linecap="round"/><line x1="138" y1="418" x2="200" y2="418" stroke="#D5DAE6" stroke-width="6" stroke-linecap="round"/>
+      <line x1="180" y1="96" x2="180" y2="62" stroke="${ink}" stroke-width="5"/><circle cx="180" cy="54" r="10" fill="${blue}"/>
+    </g>
+    ${callouts ? `
+      <line x1="244" y1="156" x2="330" y2="156" stroke="${blue}" stroke-width="2"/><circle cx="244" cy="156" r="5" fill="${blue}"/>${lab(340,162,'SEES AHEAD')}
+      <line x1="118" y1="277" x2="20" y2="277" stroke="${blue}" stroke-width="2"/><circle cx="118" cy="277" r="5" fill="${blue}"/>${lab(10,283,'FEELS THE TILT','end')}
+      <line x1="326" y1="440" x2="380" y2="440" stroke="${blue}" stroke-width="2"/><circle cx="326" cy="440" r="5" fill="${blue}"/>${lab(390,446,'CATCHES THE FALL')}` : ''}
+  </svg>`;
+}
+function gridSVG(){
+  const N = 11, c = 46, W = N*c, o = 20, mid = Math.floor(N/2);
+  let g = '';
+  for (let i = 0; i <= N; i++) { g += `<line x1="${o+i*c}" y1="${o+40}" x2="${o+i*c}" y2="${o+40+W}" stroke="#E2E6EF" stroke-width="2"/><line x1="${o}" y1="${o+40+i*c}" x2="${o+W}" y2="${o+40+i*c}" stroke="#E2E6EF" stroke-width="2"/>`; }
+  const cx = o + mid*c + c/2, cy = o + 40 + mid*c + c/2;
+  return `<svg viewBox="0 0 ${W+2*o} ${W+2*o+40}" role="img" aria-label="Grid with the robot at the start, facing the screen">
+    <rect x="${o}" y="${o-6}" width="${W}" height="22" rx="11" fill="#1D1D1F"/>
+    <text x="${o+W/2}" y="${o+10}" text-anchor="middle" font-family="Geist Mono, monospace" font-size="15" letter-spacing="3" fill="#fff">SCREEN</text>
+    ${g}
+    <circle cx="${cx}" cy="${cy}" r="${c*0.62}" fill="#EEF3FD"/>
+    <path d="M${cx} ${cy-17} L${cx+14} ${cy+13} L${cx} ${cy+6} L${cx-14} ${cy+13} Z" fill="#1F55D6"/>
+    <text x="${cx}" y="${cy+c*0.62+24}" text-anchor="middle" font-family="Geist Mono, monospace" font-size="16" letter-spacing="2" fill="#1F55D6">START</text>
+  </svg>`;
+}
+function paperSVG(){
+  return `<svg viewBox="0 0 560 460" role="img" aria-label="A sheet of paper and a pencil">
+    <g transform="rotate(-4 280 230)">
+      <rect x="70" y="40" width="400" height="380" rx="10" fill="#fff" stroke="#1D1D1F" stroke-width="4"/>
+      ${[110,160,210,260,310,360].map(y => `<line x1="100" y1="${y}" x2="440" y2="${y}" stroke="#E2E6EF" stroke-width="3"/>`).join('')}
+      <rect x="150" y="150" width="240" height="150" rx="6" fill="none" stroke="#1F55D6" stroke-width="5" stroke-dasharray="14 12"/>
+    </g>
+    <g transform="rotate(38 420 330)">
+      <rect x="360" y="312" width="190" height="34" rx="6" fill="#1F55D6"/><rect x="530" y="312" width="26" height="34" rx="4" fill="#E8A0A0"/>
+      <path d="M360 312 L322 329 L360 346 Z" fill="#F2D3A7"/><path d="M334 323.5 L322 329 L334 334.5 Z" fill="#1D1D1F"/>
+    </g>
+  </svg>`;
+}
+const SLIDE_PART = {2:1,3:2,4:2,5:3,6:3,7:3,8:4,9:4,10:4};
+function buildSlides(T){
+  const qs = a => `<ol class="qlist">${a.map(x=>`<li>${x}</li>`).join('')}</ol>`;
+  const chips = T.robot.steps.map(s=>`<span class="schip ${s.startsWith('Turn')?'turn':''}">${s}</span>`).join('<span class="arrow">→</span>');
+  return [
+    {html:`<div class="sbody split" style="grid-template-columns:1fr 640px;gap:40px"><div class="col"><span class="eyebrow">Welcome</span><h1>Entry test</h1><p class="lead">10 minutes. Four short parts.<br>Think out loud.</p>
+      <div class="parts"><span><i>01</i>You</span><span><i>02</i>Puzzles</span><span><i>03</i>Wheels and motion</span><span><i>04</i>Circuits</span></div>
+      <p class="code">TEST <b>${T.code}</b></p></div><div>${robotSVG(true)}</div></div>`},
+    {html:`<div class="sbody"><span class="eyebrow">Before we start</span><h2>A few simple rules</h2>${qs(['Keep a pen and blank paper ready.','Camera on. Keep phones and other screens away.','Say your thinking out loud. That matters more than the answer.','"I\'m not sure" is a fine answer.'])}</div>`},
+    {html:`<div class="sbody"><span class="eyebrow">Part 1 · You</span><h2>Tell me about something you've built</h2>${qs(['What is it? Show it on camera if it\'s nearby.','What went wrong while building it? How did you fix it?','Have you written any code? What did you make with it?'])}<p class="sfoot">Lego, a school project, a game or a robot all count.</p></div>`},
+    {html:`<div class="sbody split" style="grid-template-columns:540px 1fr"><div class="panel">${gridSVG()}</div><div class="col"><span class="eyebrow">Part 2 · Puzzle 1</span><h2>You are the robot.</h2><p class="lead" style="font-size:32px">You start in the middle, facing the screen. Follow the steps.</p><div class="chips">${chips}</div><p class="lead" style="font-size:34px">Where do you end up? Which way are you facing?</p><p class="sfoot">Draw it on paper if it helps.</p></div></div>`},
+    {html:`<div class="sbody"><span class="eyebrow">Part 2 · Puzzle 2</span><h2>What comes next?</h2><div class="tiles">${T.pattern.seq.map(n=>`<span class="tile">${n}</span>`).join('')}<span class="tile q">?</span></div><p class="sfoot">Tell me how you worked it out.</p></div>`},
+    {html:`<div class="sbody split"><div class="panel">${gearSVG(T.gear)}</div><div class="col"><span class="eyebrow">Part 3 · Gears</span><p class="lead">${T.gear.setup}</p>${qs(T.gear.qs)}</div></div>`},
+    {html:`<div class="sbody split"><div class="panel">${wheelSVG(T.wheel)}</div><div class="col"><span class="eyebrow">Part 3 · Wheels</span><p class="lead">${T.wheel.setup}</p>${qs(T.wheel.qs)}<p class="sfoot">Work it out on paper, then hold it up.</p></div></div>`},
+    {html:`<div class="sbody"><span class="bonus">✦ Bonus</span><h2>${T.physStretch.q}</h2><p class="sfoot">Explain why.</p></div>`},
+    {html:`<div class="sbody split" style="grid-template-columns:1fr 520px"><div class="col"><span class="eyebrow">Part 4 · Draw it</span><h2>${T.draw.q}</h2><p class="sfoot">Hold your paper up to the camera when you're done.</p></div><div>${paperSVG()}</div></div>`},
+    {html:`<div class="sbody"><span class="eyebrow">Part 4 · Circuits</span><h2>${T.circQ.q}</h2><p class="sfoot">Explain why.</p></div>`},
+    {html:`<div class="sbody"><span class="bonus">✦ Bonus</span><h2>${T.circStretch.q}</h2><p class="sfoot">Explain why.</p></div>`},
+    {html:`<div class="sbody split" style="grid-template-columns:1fr 360px"><div class="col"><span class="eyebrow">All done</span><h1 style="font-size:150px">That's it.</h1><p class="lead">Thank you. Do you have any questions for me?</p></div><div>${robotSVG(false)}</div></div>`}
+  ];
+}
+function renderSlide(){
+  const s = SL.list[SL.i]; if (!s) return;
+  const cur = SLIDE_PART[SL.i] || 0;
+  const names = ['You','Puzzles','Motion','Circuits'];
+  const track = names.map((n,k) => `<span class="tk ${cur===k+1?'on':cur>k+1||SL.i===11?'done':''}">${String(k+1).padStart(2,'0')} ${n}</span>`).join('');
+  $('stage').innerHTML = `<section class="slide"><div class="marks"><i></i><i></i><i></i><i></i></div>
+    <header class="top"><div class="brand"><b>Sterling</b><span>ROBOTICS ACADEMY</span></div><div class="track">${track}</div><div class="meta">${String(SL.i+1).padStart(2,'0')} / ${SL.list.length} · TEST ${SL.code}</div></header>
+    ${s.html}<div class="progress"><i style="width:${(SL.i+1)/SL.list.length*100}%"></i></div></section>`;
+}
+function fit(){ const s = Math.min(innerWidth/1600, innerHeight/900); $('stage').style.transform = `translate(-50%,-50%) scale(${s})`; }
+function go(n){
+  const ni = Math.max(0, Math.min(SL.list.length-1, n)); if (ni === SL.i && SL.list.length) { renderSlide(); return; }
+  SL.i = ni; renderSlide();
+  if (A.db && SL.testId) write('live/current', {slide: SL.i, at: Date.now()});
+  else lsSet('sterling-slide', String(SL.i));
+}
+async function newTest(){
+  SL.code = newCode(); SL.testId = 't' + Date.now(); SL.i = 0;
+  SL.list = buildSlides(makeTest(SL.code)); renderSlide();
+  if (A.db) {
+    const now = Date.now();
+    try { await A.db.doc('tests/' + SL.testId).set({ code:SL.code, createdAt:now, updatedAt:now, status:'in_progress', child:'', parent:'', grade:'7', cohort:'founding',
+      scores:{build:null,think:null,phys:null,circ:null}, flags:[], signs:[], notes:'', comment:'', total:0, band:'progress' }); } catch(_) {}
+    write('live/current', {code:SL.code, testId:SL.testId, slide:0, at:now});
+  } else { lsSet('sterling-test-code', SL.code); lsSet('sterling-slide','0'); }
+}
+async function startSlides(){
+  fit(); if (SL.started) { renderSlide(); return; } SL.started = true;
+  $('stage').innerHTML = `<section class="slide"><div class="sbody"><p class="sub">Loading…</p></div></section>`;
+  A.db = await dbP;
+  if (A.db) {
+    let snap = null; try { snap = await A.db.doc('live/current').get(); } catch(_) {}
+    if (snap && snap.exists && /^\d{4}$/.test(String(snap.data().code||''))) {
+      const d = snap.data(); SL.code = String(d.code); SL.testId = d.testId; SL.i = d.slide || 0;
+      SL.list = buildSlides(makeTest(SL.code)); renderSlide();
+    } else await newTest();
+  } else {
+    const c = lsGet('sterling-test-code');
+    if (/^\d{4}$/.test(c||'')) { SL.code = c; SL.i = +(lsGet('sterling-slide')||0); SL.list = buildSlides(makeTest(c)); renderSlide(); } else await newTest();
+  }
+}
+addEventListener('resize', fit);
+addEventListener('keydown', e => {
+  if (document.body.dataset.mode !== 'slides') return;
+  if (['ArrowRight','PageDown',' ','Enter'].includes(e.key)) { e.preventDefault(); go(SL.i+1); }
+  else if (['ArrowLeft','PageUp','Backspace'].includes(e.key)) { e.preventDefault(); go(SL.i-1); }
+  else if (e.key === 'Home') go(0);
+  else if (e.key === 'f' || e.key === 'F') fullscreen();
+});
+$('vp').addEventListener('click', e => { e.clientX < innerWidth*0.3 ? go(SL.i-1) : go(SL.i+1); });
+$('prevBtn').onclick = () => go(SL.i-1);
+$('nextBtn').onclick = () => go(SL.i+1);
+let armedNew = false;
+$('newBtn').onclick = e => {
+  const b = e.currentTarget;
+  if (!armedNew) { armedNew = true; b.textContent = 'Click again for new questions'; setTimeout(() => { armedNew = false; b.textContent = 'New test'; }, 3000); return; }
+  armedNew = false; b.textContent = 'New test'; newTest();
+};
+function fullscreen(){ try { if (document.fullscreenElement) document.exitFullscreen(); else { const p = document.documentElement.requestFullscreen && document.documentElement.requestFullscreen(); if (p && p.catch) p.catch(() => {}); } } catch(_) {} }
+$('fsBtn').onclick = fullscreen;
+document.addEventListener('fullscreenchange', () => { $('fsBtn').textContent = document.fullscreenElement ? 'Exit full screen' : 'Full screen'; });
+let hideT; addEventListener('mousemove', () => { if (document.body.dataset.mode !== 'slides') return; $('ctl').classList.add('on'); clearTimeout(hideT); hideT = setTimeout(() => $('ctl').classList.remove('on'), 2200); });
+
+/* =================== GRADER =================== */
+const PARTS = [
+  { id:'build', title:"What they've built", pname:'Hands-on experience', mins:'2.5 min', slides:[2],
+    items: () => [
+      {sl:2, k:'Ask', say:'Tell me about something you built or made yourself. Anything counts: Lego, a school project, a game, a robot.'},
+      {sl:2, k:'Ask', say:'Is it nearby? Show it to me on camera.'},
+      {sl:2, k:'Ask', say:'What went wrong while you were building it, and how did you fix it?', ans:'Listen for a real story with small, specific details. AI cannot invent their own desk.'},
+      {sl:2, k:'Ask', say:'Have you written code before? What did you make with it?', ans:'Scratch, Python, Arduino, a school app. Check it matches anything they wrote on WhatsApp. If Arduino, ask the next one.'},
+      {sl:2, k:'If Arduino', say:'In your last project, what did you connect, and to which pin?', ans:'They should name a part and a pin without looking anything up.'}
+    ],
+    scores:['No builds and no coding yet.','Kits, Lego, or block coding like Scratch.','Built something of their own or wrote text code. Names a real problem they fixed.','A working electronics or robot project. Explains the wiring or code in their own words.'],
+    parent:["Hasn't built or coded much yet. That's fine: the course starts from zero.","Has built with kits or block coding. A good base to grow from.","Has built their own projects or written real code, and explained a problem they solved.","Has built working electronics or robot projects and explains them clearly."]
+  },
+  { id:'think', title:'Thinking puzzles', pname:'Logical thinking', mins:'2 min', slides:[3,4],
+    items: T => [
+      {sl:3, k:'Slide 4', say:`Robot path: ${T.robot.steps.join(', ')}. Where are you now, and which way are you facing?`, ans:`<b>${T.robot.ans}</b>`, hint:'Hint: draw it on your paper.'},
+      {sl:4, k:'Slide 5', say:`${T.pattern.seq.join(', ')}. What comes next?`, ans:`<b>${T.pattern.next}.</b> ${T.pattern.why}`, hint:`Hint: ${T.pattern.hint}`}
+    ],
+    why:'After each answer: "How did you get that?"',
+    scores:['Neither right, even with a hint.','One right, with a hint.','Both right, or one right with no help and a clear explanation.','Both right quickly, and explains the steps clearly.'],
+    parent:['Found the puzzles hard today. Logic improves quickly with practice.','Solved one puzzle with a hint.','Solved the puzzles and explained the reasoning.','Solved both puzzles quickly, with clear step-by-step reasoning.']
+  },
+  { id:'phys', title:'Wheels and motion', pname:'Physics: gears and motion', mins:'2.5 min', slides:[5,6,7],
+    items: T => [
+      {sl:5, k:'Slide 6', say:`${T.gear.setup} ${T.gear.qs.join(' ')}`, ans:`<b>${T.gear.a}</b> ${T.gear.why}`, hint:'Hint: count the teeth that pass.'},
+      {sl:6, k:'Slide 7', say:`${T.wheel.setup} ${T.wheel.qs.join(' ')}`, ans:`<b>${T.wheel.a}</b> ${T.wheel.why} Let them work it on paper and hold it up.`},
+      {sl:7, k:'Slide 8', st:true, say:`Bonus: ${T.physStretch.q}`, ans:boldFirst(T.physStretch.a)}
+    ],
+    why:'After each answer: "Why?"',
+    scores:['No sensible answer.','Some right, but guessing. Cannot say why.','Gets the first two right, with reasons.','Also gets the bonus question, with a reason.'],
+    parent:['Gears and motion are new territory. We build this up in class.','Has a feel for gears and motion, but was mostly guessing.','Worked out the gear and wheel questions and explained why.','Also answered the bonus physics question with a solid reason.']
+  },
+  { id:'circ', title:'Circuits on paper', pname:'Circuits', mins:'2.5 min', slides:[8,9,10],
+    items: T => [
+      {sl:8, k:'Slide 9', say:`${T.draw.q} Hold it up to the camera.`, ans:`Look for: ${T.draw.look}`},
+      {sl:9, k:'Slide 10', say:T.circQ.q, ans:boldFirst(T.circQ.a)},
+      {sl:10, k:'Slide 11', st:true, say:`Bonus: ${T.circStretch.q}`, ans:boldFirst(T.circStretch.a)}
+    ],
+    scores:["Can't draw a closed loop, even with help.",'Draws a working loop with help.','Correct drawing, and gets the next question.','Also gets the bonus question and says why.'],
+    parent:['Circuits are new. We cover them from the basics.','Drew a working circuit with some help.','Drew a correct circuit and understood how current flows around a loop.','Also answered the bonus circuits question and explained why.']
+  }
+];
+function boldFirst(a){ const i = a.indexOf('. '); return i < 0 ? `<b>${a}</b>` : `<b>${a.slice(0,i+1)}</b> ${a.slice(i+2)}`; }
+const FLAGS = ['Eyes keep going to another screen or down to a phone','Long silence, then a polished textbook answer',"Can't explain their own answer when asked why",'Whispering, or someone typing off camera',"Uses words they can't explain"];
+const SIGNS = ['Tries even when unsure','Uses a hint well','Thinks out loud','Asks a good question'];
+const BANDS = {
+  admit:{label:'Admit', cls:'good', why:'Ready for the course as it is.', parent:'Admitted'},
+  prep:{label:'Admit with prep', cls:'mid', why:'Admit, and ask them to finish one short task before class one.', parent:'Admitted, with one short task'},
+  notyet:{label:'Not ready yet', cls:'bad', why:'Suggest free basics first and a retest before a later cohort.', parent:'Not ready yet'},
+  retest:{label:'Retest', cls:'warn', why:'Two or more signs of outside help. Press New test on the slides and redo parts 2 to 4 before deciding.'},
+  progress:{label:'In progress', cls:'', why:'Score all four parts to see the result.'}
+};
+const G = { started:false, viewId:null, pinned:false, doc:null, unsub:null, timers:{}, running:false, startAt:0, elapsed:0, sheetBusy:false };
+
+function calc(d){
+  const sc = (d && d.scores) || {}; const ids = PARTS.map(p => p.id);
+  const done = ids.filter(id => sc[id] !== null && sc[id] !== undefined).length;
+  const total = ids.reduce((a,id) => a + (sc[id] || 0), 0);
+  let band = 'progress';
+  if ((d.flags||[]).length >= 2) band = 'retest';
+  else if (done === 4) band = total >= 7 ? 'admit' : total >= 4 ? 'prep' : 'notyet';
+  return {total, band, done};
+}
+function names(d){
+  return { c:(d.child||'').trim() || '[Child]', p:(d.parent||'').trim() || '[Parent]', pay:(A.settings.payLink||'').trim() || '[payment link]', co:COHORTS[d.cohort] || COHORTS.founding };
+}
+function parentMsg(d){
+  const {c,p,pay,co} = names(d); const {band} = calc(d);
+  const hold = `To hold the seat, pay the $150 reservation here: ${pay}\nIt counts toward the $600. The $450 balance is due by ${co.balance}, and the robot kit ships after that.\n\nEnrolment closes ${co.closes}.`;
+  const att = `I've attached ${c}'s test report.`;
+  if (band === 'admit') return `Hi ${p}, thank you for joining today's entry test. ${c} did well and is admitted to the ${co.name}, starting ${co.start}. ${att}\n\n${hold}`;
+  if (band === 'prep') return `Hi ${p}, thank you for joining today's entry test. ${c} is admitted to the ${co.name}, starting ${co.start}. ${att}\n\nBefore class one, ${c} should do one short task: build the free "Blink" LED project on wokwi.com. It takes about 30 minutes in the browser and makes the first coding classes much easier.\n\n${hold}`;
+  if (band === 'notyet') return `Hi ${p}, thank you for joining today's entry test. ${c} is curious and tried hard. ${att}\n\nI think ${c} will get much more out of the course after a few basics, so I suggest a later cohort. Two free places to start:\n• scratch.mit.edu for coding\n• wokwi.com for simple electronics projects\n\nI'll message you when the next cohort opens, and ${c} can take the test again.`;
+  return '';
+}
+function prepMsg(){
+  return `Hi [Parent], thanks for booking the entry test for [Child]. It's a 10-minute video call with me, and no preparation is needed.\n\nPlease have ready:\n• A laptop or phone with a camera\n• A pen and a few sheets of blank paper\n• Anything [Child] has built (optional)\n\n[Child] should sit at a desk alone with the camera on. You're welcome to stay nearby.`;
+}
+
+/* rendering */
+function curT(){ return G.doc && /^\d{4}$/.test(String(G.doc.code||'')) ? makeTest(G.doc.code) : null; }
+function liveSlide(){ return (!G.pinned && A.live && A.live.testId === G.viewId) ? (A.live.slide || 0) : null; }
+function renderParts(){
+  const T = curT(); const sc = (G.doc && G.doc.scores) || {}; const ls = liveSlide();
+  $('parts').innerHTML = PARTS.map((p,i) => {
+    const items = T ? p.items(T) : [];
+    const it = items.map(x => `<div class="item ${x.st?'stretch':''} ${ls===x.sl?'on':''}"><span class="k">${x.k}</span><div class="v"><p class="say">${x.say}</p>${x.ans?`<p class="ans">${x.ans}</p>`:''}${x.hint?`<p class="hint">${x.hint}</p>`:''}</div></div>`).join('');
+    const btns = p.scores.map((d,n) => `<button class="sc" data-part="${p.id}" data-n="${n}" aria-pressed="${sc[p.id]===n}"><span class="n">${n}</span><span class="d">${d}</span></button>`).join('');
+    return `<article class="part ${p.slides.includes(ls)?'now-part':''}" id="part-${p.id}"><div><span class="lab">Part ${i+1} · ${p.mins}</span><h2>${p.title}</h2></div><div class="items">${it}</div>${p.why?`<p class="why">${p.why}</p>`:''}<div class="scores">${btns}</div></article>`;
+  }).join('');
+}
+function renderChecks(){
+  const f = (G.doc && G.doc.flags) || [], s = (G.doc && G.doc.signs) || [];
+  $('flags').innerHTML = FLAGS.map((t,i) => `<label class="ck"><input type="checkbox" id="flag${i}" data-flag="${i}" ${f.includes(i)?'checked':''}><span>${t}</span></label>`).join('');
+  $('signs').innerHTML = SIGNS.map((t,i) => `<label class="ck"><input type="checkbox" id="sign${i}" data-sign="${i}" ${s.includes(i)?'checked':''}><span>${t}</span></label>`).join('');
+}
+function renderNow(){
+  const el = $('nowCard'); const T = curT(); const ls = liveSlide();
+  if (!G.doc) { el.innerHTML = A.db ? `<p class="say">Waiting for the slides. Open this page on your computer, signed in to the same Claude account, and pick Slides.</p>` : `<p class="say">Not connected to the slides. Type the test code from the slides above to see the answers.</p>`; return; }
+  if (!A.db) { el.innerHTML = `<div class="nt"><span class="lab">Not connected · Test ${esc(G.doc.code)}</span></div><p class="say">This page can't see which slide is showing. All questions and answers for this test are below. Nothing is saved.</p>`; return; }
+  if (ls === null) { el.innerHTML = `<div class="nt"><span class="lab">Past test · Test ${esc(G.doc.code)}</span></div><p class="say">You're viewing a saved test. Scores and notes still save as you change them.</p>`; return; }
+  const n = ls, head = `<div class="nt"><span class="lab">On screen · slide ${n+1} of 12</span><span class="lab">Test ${esc(G.doc.code)}</span></div>`;
+  let body = '';
+  if (n === 0) body = `<p class="say">Title slide. Say hello, and check their camera, paper and pen.</p>`;
+  else if (n === 1) body = `<p class="say">Rules slide. Read it out loud. Ask them to keep other screens away.</p>`;
+  else if (n === 11) body = `<p class="say">Wrap up. Ask if they have questions. Tell them you'll message their parent today.</p><p class="ans">Then score anything left and tap Finish.</p>`;
+  else {
+    const all = T ? PARTS.flatMap(p => p.items(T).map(x => ({...x, part:p.title}))) : [];
+    const its = all.filter(x => x.sl === n);
+    body = its.map(x => `<p class="say">${x.say}</p>${x.ans?`<p class="ans">${x.ans}</p>`:''}${x.hint?`<p class="hint">${x.hint}</p>`:''}`).join('') + (its[0] ? `<p class="lab">${its[0].part}</p>` : '');
+  }
+  el.innerHTML = head + body;
+}
+function renderLive(){
+  const el = $('liveStat');
+  if (!A.db) {
+    el.textContent = "You're not signed in to Claude here, so this page can't see the slides or save anything.";
+    if (!$('offCode')) $('banner').innerHTML = `<div class="banner warn" style="flex-direction:column;align-items:stretch"><span>Sign in to claude.ai in this browser (or use the Claude app) to connect. Or type the test code shown at the top right of the slides to see the answers. Scores won't be saved.</span><input type="text" id="offCode" inputmode="numeric" maxlength="4" placeholder="Test code, e.g. 4821" autocomplete="off" style="font-family:var(--f-mono);letter-spacing:.1em"></div>`;
+    const oc = $('offCode'); if (oc && !oc.dataset.wired) { oc.dataset.wired = '1'; oc.addEventListener('input', () => { const v = oc.value.replace(/\D/g,'').slice(0,4); oc.value = v;
+      if (v.length === 4) { G.doc = {code:v, scores:{build:null,think:null,phys:null,circ:null}, flags:[], signs:[], child:'', parent:'', grade:'7', cohort:'founding', comment:'', notes:''}; renderParts(); renderChecks(); renderNow(); fillForm(); updateResult(); } }); }
+    return;
+  }
+  if (!A.live) { el.innerHTML = 'Waiting for the slides to start a test.'; return; }
+  el.innerHTML = `Live on the slides: <b>Test ${esc(A.live.code)}</b>, slide <b>${(A.live.slide||0)+1}</b> of 12`;
+  $('banner').innerHTML = G.pinned ? `<div class="banner info"><span>Viewing a past test${G.doc&&G.doc.child?`: ${esc(G.doc.child)}`:''}.</span><button class="linkbtn" id="backLive">Back to the live test</button></div>` : '';
+  const b = $('backLive'); if (b) b.onclick = () => { G.pinned = false; openTest(A.live.testId); };
+}
+function fillForm(){
+  if (!G.doc) return;
+  const set = (id, v) => { const el = $(id); if (document.activeElement !== el) el.value = v ?? ''; };
+  set('child', G.doc.child); set('parent', G.doc.parent); set('grade', G.doc.grade || '7'); set('cohort', G.doc.cohort || 'founding');
+  set('comment', G.doc.comment); set('notes', G.doc.notes);
+}
+function updateResult(){
+  const d = G.doc || {scores:{}}; const {total, band} = calc(d); const B = BANDS[band];
+  for (const el of [$('bandTop'), $('bandBig')]) { el.textContent = B.label; el.className = 'chip ' + B.cls; }
+  $('totTop').textContent = `${total}/12`; $('totBig').textContent = `${total}/12`;
+  $('bandWhy').textContent = B.why;
+  const ok = G.doc && ['admit','prep','notyet'].includes(band);
+  $('finishBtn').disabled = !ok;
+  $('finishBtn').textContent = G.doc && G.doc.status === 'finished' ? 'Update report' : 'Finish and make report';
+  $('reportBox').hidden = !(ok && G.doc.status === 'finished');
+  if (ok) $('msgParent').value = parentMsg(G.doc);
+}
+function renderAll(){ renderParts(); renderChecks(); renderNow(); renderLive(); fillForm(); updateResult(); }
+
+/* data */
+function openTest(id){
+  if (!A.db || !id) return;
+  if (G.unsub) G.unsub(); G.viewId = id; G.doc = null; renderAll();
+  G.unsub = A.db.doc('tests/' + id).onSnapshot(s => {
+    if (!s.exists) return;
+    const w = writers['tests/' + id]; const busy = w && (w.busy || w.pending) || Object.keys(G.timers).length;
+    if (!G.doc || (!s.metadata.hasPendingWrites && !busy)) { G.doc = JSON.parse(JSON.stringify(s.data())); renderAll(); }
+  }, e => { setSave('error', e); });
+  scrollTo({top:0});
+}
+function patch(p){
+  if (!G.doc || (A.db && !G.viewId)) return;
+  G.doc = deepMerge(G.doc, p);
+  const {total, band} = calc(G.doc);
+  if (!A.db) { setSave('off'); updateResult(); return; }
+  write('tests/' + G.viewId, {...p, total, band, updatedAt: Date.now()});
+  updateResult(); renderPastSoon();
+}
+function patchText(k, v){
+  if (!G.doc) return; G.doc[k] = v; updateResult();
+  clearTimeout(G.timers[k]); G.timers[k] = setTimeout(() => { delete G.timers[k]; patch({[k]: v}); }, 500);
+}
+
+$('parts').addEventListener('click', e => {
+  const b = e.target.closest('.sc'); if (!b || !G.doc) return;
+  const id = b.dataset.part, n = +b.dataset.n; const cur = G.doc.scores ? G.doc.scores[id] : null;
+  const scores = {...(G.doc.scores||{}), [id]: cur === n ? null : n};
+  patch({scores});
+  document.querySelectorAll(`.sc[data-part="${id}"]`).forEach(x => x.setAttribute('aria-pressed', scores[id] === +x.dataset.n));
+});
+document.addEventListener('change', e => {
+  const t = e.target; if (!G.doc) return;
+  if (t.dataset.flag !== undefined || t.dataset.sign !== undefined) {
+    const key = t.dataset.flag !== undefined ? 'flags' : 'signs', i = +(t.dataset.flag ?? t.dataset.sign);
+    const arr = new Set(G.doc[key] || []); t.checked ? arr.add(i) : arr.delete(i);
+    patch({[key]: [...arr].sort()});
+  }
+  if (t.id === 'grade' || t.id === 'cohort') patch({[t.id]: t.value});
+});
+['child','parent','comment','notes'].forEach(id => $(id).addEventListener('input', e => patchText(id, e.target.value)));
+let payT; $('pay').addEventListener('input', e => { A.settings.payLink = e.target.value; updateResult(); clearTimeout(payT); payT = setTimeout(() => write('config/settings', {payLink: e.target.value}), 600); });
+
+/* finish + report */
+$('finishBtn').onclick = async () => {
+  if (!G.doc) return;
+  patch({status:'finished', finishedAt: G.doc.finishedAt || Date.now()});
+  $('reportBox').hidden = false; $('reportBox').scrollIntoView({behavior:'smooth', block:'start'});
+  syncSheets();
+};
+$('pdfBtn').onclick = async () => {
+  const st = $('pdfStatus'); st.classList.remove('err');
+  if (!window.jspdf) { st.textContent = 'The PDF maker did not load. Check your connection and reload.'; st.classList.add('err'); return; }
+  const dl = await (window.claude && window.claude.use ? window.claude.use('downloads') : Promise.resolve(null)).catch(() => null);
+  if (!dl) { st.textContent = "Saving files isn't available on this device. Try the page in a browser on your computer."; st.classList.add('err'); return; }
+  const {c} = names(G.doc);
+  try { await dl.save({filename:`Sterling entry test - ${c.replace(/[^\w .-]/g,'')}.pdf`, data: makePDF(G.doc)}); st.textContent = 'Report saved. Attach it to the WhatsApp message.'; }
+  catch(e) { st.classList.add('err'); st.textContent = e && e.code === 'declined' ? 'Save cancelled.' : e && e.code === 'rate_limited' ? 'A save prompt is already open.' : "Couldn't save the PDF here."; }
+};
+function makePDF(d){
+  const {jsPDF} = window.jspdf; const doc = new jsPDF({unit:'mm', format:'a4'});
+  const W = 210, M = 20; let y = 22;
+  const {c, co, pay} = names(d); const {total, band} = calc(d); const B = BANDS[band];
+  const ink = [29,29,31], g1 = [134,134,139], g2 = [94,94,99], blue = [31,85,214];
+  const col = band === 'admit' ? [30,127,79] : band === 'prep' ? blue : [154,91,0];
+  const date = new Date(d.finishedAt || Date.now()).toLocaleDateString('en-GB', {day:'numeric', month:'long', year:'numeric'});
+  doc.setFont('helvetica','normal'); doc.setFontSize(8.5); doc.setTextColor(...g1);
+  doc.text('STERLING ROBOTICS ACADEMY', M, y, {charSpace:0.5}); doc.text(date, W-M, y, {align:'right'});
+  y += 13; doc.setFontSize(26); doc.setTextColor(...ink); doc.text('Entry test report', M, y);
+  y += 8; doc.setFontSize(11.5); doc.setTextColor(...g2); doc.text(`${c}  ·  Grade ${d.grade||''}  ·  ${co.label}, starts ${co.start}`, M, y);
+  y += 9; doc.setFillColor(245,245,247); doc.roundedRect(M, y, W-2*M, 27, 3, 3, 'F');
+  doc.setFontSize(17); doc.setTextColor(...col); doc.setFont('helvetica','bold'); doc.text(B.parent || B.label, M+7, y+11);
+  doc.setFont('helvetica','normal'); doc.setFontSize(10.5); doc.setTextColor(...g2);
+  const sent = band === 'admit' ? `${c} did well and is ready for the course.` : band === 'prep' ? `${c} is ready to join. One short task before class one will make the start easier.` : `${c} will get more out of the course after a few basics. We suggest a later cohort.`;
+  doc.text(doc.splitTextToSize(sent, W-2*M-50), M+7, y+19);
+  doc.setFontSize(17); doc.setTextColor(...ink); doc.text(`${total} / 12`, W-M-7, y+11, {align:'right'});
+  doc.setFontSize(8.5); doc.setTextColor(...g1); doc.text('SCORE', W-M-7, y+18, {align:'right', charSpace:0.4});
+  y += 39; doc.setFontSize(8.5); doc.setTextColor(...g1); doc.text('HOW IT WENT', M, y, {charSpace:0.5});
+  y += 3;
+  PARTS.forEach(p => {
+    const s = (d.scores||{})[p.id] ?? 0;
+    y += 8; doc.setDrawColor(226,226,230); doc.line(M, y-5, W-M, y-5);
+    doc.setFont('helvetica','bold'); doc.setFontSize(11.5); doc.setTextColor(...ink); doc.text(p.pname, M, y);
+    for (let k = 0; k < 3; k++) { const cx = W-M-14+k*5.5; doc.setDrawColor(...blue); if (k < s) { doc.setFillColor(...blue); doc.circle(cx, y-1.3, 1.7, 'FD'); } else doc.circle(cx, y-1.3, 1.7, 'D'); }
+    doc.setFont('helvetica','normal'); doc.setFontSize(10.5); doc.setTextColor(...g2);
+    const lines = doc.splitTextToSize(p.parent[s], W-2*M-24); doc.text(lines, M, y+6); y += 6 + lines.length*4.6;
+  });
+  if ((d.comment||'').trim()) {
+    y += 9; doc.setFontSize(8.5); doc.setTextColor(...g1); doc.text('A NOTE FROM SWARIT', M, y, {charSpace:0.5});
+    y += 6; doc.setFontSize(10.5); doc.setTextColor(...ink); const l = doc.splitTextToSize(d.comment.trim(), W-2*M); doc.text(l, M, y); y += l.length*4.6;
+  }
+  y += 9; doc.setFontSize(8.5); doc.setTextColor(...g1); doc.text('NEXT STEPS', M, y, {charSpace:0.5}); y += 2;
+  const steps = band === 'notyet'
+    ? ['Start with free projects on scratch.mit.edu (coding) and wokwi.com (electronics).', `${c} can take the entry test again before the next cohort. We will message you when it opens.`]
+    : [ ...(band === 'prep' ? ['Before class one: build the free "Blink" LED project on wokwi.com (about 30 minutes).'] : []),
+        'Reserve the seat with $150. It counts toward the $600.',
+        `Pay the $450 balance by ${co.balance}. The robot kit ships after that.`,
+        `Classes start ${co.start}. Enrolment closes ${co.closes}.` ];
+  doc.setFontSize(10.5);
+  steps.forEach(t => { y += 6; doc.setTextColor(...blue); doc.text('•', M, y); doc.setTextColor(...ink); const l = doc.splitTextToSize(t, W-2*M-6); doc.text(l, M+5, y); y += (l.length-1)*4.6;
+    if (t.startsWith('Reserve') && (A.settings.payLink||'').trim()) { y += 5.2; doc.setTextColor(...blue); doc.textWithLink('Reserve online: ' + pay.slice(0,70), M+5, y, {url: pay}); } });
+  doc.setDrawColor(226,226,230); doc.line(M, 279, W-M, 279);
+  doc.setFontSize(8.5); doc.setTextColor(...g2);
+  doc.text('Swarit Bhardwaj  ·  Founder and lead mentor', M, 285);
+  doc.text('WhatsApp +1 754 279 2415  ·  swarit000@gmail.com', W-M, 285, {align:'right'});
+  return doc.output('blob');
+}
+
+/* sheets */
+const csvQ = v => `"${String(v ?? '').replace(/"/g,'""')}"`;
+function buildCSV(){
+  const head = ['Date','Child','Parent','Grade','Cohort','Test code','Experience /3','Thinking /3','Physics /3','Circuits /3','Total /12','Result','Outside help','Good signs','Comment for parent','Private notes'];
+  const rows = A.tests.filter(t => t.status === 'finished').sort((a,b) => (a.finishedAt||0) - (b.finishedAt||0)).map(t => {
+    const {total, band} = calc(t); const sc = t.scores || {};
+    return [new Date(t.finishedAt||t.createdAt).toISOString().slice(0,10), t.child, t.parent, t.grade, (COHORTS[t.cohort]||{}).label, t.code,
+      sc.build ?? '', sc.think ?? '', sc.phys ?? '', sc.circ ?? '', total, BANDS[band].label,
+      (t.flags||[]).map(i => FLAGS[i]).join('; '), (t.signs||[]).map(i => SIGNS[i]).join('; '), t.comment, t.notes].map(csvQ).join(',');
+  });
+  return [head.map(csvQ).join(','), ...rows].join('\n') + '\n';
+}
+function sheetMsg(e){
+  const c = e && e.code;
+  if (c === 'needs_reauth') return 'Google Drive needs reconnecting. Reconnect it in claude.ai Settings → Connectors, then tap Sync now.';
+  if (c === 'server_not_connected' || c === 'selection_required') return 'Google Drive is not connected. Add it in claude.ai Settings → Connectors, then tap Sync now.';
+  if (c === 'not_in_manifest') return "Google Drive is turned off for this page. Turn it on in the page's Permissions menu, then tap Sync now.";
+  if (c === 'approval_required') return 'Google Drive needs your approval. Tap Sync now and allow it.';
+  if (c === 'blocked_by_policy') return 'Your organisation blocks Google Drive here. Use Export CSV instead.';
+  if (c === 'server_unavailable' || c === 'upstream_error') return "Google Drive didn't answer. Tap Sync now to try again.";
+  if (c === 'tool_error') return 'Google Drive refused the update: ' + (e.message || 'unknown reason') + '.';
+  if (c === 'not_granted' || c === 'capability_disabled' || c === 'capability_removed') return "Google Sheets sync isn't available on this device. It will catch up next time you sync from a device where it works.";
+  return "Couldn't update the Sheet. Tap Sync now to try again.";
+}
+function renderSheet(){
+  const l = $('sheetLink'); if (A.sheets.url) { l.href = A.sheets.url; l.hidden = false; } else l.hidden = true;
+  if (!G.sheetBusy && A.sheets.syncedAt && !$('sheetStatus').classList.contains('err'))
+    $('sheetStatus').textContent = `Last synced ${new Date(A.sheets.syncedAt).toLocaleString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}. ${(n => n === 1 ? '1 finished test' : n + ' finished tests')(A.tests.filter(t=>t.status==='finished').length)} in the Sheet.`;
+}
+async function syncSheets(){
+  const st = $('sheetStatus'); if (G.sheetBusy) return; G.sheetBusy = true; st.classList.remove('err'); st.textContent = 'Updating your Google Sheet…'; $('syncBtn').disabled = true;
+  try {
+    const mcp = await (window.claude && window.claude.use ? window.claude.use('mcp') : Promise.resolve(null)).catch(() => null);
+    if (!mcp) throw {code:'not_granted'};
+    await sleep(400);
+    let folderId = A.sheets.folderId;
+    if (!folderId) {
+      const f = await mcp.callTool('Google Drive', 'create_file', {title:'Sterling Entry Tests', contentMimeType:'application/vnd.google-apps.folder'});
+      folderId = f.payload && f.payload.id; if (!folderId) throw {code:'tool_error', message:'no folder id came back'};
+      write('config/sheets', {folderId, folderUrl: f.payload.viewUrl || ''});
+    }
+    const r = await mcp.callTool('Google Drive', 'create_file', {title:'Sterling Entry Tests (all results)', parentId: folderId, contentMimeType:'text/csv', textContent: buildCSV()});
+    const p = r.payload || {}; if (!p.id) throw {code:'tool_error', message:'no file id came back'};
+    const old = A.sheets.fileId;
+    A.sheets = {...A.sheets, folderId, fileId:p.id, url:p.viewUrl || `https://docs.google.com/spreadsheets/d/${p.id}/edit`, syncedAt:Date.now()};
+    write('config/sheets', {folderId, fileId:A.sheets.fileId, url:A.sheets.url, syncedAt:A.sheets.syncedAt});
+    if (old && old !== p.id) { try { await mcp.callTool('Google Drive', 'trash_file', {fileId: old}); } catch(_) {} }
+    G.sheetBusy = false; renderSheet();
+  } catch(e) { G.sheetBusy = false; st.classList.add('err'); st.textContent = sheetMsg(e); }
+  $('syncBtn').disabled = false;
+}
+$('syncBtn').onclick = () => { $('sheetStatus').classList.remove('err'); syncSheets(); };
+$('csvBtn').onclick = async () => {
+  const dl = await (window.claude && window.claude.use ? window.claude.use('downloads') : Promise.resolve(null)).catch(() => null);
+  const st = $('sheetStatus');
+  if (!dl) { st.classList.add('err'); st.textContent = "Saving files isn't available on this device."; return; }
+  try { await dl.save({filename:'sterling-entry-tests.csv', data: buildCSV()}); } catch(e) { if (!(e && e.code === 'declined')) { st.classList.add('err'); st.textContent = "Couldn't save the CSV here."; } }
+};
+
+/* past tests */
+let pastT; function renderPastSoon(){ clearTimeout(pastT); pastT = setTimeout(renderPast, 300); }
+function renderPast(){
+  const list = A.tests.map(t => t.id === G.viewId && G.doc ? {...t, ...G.doc} : t)
+    .filter(t => t.child || t.status === 'finished' || Object.values(t.scores||{}).some(v => v !== null && v !== undefined) || t.id === G.viewId);
+  if (!A.db) { $('past').innerHTML = `<p class="empty">Past tests appear here once saving is on.</p>`; return; }
+  if (!list.length) { $('past').innerHTML = `<p class="empty">No tests yet. Start one from the slides, and it shows up here as soon as you type a name or a score.</p>`; return; }
+  $('past').innerHTML = list.map(t => { const {total, band} = calc(t); const B = BANDS[band];
+    const dt = new Date(t.createdAt||Date.now()).toLocaleDateString('en-GB',{day:'numeric',month:'short'});
+    return `<button class="prow ${t.id===G.viewId?'cur':''}" data-id="${esc(t.id)}"><span class="nm">${esc(t.child||'No name yet')}</span><span class="meta">${dt} · Grade ${esc(t.grade||'')} · Test ${esc(t.code)}${t.status==='finished'?'':' · in progress'}</span><span class="rt"><span class="mono">${total}/12</span><span class="chip ${B.cls}">${B.label}</span></span></button>`; }).join('');
+}
+$('past').addEventListener('click', e => { const b = e.target.closest('.prow'); if (!b) return; const id = b.dataset.id; G.pinned = !(A.live && A.live.testId === id); openTest(id); });
+
+/* copy */
+document.querySelectorAll('[data-copy]').forEach(btn => btn.addEventListener('click', () => {
+  const ta = $(btn.dataset.copy), txt = ta.value, orig = btn.textContent;
+  const done = l => { btn.textContent = l; setTimeout(() => btn.textContent = orig, 1600); };
+  const fb = () => { ta.focus(); ta.select(); done('Selected, press copy'); };
+  try { navigator.clipboard.writeText(txt).then(() => done('Copied'), fb); } catch(_) { fb(); }
+}));
+
+/* timer */
+const fmt = s => { const neg = s < 0; s = Math.abs(Math.round(s)); return (neg?'+':'') + Math.floor(s/60) + ':' + String(s%60).padStart(2,'0'); };
+const elapsed = () => G.elapsed + (G.running ? (Date.now() - G.startAt)/1000 : 0);
+function tick(){ const left = 600 - elapsed(); $('clock').textContent = fmt(left); $('clock').classList.toggle('over', left < 0); }
+$('startBtn').onclick = () => { if (G.running) { G.elapsed = elapsed(); G.running = false; $('startBtn').textContent = 'Resume'; } else { G.startAt = Date.now(); G.running = true; $('startBtn').textContent = 'Pause'; } tick(); };
+$('resetTimer').onclick = () => { G.running = false; G.elapsed = 0; $('startBtn').textContent = 'Start'; tick(); };
+setInterval(() => { if (G.running) tick(); }, 250);
+
+async function startGrader(){
+  if (G.started) return; G.started = true;
+  $('msgPrep').value = prepMsg(); renderAll();
+  A.db = await dbP;
+  if (!A.db) { setSave('off'); renderLive(); renderPast(); return; }
+  A.db.doc('live/current').onSnapshot(s => {
+    A.live = s.exists ? s.data() : null;
+    if (A.live && !G.pinned && A.live.testId !== G.viewId) openTest(A.live.testId);
+    else { renderNow(); renderParts(); renderLive(); }
+  }, () => {});
+  A.db.collection('tests').orderBy('createdAt','desc').limit(300).onSnapshot(q => { A.tests = q.docs.map(d => ({id:d.id, ...d.data()})); renderPast(); renderSheet(); }, () => {});
+  A.db.doc('config/settings').onSnapshot(s => { A.settings = s.exists ? {...s.data()} : {}; if (document.activeElement !== $('pay')) $('pay').value = A.settings.payLink || ''; updateResult(); }, () => {});
+  A.db.doc('config/sheets').onSnapshot(s => { if (s.exists) A.sheets = {...A.sheets, ...s.data()}; renderSheet(); }, () => {});
+}
+
+/* boot */
+(function boot(){
+  const h = (location.hash || '').slice(1);
+  const m = (h === 'slides' || h === 'grader') ? h : lsGet('sterling-mode');
+  if (m === 'slides' || m === 'grader') setMode(m); else document.body.dataset.mode = 'choose';
+})();
+</script>

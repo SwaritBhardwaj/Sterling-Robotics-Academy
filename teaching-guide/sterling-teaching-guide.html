@@ -1,0 +1,925 @@
+<title>Sterling Teaching Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+  /* Layout: teacher's binder. Sticky week index on the left, one lesson plan at a time on the right; timeline rows for the run of show. Light only, by the user's choice. */
+  :root{
+    --bg:#FFFFFF; --panel:#F5F5F7; --ink:#1D1D1F; --muted:#6B6B73; --line:#E3E3E8;
+    --accent:#1F55D6; --accent-soft:#EDF2FD;
+    --engage:#C46A1A; --explore:#1F55D6; --explain:#6B4FBB; --elaborate:#23804F; --evaluate:#B4364A; --admin:#86868B;
+    --sans:'Instrument Sans',-apple-system,'Helvetica Neue',Arial,sans-serif;
+    --serif:'Instrument Serif',Georgia,'Times New Roman',serif;
+    --mono:'Geist Mono',ui-monospace,Menlo,Consolas,monospace;
+    color-scheme:light;
+  }
+  body{background:var(--bg);color:var(--ink);font:16px/1.55 var(--sans);-webkit-font-smoothing:antialiased}
+  .page{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:28px 72px}
+  @media(min-width:700px){.page{padding-inline:32px}}
+
+  header.top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px 32px;padding-bottom:22px;border-bottom:1px solid var(--line)}
+  .brand{font:500 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  h1{font:400 clamp(40px,6vw,58px)/1 var(--serif);letter-spacing:-.01em;margin:10px 0 8px}
+  .sub{color:var(--muted);max-width:60ch;margin:0}
+  .toggle{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--ink);cursor:pointer;user-select:none;padding:9px 14px;border:1px solid var(--line);border-radius:999px}
+  .toggle input{width:16px;height:16px;accent-color:var(--accent);margin:0}
+
+  .layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:44px;margin-top:28px}
+  nav#nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start;max-height:calc(100vh - 32px);overflow:auto;display:flex;flex-direction:column;gap:2px}
+  nav button{display:grid;grid-template-columns:34px minmax(0,1fr);column-gap:6px;text-align:left;background:none;border:0;border-radius:10px;padding:8px 10px;font:inherit;color:inherit;cursor:pointer}
+  nav button:hover{background:var(--panel)}
+  nav button.on{background:var(--panel)}
+  nav .nn{font:500 12px/1.9 var(--mono);color:var(--muted)}
+  nav button.on .nn{color:var(--accent)}
+  nav .nt{font-size:14.5px;font-weight:600;line-height:1.35}
+  nav .nm{grid-column:2;font-size:12.5px;color:var(--muted);line-height:1.35;margin-top:1px}
+  nav .sep{height:1px;background:var(--line);margin:8px 10px}
+  button:focus-visible,a:focus-visible,.toggle:focus-within{outline:2px solid var(--accent);outline-offset:2px}
+
+  @media(max-width:880px){
+    .layout{grid-template-columns:minmax(0,1fr);gap:18px;margin-top:0}
+    nav#nav{flex-direction:row;overflow-x:auto;max-height:none;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);margin-inline:-16px;padding:10px 16px;border-bottom:1px solid var(--line);gap:6px;scrollbar-width:none}
+    nav button{display:flex;gap:6px;align-items:baseline;flex:0 0 auto;white-space:nowrap;border:1px solid var(--line);border-radius:999px;padding:6px 12px}
+    nav button.on{border-color:var(--ink);background:var(--ink);color:var(--bg)}
+    nav button.on .nn{color:var(--bg)}
+    nav .nm,nav .sep{display:none}
+    nav .nt{font-size:13.5px}
+  }
+
+  main{min-width:0}
+  .eyebrow{font:500 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 14px}
+  .eyebrow b{color:var(--accent);font-weight:500}
+  h2{font:400 clamp(34px,5vw,48px)/1.04 var(--serif);letter-spacing:-.01em;margin:12px 0 0;text-wrap:balance}
+  .dq{margin:18px 0 0;padding:16px 20px;background:var(--accent-soft);border-radius:12px}
+  .dq span{display:block;font:500 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+  .dq p{margin:0;font:italic 400 24px/1.25 var(--serif);text-wrap:balance}
+
+  .facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin-top:20px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .fact{padding:14px 16px 14px 0}
+  .fact+.fact{padding-left:16px;border-left:1px solid var(--line)}
+  .fact .l{font:500 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .fact .v{font-size:15px;font-weight:600;margin-top:7px;line-height:1.35;font-variant-numeric:tabular-nums}
+  @media(max-width:600px){.facts{grid-template-columns:minmax(0,1fr)}.fact+.fact{border-left:0;padding-left:0;border-top:1px solid var(--line)}}
+
+  section.blk{margin-top:40px}
+  h3{display:flex;align-items:baseline;gap:12px;font:500 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 14px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+  h3 em{font-style:normal;color:var(--ink);letter-spacing:.04em}
+  p{margin:0 0 12px;max-width:68ch}
+  .lead{font-size:17.5px;max-width:64ch}
+  ul.dots{margin:0;padding-left:20px;max-width:68ch}
+  ul.dots li{margin:4px 0}
+  .two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 32px}
+  .two h4{font-size:14px;font-weight:600;margin:0 0 8px}
+  @media(max-width:700px){.two{grid-template-columns:minmax(0,1fr)}}
+
+  .flow{display:flex;flex-direction:column}
+  .row{display:grid;grid-template-columns:96px minmax(0,1fr);gap:16px;padding:18px 0;border-bottom:1px solid var(--line)}
+  .row:first-child{padding-top:4px}
+  .tm{font:500 13px/1.4 var(--mono);font-variant-numeric:tabular-nums}
+  .tm small{display:block;color:var(--muted);font-size:12px;margin-top:3px}
+  .rh{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-bottom:6px}
+  .rh strong{font-size:16.5px;font-weight:600}
+  .ph{display:inline-flex;align-items:center;gap:6px;font:500 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .ph i{width:8px;height:8px;border-radius:50%;background:var(--c)}
+  .tag{font:500 10.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;padding:4px 7px;border-radius:5px;border:1px dashed var(--muted);color:var(--muted)}
+  .ask{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:6px;max-width:66ch}
+  .ask li{position:relative;padding-left:26px}
+  .ask li::before{content:'Ask';position:absolute;left:0;top:3px;font:500 9.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+  @media(max-width:560px){.row{grid-template-columns:minmax(0,1fr);gap:6px}.tm small{display:inline;margin-left:8px}}
+
+  .scroll{overflow-x:auto}
+  table{border-collapse:collapse;width:100%;font-size:15px}
+  th{text-align:left;font:500 11px/1.2 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:0 16px 10px 0;border-bottom:1px solid var(--line)}
+  td{vertical-align:top;padding:12px 16px 12px 0;border-bottom:1px solid var(--line);min-width:200px}
+  td:first-child{color:var(--muted)}
+
+  .tasks{display:flex;flex-direction:column;gap:12px}
+  .task{border:1px solid var(--line);border-radius:12px;padding:16px 18px;min-width:0}
+  .task .th{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .task .th b{font-size:16px}
+  .kind{font:500 10.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;padding:5px 8px;border-radius:5px;background:var(--ink);color:var(--bg)}
+  .kind.st{background:none;color:var(--ink);border:1px solid var(--ink)}
+  .tid{font:500 12px/1 var(--mono);color:var(--muted)}
+  .task p{margin:8px 0 0}
+  .fmt{position:relative;margin-top:12px}
+  .fmt pre{margin:0;background:var(--panel);border-radius:9px;padding:14px 16px;font:400 13px/1.55 var(--mono);overflow-x:auto;white-space:pre;color:var(--ink)}
+  .copy{position:absolute;top:8px;right:8px;font:500 11px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:6px 9px;color:var(--ink);cursor:pointer}
+  .copy:hover{border-color:var(--ink)}
+  .code-label{font:500 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:16px 0 0}
+
+  .note{background:var(--panel);border-radius:12px;padding:16px 20px}
+  .note ul{margin:0;padding-left:18px}
+  .note li{margin:6px 0;max-width:70ch}
+
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--line)}
+  .pager button{background:none;border:1px solid var(--line);border-radius:10px;padding:12px 16px;font:inherit;color:inherit;cursor:pointer;text-align:left;min-width:0}
+  .pager button:hover{border-color:var(--ink)}
+  .pager span{display:block;font:500 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+  .pager .nx{text-align:right;margin-left:auto}
+
+  .ladder{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 32px}
+  .ladder li{display:grid;grid-template-columns:48px minmax(0,1fr);padding:10px 0;border-bottom:1px solid var(--line);align-items:baseline}
+  .ladder .wn{font:500 12px/1 var(--mono);color:var(--accent)}
+  .ladder button{all:unset;cursor:pointer;font-weight:600}
+  .ladder button:hover{text-decoration:underline}
+  .ladder small{display:block;color:var(--muted);font-size:13px}
+  @media(max-width:700px){.ladder{grid-template-columns:minmax(0,1fr)}}
+
+  .phases{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+  .phases div{border-top:3px solid var(--c);padding-top:10px}
+  .phases b{display:block;font-size:15px}
+  .phases small{display:block;color:var(--muted);font-size:13.5px;line-height:1.4;margin-top:4px}
+  @media(max-width:760px){.phases{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+  .rules{counter-reset:r;list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px;max-width:72ch}
+  .rules li{counter-increment:r;display:grid;grid-template-columns:30px minmax(0,1fr)}
+  .rules li::before{content:counter(r);font:500 13px/1.6 var(--mono);color:var(--accent)}
+  .rules b{font-weight:600}
+
+  .rhythm{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border-top:1px solid var(--line)}
+  .rhythm div{padding:14px 16px 14px 0}
+  .rhythm div+div{padding-left:16px;border-left:1px solid var(--line)}
+  .rhythm .d{font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+  .rhythm b{display:block;margin-top:8px;font-size:15px}
+  .rhythm small{display:block;color:var(--muted);font-size:13.5px;margin-top:3px;line-height:1.4}
+  @media(max-width:760px){.rhythm{grid-template-columns:repeat(2,minmax(0,1fr))}.rhythm div:nth-child(3){border-left:0;padding-left:0}}
+  @media(max-width:420px){.rhythm{grid-template-columns:minmax(0,1fr)}.rhythm div+div{border-left:0;padding-left:0;border-top:1px solid var(--line)}}
+  .goal{border:1px solid var(--ink);border-radius:14px;padding:20px 22px}
+  .goal p{font:400 26px/1.2 var(--serif);margin:0;max-width:none;text-wrap:balance}
+  .goal small{display:block;margin-top:12px;color:var(--muted);font-size:14.5px;line-height:1.5}
+</style>
+
+<div class="page">
+  <header class="top">
+    <div>
+      <div class="brand">Sterling Robotics Academy</div>
+      <h1>Teaching Guide</h1>
+      <p class="sub">Self-balancing robot cohort. Twelve Sunday classes, one lesson plan per week, written for inquiry-led teaching.</p>
+    </div>
+    <label class="toggle" for="short"><input type="checkbox" id="short"> Short class (about 60 min)</label>
+  </header>
+  <div class="layout">
+    <nav id="nav" aria-label="Weeks"></nav>
+    <main id="main"></main>
+  </div>
+</div>
+
+<script>
+const PH = {Engage:'--engage',Explore:'--explore',Explain:'--explain',Elaborate:'--elaborate',Evaluate:'--evaluate',Admin:'--admin'};
+
+const WEEKS = [
+{
+n:1, nav:`Why balancing is hard`, title:`Why is balancing hard?`, milestone:`Explains sense, decide, act`, kit:`No kit needed`,
+dq:`How do you keep something standing that wants to fall?`,
+goal:`Students feel the balancing problem with their own hands, see that their phone can sense tilt, and run their first code. By the end they can name what any balancing machine needs: a way to sense the tilt, a way to decide, and a way to move, all faster than the fall.`,
+leave:[`The sense, decide, act loop, in their own words`,`phyphox installed and their first sensor readings`,`Their first code running in Wokwi`,`A plan for kit arrival, battery charging and software install`],
+prepT:[`Your robot charged and running Elegoo's demo code, ready to balance on camera`,`A broom and a 30 cm ruler beside you`,`phyphox on your phone, shown through a second camera or screen mirroring`,`Wokwi starter project (Arduino Nano, LED, MPU6050) with a share link ready for the chat`,`A blank slide titled "Our question wall"`,`Poll ready: "Which was easiest to balance?"`],
+prepS:[`A broom or mop, a 30 cm ruler and a pencil`,`phyphox installed on a phone (free on iOS and Android)`,`Laptop with Chrome open`,`Camera on, phone nearby`],
+flow:[
+{m:10,ph:`Engage`,h:`The robot reveal`,b:`Put your robot on the table, let it balance, then tap it once. Say nothing about how it works. Run a chat waterfall: everyone types an answer, nobody presses Enter until you say go. Copy their questions onto the question wall slide. You will answer these on demo day.`,ask:[`What do you notice?`,`What do you wonder?`]},
+{m:15,ph:`Explore`,h:`Broom challenge`,b:`Everyone balances the broom on an open palm for 10 seconds. Then the ruler. Then the pencil. Run the poll. Then ask them to try the broom with their eyes closed. It falls almost at once.`,ask:[`Which was easiest? Why would a longer object be easier?`,`What were your eyes doing the whole time? What was your hand doing?`,`Why did closing your eyes make it fail?`]},
+{m:10,ph:`Explain`,h:`Name the loop`,b:`Draw three boxes: Sense (eyes), Decide (brain), Act (hand), with an arrow back to Sense. A short object falls faster, so the loop has to run faster. The robot runs this loop hundreds of times a second. Show a photo of the robot and let them guess which part is its eyes, brain and hand. Don't confirm yet. They find out in week 2.`,ask:[`Which part of the robot do you think is its eyes? Its hand?`,`What would happen if the robot's loop ran slower than the fall?`]},
+{m:10,ph:`Explore`,h:`Your phone feels tilt`,b:`Open phyphox, then "Acceleration with g". Phone flat on the table. Ask them to find the number near 9.8. Tilt slowly, stand the phone on its edge, flip it over. Leave the big question unanswered. It opens week 5.`,ask:[`The phone is not moving. Why does one number say 9.8?`,`Where does the 9.8 go when you stand the phone up?`]},
+{m:5,ph:`Explore`,h:`Gyroscope, quickly`,trim:true,b:`Switch to the Gyroscope screen. A still phone reads near zero. Rotate it slowly, then fast.`,ask:[`What is this sensor measuring that the first one wasn't?`]},
+{m:20,ph:`Elaborate`,h:`First code in Wokwi`,trim:true,b:`Everyone opens the shared Wokwi link and presses play. The LED blinks. Before anyone edits, collect predictions in chat, then let them change 1000 to 100 and run. Then click the MPU6050 in the running simulation and drag its sliders while the Serial Monitor prints numbers. If short on time, set this as homework with your screen recording.`,ask:[`If I change 1000 to 100, what will the LED do? Type your guess first.`,`Which slider changes which number?`]},
+{m:10,ph:`Evaluate`,h:`Exit question and assignment`,b:`Exit question in chat. Then walk through the assignment on screen, task by task.`,ask:[`Name the robot's sense, decide and act parts. One word each.`]},
+{m:10,ph:`Admin`,h:`Get ready for week 2`,b:`Kit tracking, battery charging (charge it the night before week 2), Arduino IDE 2 install. Anyone without a kit replies to the class post so you can chase it.`}
+],
+wrong:[[`A phone lying still should read zero.`,`It measures gravity. Still on a table, the up axis reads about 9.8. Week 5 explains why.`],[`Balancing means holding very still.`,`It means constant small corrections. Watch your hand on the broom: it never stops moving.`],[`A short object is easier to balance because it is smaller.`,`Short objects fall faster, so you have less time to react. Compare the broom and the pencil.`]],
+tasks:[
+{k:`Must`,h:`Balance lab`,b:`Balance the broom, the ruler and a pencil. Three tries each. Time each try in seconds.`,f:`BALANCE LAB
+Object  | Length (cm) | Try 1 (s) | Try 2 (s) | Try 3 (s)
+Broom   |             |           |           |
+Ruler   |             |           |           |
+Pencil  |             |           |           |
+
+My guess why the longer one is easier:`},
+{k:`Must`,h:`Phone sensor readings`,b:`In phyphox, open "Acceleration with g". Hold each position still for 3 seconds and write the numbers, rounded to one decimal.`,f:`PHONE SENSOR (m/s², one decimal)
+Position               | X    | Y    | Z
+Flat, screen up        |      |      |
+Flat, screen down      |      |      |
+Standing on long edge  |      |      |
+Upright, portrait      |      |      |
+
+Which axis points out of the screen?`},
+{k:`Must`,h:`Heartbeat blink`,b:`In the Wokwi project, make the LED stay on for 200 ms and off for 800 ms. Submit your Wokwi share link.`},
+{k:`Must`,h:`Kit ready`,b:`Unbox the kit, check every part against the parts list, and post one photo of the parts laid out. Charge the battery the night before class. Install Arduino IDE 2.`},
+{k:`Stretch`,h:`Balancing machines`,b:`Find three machines that balance themselves, for example a Segway, a drone or a landing rocket. For each, write one line naming its sense, decide and act parts.`}
+],
+check:[`The axis pointing up reads about +9.8 and flips to about -9.8 upside down`,`The Wokwi link runs with 200 ms on and 800 ms off`,`The parts photo shows a complete kit`],
+one:`Confirm the kit arrived and the battery is charging. Check the laptop can install software. Ask what code they have written before, so you know who needs blocks first in week 3.`,
+notes:[`Plan the wonder questions from the reveal into week 12. Students love seeing their first questions answered.`],
+res:[`phyphox app (phyphox.org)`,`Wokwi starter project (wokwi.com)`,`Arduino IDE 2 (arduino.cc/en/software)`,`Tumbller parts list from Elegoo's manual`]
+},
+{
+n:2, nav:`Build the robot`, title:`Build the robot`, milestone:`Robot built and running`, kit:`Kit needed`,
+dq:`What does each part of the robot do in the sense, decide, act loop?`,
+goal:`Every robot assembled, powered and running Elegoo's demo. Students can name each main part's job, and every board connects to a laptop and accepts an upload.`,
+leave:[`A built robot they have seen balance`,`A 10-second video of it balancing`,`The proof that power off means it falls, so the code does the balancing`,`A working upload from Arduino IDE`],
+prepT:[`Your own unbuilt kit for the live build, under an overhead or phone camera`,`Practise the build once and split Elegoo's manual into four stages`,`Record your full build in advance for students whose kit arrives late`,`Mentors assigned to breakout rooms, about one per 8 students`,`A photo of the screws sorted by size`,`Hello sketch ready to upload`],
+prepS:[`Kit unboxed and checked, battery charged`,`A clear table, the screwdriver from the kit, a small bowl for screws`,`Phone joined to the call as a second camera pointing at their hands, muted`,`Laptop with Arduino IDE 2 installed and a USB cable that carries data`],
+flow:[
+{m:8,ph:`Engage`,h:`Guess the parts`,b:`Lay the parts out on camera. Hold up each main part: control board, motion sensor (on the board), motors, battery, ultrasonic sensor. Students guess its job in chat. Don't correct anyone yet.`,ask:[`Which part is the robot's eyes? Brain? Hands?`,`Which part is the heaviest? Where should it go?`]},
+{m:7,ph:`Explain`,h:`Build rules`,b:`Battery out during the build. Don't overtighten screws into acrylic; it cracks. Keep every wire away from the wheels. Post a checkpoint photo in the chat after each stage. Anyone who falls behind goes to a breakout room with a mentor.`},
+{m:50,ph:`Explore`,h:`Build-along in four stages`,b:`Build your own kit on the overhead camera, one stage at a time, about 12 minutes each. Split Elegoo's manual at natural breaks: (1) motors and wheels on the base, (2) standoffs and control board, motor cables plugged in, (3) upper plates and ultrasonic sensor, (4) battery, wire tidy and final check. Confirm this order against your practice build. Ask one question per stage while hands are busy.`,ask:[`Why do the motors sit at the very bottom?`,`The motion sensor must never wobble. Why might that matter?`,`Remember the broom. Would a taller robot be easier or harder to balance?`,`Why only two wheels? What would a third wheel change?`]},
+{m:10,ph:`Elaborate`,h:`Power on`,b:`Battery in, switch on, Elegoo's demo runs and the robot balances. Everyone records a 10-second video now, before uploading anything new. Then switch it off, stand it up and let go. It falls at once.`,ask:[`It balances with power on and falls with power off. So what is doing the balancing?`,`Every moment, what does the code need to know?`]},
+{m:10,ph:`Evaluate`,h:`Connect to the laptop`,b:`In Arduino IDE, select the board and port as Elegoo's tutorial says (some Nano boards need "ATmega328P (Old Bootloader)"). Warn them first: uploading replaces Elegoo's demo, which stays in the resource pack. Upload the hello sketch. Checkpoint: "Done uploading" on screen.`},
+{m:5,ph:`Evaluate`,h:`Assignment`,b:`Walk through the tasks. Close with: "Next week we start writing our own robot brain. By week 10 yours will balance with code you wrote."`}
+],
+wrong:[[`The robot balances because it is built well.`,`Switch it off and let go. It falls instantly. The code does the balancing.`],[`The ultrasonic sensor helps it balance.`,`It only measures distance ahead. The motion sensor on the board does the balancing work.`],[`Tighter screws are always better.`,`Acrylic cracks. Snug is enough.`]],
+tasks:[
+{k:`Must`,h:`Build photos`,b:`Front, side and top photos. Whole robot in frame, good light.`},
+{k:`Must`,h:`Demo video`,b:`10 seconds of the robot balancing on Elegoo's demo, recorded in class. If you missed it, re-upload Elegoo's code from the resource pack and record it.`},
+{k:`Must`,h:`Label the robot`,b:`For each part, say which job it does in the loop and what you think it does.`,f:`LABEL THE ROBOT
+Part           | Sense / Decide / Act / Power | What I think it does
+Control board  |                              |
+Motion sensor  |                              |
+Motor driver   |                              |
+Motors         |                              |
+Battery        |                              |
+Ultrasonic     |                              |`},
+{k:`Must`,h:`Upload proof`,b:`Screenshot of "Done uploading" in Arduino IDE.`},
+{k:`Stretch`,h:`Fall test`,b:`Power off, stand the robot upright and let go five times while filming in slow motion. Estimate how long each fall takes. Compare with the broom from week 1.`}
+],
+check:[`Photos show wires clear of the wheels and no loose plates`,`Every row of the label table has a guess`,`Upload screenshot shows "Done uploading"`],
+one:`Fix anything the photos show: loose screws, wires near wheels, a wobbling board. Students whose kit arrived late build here with your recorded build video.`,
+notes:[`Don't run this class short. The build needs the full 50 minutes.`,`Common upload problems: a charge-only USB cable, a missing USB driver (many Nano boards use a CH340 chip), the wrong processor setting.`,`Check whether your Tumbller came with the demo preloaded. If not, run a guided upload of Elegoo's demo at the start of the Power on block, which adds about 10 minutes.`],
+res:[`Elegoo Tumbller manual and code pack`,`Your recorded build video`,`Hello sketch`]
+},
+{
+n:3, nav:`Code I`, title:`Statements, variables and conditions`, milestone:`Writes variables and if/else`, kit:`Laptop only`,
+dq:`How does a robot decide what to do?`,
+goal:`Students write programs that run instructions in order (statements), store values (variables) and make choices (if, else if, else). They build each idea in blocks first, then read and write the same program as Arduino code. A short tour of the board's pins sets up weeks 5 and 7.`,
+leave:[`Statements, variables and conditions, in blocks and in Arduino code`,`The difference between = and ==`,`A rough picture of digital pins, analog input (ADC) and PWM`,`A tilt alarm that mimics what the robot will decide later`],
+prepT:[`Tinkercad Circuits starters: (a) LED on pin 13, (b) pushbutton and LED, (c) potentiometer and three LEDs (the tilt alarm)`,`Predict-the-output snippets A to D for the assignment`,`Pin tour slide: digital, analog in, PWM`,`A cup of water on your desk for "Be my robot"`],
+prepS:[`Free Tinkercad account, logged in`,`Robot not needed this week`],
+flow:[
+{m:5,ph:`Engage`,h:`Show last week`,trim:true,b:`Show two or three strong label tables from week 2, with permission. Settle the answers: the board decides, the motion sensor senses, the motor driver and motors act, the battery powers.`},
+{m:10,ph:`Engage`,h:`Be my robot`,b:`You are the robot. Students type instructions in chat to make you pick up the cup and drink. Follow each instruction exactly as written and nothing more. "Pick up the cup" while your hand is nowhere near it means your hand closes on air. Let it be funny.`,ask:[`What went wrong?`,`What does a computer need from us that a person doesn't?`]},
+{m:10,ph:`Explain`,h:`The board's pins`,b:`A quick tour using analogies only. Digital pins are light switches: on (5 V) or off (0 V). Analog input pins read a dimmer knob: the ADC turns 0 to 5 V into a number from 0 to 1023. PWM pins (marked ~) fake a dimmer by flicking a switch very fast, using a value from 0 to 255. Tell them analog input returns in week 5 and PWM in week 7.`,ask:[`Is the motion sensor an input or an output? The motors?`,`A dimmer knob turned halfway: what number would the ADC give?`]},
+{m:20,ph:`Explore`,h:`Statements and variables, blocks first`,b:`Tinkercad circuit (a). Build "on, wait 1 s, off, wait 1 s" in blocks. Then make a variable called waitTime and use it in both waits. Switch to Blocks + Text and read the generated code line by line: int waitTime = 1000; then digitalWrite(13, HIGH); then delay(waitTime); Point out the semicolons and curly brackets. Tinkercad uses an Uno; the code is the same on the robot's Nano.`,ask:[`If I swap the order of the two wait blocks, what changes?`,`Why use a variable instead of typing 1000 twice?`,`What does loop() do when it reaches its last line?`]},
+{m:20,ph:`Explore`,h:`Conditions: the tilt alarm`,b:`Circuit (c). The knob pretends to be the robot's tilt. Read it with int tilt = analogRead(A0); If tilt is above 600, red (falling forward). Else if it is below 400, blue (falling back). Else green (balanced). Build it in blocks, then everyone retypes it in text.`,ask:[`What happens at exactly 600? Predict, then test.`,`How would you make the green "balanced" zone narrower?`,`Why does the order of the if and else if checks matter?`]},
+{m:15,ph:`Elaborate`,h:`Write it from scratch`,trim:true,b:`New text-only project. Students type the tilt alarm without copying. Breakout rooms of 6 to 8 with a mentor. Blocks-first students keep the blocks open beside them.`},
+{m:10,ph:`Evaluate`,h:`Exit question and assignment`,b:`Poll, then walk through the five problems.`,ask:[`What is the difference between = and ==?`]}
+],
+wrong:[[`= and == mean the same thing.`,`= stores a value. == asks a question. if (tilt = 600) compiles and is always true.`],[`All the code runs at once.`,`It runs top to bottom, one line at a time, then loop() starts again.`],[`else needs its own condition.`,`else catches everything the checks above it missed.`],[`Blocks are not real code.`,`Blocks + Text shows they turn into the same Arduino code.`]],
+tasks:[
+{k:`Must`,id:`P1`,h:`Heartbeat LED`,b:`The LED blinks twice quickly, then rests for 1 second, like a heartbeat. Use variables named beatOn, beatOff and rest. Build it in blocks, then check the text view. Submit the Tinkercad link.`},
+{k:`Must`,id:`P2`,h:`Button lamp`,b:`The LED is on only while the button is pressed. Use if and else. Submit the Tinkercad link.`},
+{k:`Must`,id:`P3`,h:`Tilt alarm 2.0`,b:`Five zones from the potentiometer, written in text: above 800 "falling forward fast", 600 to 800 "leaning forward", 400 to 600 "balanced", 200 to 400 "leaning back", below 200 "falling back". Each zone lights a different LED combination. Submit the Tinkercad link.`},
+{k:`Must`,id:`P4`,h:`Predict the output`,b:`For each snippet, write your prediction before you run it. Then run it and record what happened.`,f:`PREDICT THE OUTPUT
+Snippet | My prediction | What happened | Right? (Y/N)
+A       |               |               |
+B       |               |               |
+C       |               |               |
+D       |               |               |`},
+{k:`Stretch`,id:`P5`,h:`Toggle switch`,b:`Press the button once: LED on. Press again: LED off. You need a variable that remembers the state.`}
+],
+check:[`Named variables instead of repeated numbers`,`else if checks run in order with no gaps between zones`,`Code is indented so each block is easy to read`],
+one:`Ask them to read their tilt alarm aloud and explain each line. If they can, they drop blocks from week 4. If not, they keep blocks and text side by side for one more week.`,
+notes:[`Keep the pin tour to 10 minutes. It is a map, not a lesson. ADC gets its depth in week 5 and PWM in week 7.`],
+res:[`Tinkercad Circuits (tinkercad.com), three starter circuits`,`Predict-the-output snippets A to D`,`Pin tour slide`]
+},
+{
+n:4, nav:`Code II`, title:`Loops, the Serial Monitor and debugging`, milestone:`Loops, prints and fixes errors`, kit:`Kit needed`,
+dq:`How do we see what the robot is thinking, and fix it when it is wrong?`,
+goal:`Students use for loops, print labelled values from their real robot to the Serial Monitor, read compiler errors, and debug with a four-step method. Everyone moves to Arduino code from this week.`,
+leave:[`for loops they can read and write`,`Their robot printing to the Serial Monitor and the Serial Plotter`,`The four-step debugging method`,`The habit of checking that code which compiles still does the right thing`],
+prepT:[`Bug hunt sketch with five bugs for class, and a second one for homework, both tested`,`Your robot connected to Arduino IDE and screen-shared`,`Three for loops ready for the prediction poll`],
+prepS:[`Robot charged and connected by USB`,`Arduino IDE 2 open`],
+flow:[
+{m:5,ph:`Engage`,h:`Show last week`,trim:true,b:`Replay one predict-the-output snippet from week 3 that most of the class got wrong.`},
+{m:10,ph:`Engage`,h:`Blink five times, then stop`,b:`Challenge: make the LED blink exactly five times, then stay off. Let them suggest answers. Most will copy the same four lines five times.`,ask:[`What if I wanted 500 blinks?`,`loop() already repeats forever. Why would we need another loop inside it?`]},
+{m:15,ph:`Explain`,h:`The for loop`,b:`Write for (int i = 1; i <= 5; i++) and label its three parts: where to start, keep going while, how to step. Show three loops and poll the output of each before running: i < 5 against i <= 5, i += 2, and counting down from 10.`,ask:[`Starting at 1, how many times does i < 5 run?`,`How would you count down from 10 to 1?`]},
+{m:20,ph:`Explore`,h:`The robot talks back`,b:`Real robot on USB. Upload Serial.begin(9600); and Serial.println("Hello from Anya's robot"); plus a for loop that prints a counter. Then set the Serial Monitor to 115200 on purpose. The text turns into nonsense. Let them work out why before you explain: both sides must agree on the speed, called the baud rate. Then print variables with labels: Serial.print("i = "); Serial.println(i);`,ask:[`The message turned into nonsense. What changed?`,`Why print "i = " before the number?`]},
+{m:25,ph:`Explore`,h:`Bug hunt`,b:`Teach the method first. (1) Read only the first red error. (2) Go to its line and the line above. (3) If it compiles but behaves wrong, print the values you think you know. (4) Change one thing and run again. Then hand out a sketch with five bugs: a missing semicolon, serial.begin in lowercase, a misspelled variable, a missing closing bracket, and a loop that prints 1 to 9 instead of 1 to 10. The last one compiles fine. Breakout rooms fix one bug at a time.`,ask:[`Which bug did the compiler not catch? Why not?`,`The error points at line 12, but the mistake is on line 11. How can that happen?`]},
+{m:10,ph:`Elaborate`,h:`A line that moves`,trim:true,b:`Print a number that rises from 0 to 100 and falls back, forever, then open the Serial Plotter. Tell them: "Next week this line is your robot's tilt."`},
+{m:5,ph:`Evaluate`,h:`Exit question and assignment`,ask:[`Your code compiles but the robot does the wrong thing. What do you do first?`]}
+],
+wrong:[[`No red error means the code is right.`,`The compiler checks grammar, not meaning. Bug 5 proves it.`],[`The mistake is always on the line the error names.`,`Often it is the line above, as with a missing semicolon.`],[`Printing costs nothing.`,`Printing takes time. In week 10, printing every loop can stop a robot balancing.`],[`i++ is a special word.`,`It means "add 1 to i". i = i + 1 does the same.`]],
+tasks:[
+{k:`Must`,id:`P1`,h:`Countdown`,b:`On the robot, print 10 down to 1, then "Liftoff!", once. Hint: code in setup() runs once.`},
+{k:`Must`,id:`P2`,h:`Times table`,b:`Print the 7 times table from 7 x 1 = 7 to 7 x 12 = 84 using one for loop.`},
+{k:`Must`,id:`P3`,h:`Bug hunt 2`,b:`Fix the homework sketch. Submit the fixed code and a bug log.`,f:`BUG LOG
+# | Line | First line of the error message | What was wrong | How I fixed it
+1 |      |                                 |                |
+2 |      |                                 |                |
+3 |      |                                 |                |
+4 |      |                                 |                |
+5 |      |                                 |                |`},
+{k:`Must`,id:`P4`,h:`Plotter wave`,b:`Print a value that rises from 0 to 100 and falls back, forever. Submit a screenshot of the Serial Plotter.`},
+{k:`Stretch`,id:`P5`,h:`Prime finder`,b:`Print every prime number below 100. You will need a loop inside a loop.`}
+],
+check:[`The bug log quotes the compiler's real words`,`The logic bug is found and explained`,`Every Serial print has a label`],
+one:`Share a fresh broken sketch on screen and watch them debug it. Coach the four steps. Don't fix it for them.`,
+notes:[`Plant the printing-costs-time idea now. It saves a lot of 1:1 time in week 10.`],
+res:[`Bug hunt sketches (class and homework)`,`Four-step debugging card`]
+},
+{
+n:5, nav:`The motion sensor`, title:`Inside the motion sensor`, milestone:`Reads raw motion data`, kit:`Kit needed`,
+dq:`How does a chip smaller than a fingernail feel tilt and turning?`,
+goal:`Students learn what is inside the MPU6050 (an accelerometer and a gyroscope), read raw values from their robot, and work out by experiment which axis points where. The axis map they build here decides the signs in their balance code.`,
+leave:[`What an accelerometer and a gyroscope each measure, and how`,`Raw readings from their own robot in a fixed format`,`An axis map: which axis is up, which is forward, which sign means tipping forward`,`The idea that the gyro is never exactly zero`],
+prepT:[`raw_imu sketch: prints AccX, AccY, AccZ, GyroX, GyroY, GyroZ every 100 ms, tested with the library from Elegoo's pack`,`Find the axis map on your own robot so you can check answers`,`A microscope image of a MEMS accelerometer to show`,`A box with a ball on rubber bands, or a sketch of one`],
+prepS:[`Robot charged and connected`,`Week 1 phone readings to hand`],
+flow:[
+{m:5,ph:`Engage`,h:`Show last week`,trim:true,b:`Show one great bug log and ask its owner which bug took longest.`},
+{m:10,ph:`Engage`,h:`Back to the 9.8`,b:`Bring back the week 1 question: why does a still phone read 9.8? Collect theories. Then describe a closed box with a ball hanging inside on rubber bands. Tilt the box and the ball shifts toward the floor.`,ask:[`If you were in a closed box with no windows, how would you know which way is down?`,`What would the ball do if the box were falling freely?`]},
+{m:15,ph:`Explain`,h:`What is inside the chip`,b:`The accelerometer is a tiny mass on tiny springs, carved into silicon. When gravity or movement pulls the mass, the gap between tiny plates changes, and the chip measures that gap. On a table gravity pulls it down, so the axis pointing up reads 1 g (9.8 m/s²). The gyroscope has a tiny mass that vibrates. When the chip rotates, the vibrating mass gets pushed sideways, and that push tells it how fast it is turning, in degrees per second. The chip talks to the Arduino over two wires called I2C: one carries data (SDA), one keeps the beat (SCL).`,ask:[`Which sensor tells you which way is down?`,`Which one tells you how fast you are turning?`]},
+{m:25,ph:`Explore`,h:`Find your axes`,b:`Upload raw_imu. In raw numbers, about 16384 means 1 g and about 131 means 1 degree per second. Investigation 1: hold the robot upright, then lay it on its back, its front and each side. Each time, which axis reads about 16000? Investigation 2: robot still on the table. Is the gyro exactly zero? Now tip it forward slowly, then fast. Which gyro axis changes, and is it positive or negative?`,ask:[`Which axis points from the wheels to the top of the robot?`,`Which axis points out of its nose?`,`Tipping forward: which gyro axis moves, and with which sign?`]},
+{m:15,ph:`Elaborate`,h:`Shake test`,b:`Students add conversion lines: divide acceleration by 16384 to get g, and gyro by 131 to get degrees per second. Open the Serial Plotter with one acceleration axis and one gyro axis. Tilt slowly, then tap the table, then shake the robot without tilting it.`,ask:[`You shook it without tilting it. Which line went wild?`,`Which sensor would you trust to say the robot is falling?`,`The accelerometer knows which way is down but jitters. The gyro is smooth but only knows turning speed. Could we combine them?`]},
+{m:10,ph:`Explore`,h:`Gyro offset`,trim:true,b:`Robot still. Average 100 gyro readings, then subtract that average from every reading after. Watch the still readings settle near zero.`},
+{m:10,ph:`Evaluate`,h:`Exit question and assignment`,ask:[`Robot lying perfectly still. What does the accelerometer say? What does the gyro say?`]}
+],
+wrong:[[`Still means the accelerometer reads zero.`,`It reads gravity. Only in free fall would it read zero.`],[`The gyro tells you the angle.`,`It tells you turning speed. To get an angle you add up speed over time, which is week 6.`],[`Positive always means forward.`,`The sign depends on how the chip is mounted. That is why everyone makes an axis map.`]],
+tasks:[
+{k:`Must`,h:`Six-position test`,b:`Hold the robot still in each position for 3 seconds and copy one line of readings.`,f:`IMU RAW READINGS (raw units)
+Position: upright (held still)
+AccX: ______  AccY: ______  AccZ: ______
+GyroX: _____  GyroY: _____  GyroZ: _____
+
+Position: lying on its back
+AccX: ______  AccY: ______  AccZ: ______
+GyroX: _____  GyroY: _____  GyroZ: _____
+
+Position: lying on its front
+AccX: ______  AccY: ______  AccZ: ______
+GyroX: _____  GyroY: _____  GyroZ: _____
+
+Position: on its left side
+AccX: ______  AccY: ______  AccZ: ______
+GyroX: _____  GyroY: _____  GyroZ: _____
+
+Position: on its right side
+AccX: ______  AccY: ______  AccZ: ______
+GyroX: _____  GyroY: _____  GyroZ: _____
+
+Position: upside down
+AccX: ______  AccY: ______  AccZ: ______
+GyroX: _____  GyroY: _____  GyroZ: _____`},
+{k:`Must`,h:`Convert to g`,b:`For two positions, divide each acceleration reading by 16384.`,f:`CONVERTED (g)
+Position          | AccX (g) | AccY (g) | AccZ (g)
+Upright           |          |          |
+Lying on its back |          |          |`},
+{k:`Must`,h:`Axis map`,b:`Fill in the blanks. This decides the signs in your balance code.`,f:`AXIS MAP
+The ____ axis points from the wheels to the top.
+The ____ axis points out of the robot's front.
+When the robot tips forward, Gyro____ goes ________ (positive / negative).`},
+{k:`Must`,h:`Gyro offset`,b:`Robot still for 10 seconds. Write the lowest and highest value you see on each gyro axis.`,f:`GYRO OFFSET (robot still, 10 s)
+GyroX: lowest ____  highest ____
+GyroY: lowest ____  highest ____
+GyroZ: lowest ____  highest ____
+Is the gyro ever exactly 0?`},
+{k:`Stretch`,h:`Shake video`,b:`15-second screen recording of the Serial Plotter showing one acceleration axis and one gyro axis while you shake the robot gently, then tilt it slowly. Two lines on what you see.`}
+],
+check:[`In each position one axis reads about ±16000 and the others are near 0`,`Signs flip when the robot is upside down`,`The axis map agrees with the readings`],
+one:`Go through the axis map line by line. The forward axis and its sign decide the signs in the balance code. A wrong sign here means a robot that runs away in week 8.`,
+notes:[`Don't hand out the axis map. Finding it is the lesson.`,`The raw scale assumes the default ranges: ±2 g (16384 per g) and ±250 degrees per second (131 per degree per second). If your library changes the range, change these numbers.`],
+res:[`raw_imu sketch`,`MEMS microscope image`,`phyphox for comparison`]
+},
+{
+n:6, nav:`Tilt angle and distance`, title:`A clean tilt angle, and how distance is measured`, milestone:`Knows its tilt and distance`, kit:`Kit needed`,
+dq:`How can the robot know its exact tilt when one sensor jitters and the other drifts?`,
+goal:`Students run the tilt-angle code you give them, check it against their phone, and understand why we mix the two sensors. In the second half they learn how the ultrasonic sensor times an echo to measure distance.`,
+leave:[`A tilt angle they trust, checked against a phone`,`The idea behind the filter: trust the gyro now, let the accelerometer correct it slowly`,`How the ultrasonic sensor turns an echo into centimetres, and where it fails`],
+prepT:[`tilt_angle sketch printing three angles (accelerometer only, gyro only, filtered), comma-separated for the Serial Plotter`,`ultrasonic sketch`,`phyphox "Inclination" on your phone`,`Ruler or tape measure, a flat wall or a piece of cardboard`],
+prepS:[`Robot charged and connected`,`phyphox installed`,`Ruler, a pillow and a book`],
+flow:[
+{m:5,ph:`Engage`,h:`Agree on the axis map`,trim:true,b:`Show two students' axis maps. Agree as a class which axis is forward on the Tumbller and which sign means tipping forward.`},
+{m:10,ph:`Engage`,h:`Two witnesses`,b:`Witness A saw the accident but is shaky and exaggerates every detail. Witness B is calm and precise but slowly forgets. Who do you believe?`,ask:[`Who would you trust from moment to moment?`,`Who would you use to correct the other over a longer time?`]},
+{m:20,ph:`Explore`,h:`Three lines on the plotter`,b:`Upload tilt_angle. The Serial Plotter shows three lines: angle from the accelerometer only, angle from the gyro only, and the filtered angle. Three experiments: hold the robot still at a tilt; leave it still on the table for two minutes; tap and shake it gently.`,ask:[`Describe each line in one word.`,`Which line drifts when nothing moves?`,`Which line would you want controlling the motors? Why?`]},
+{m:15,ph:`Explain`,h:`How the filter works`,b:`Accelerometer angle: the chip works out the angle from how gravity splits between two axes. Gyro angle: add up turning speed × time, every loop. Filter: new angle = 98% of (old angle + gyro change) + 2% of the accelerometer angle. It trusts the gyro from moment to moment and lets the accelerometer pull it back slowly. Then let them change 0.98 to 0.5 and to 1.0 and watch.`,ask:[`What happens at 1.0? At 0.5?`,`Why 98 and 2, and not 50 and 50?`]},
+{m:10,ph:`Elaborate`,h:`Check against the phone`,trim:true,b:`Lay the phone, running phyphox "Inclination", against the robot. Tilt both together to 0, 10, 20 and 30 degrees and compare.`},
+{m:20,ph:`Explore`,h:`Ultrasonic: how a bat sees`,b:`Ask how bats fly in the dark. The sensor's speaker sends a 40 kHz chirp humans can't hear, and its microphone listens for the echo. The Arduino times the round trip. Sound travels about 343 metres a second, which is 0.0343 cm per microsecond, so distance = time × 0.0343 ÷ 2. Upload the ultrasonic sketch. Measure a wall at 10, 20 and 30 cm, then try a pillow, a book held at an angle, and a hand.`,ask:[`Why divide by 2?`,`Which surfaces fool it? Why?`]},
+{m:10,ph:`Evaluate`,h:`Exit question and assignment`,ask:[`Why can't the robot balance using only the accelerometer?`]}
+],
+wrong:[[`The filtered angle is the average of the two.`,`It trusts the gyro for quick changes and uses the accelerometer to correct drift slowly.`],[`The ultrasonic sensor sees everything in front of it.`,`It sees a cone. Soft or angled surfaces absorb or deflect the echo.`],[`0° on screen means the robot is balanced.`,`The robot's balance point is usually a few degrees off zero. We find it in week 9.`]],
+tasks:[
+{k:`Must`,h:`Tilt check`,b:`Compare the robot's filtered angle with the phone at each angle.`,f:`TILT CHECK
+Phone angle (°) | Robot filtered angle (°) | Difference
+0               |                          |
+10              |                          |
+20              |                          |
+30              |                          |
+-10             |                          |
+-20             |                          |`},
+{k:`Must`,h:`Drift test`,b:`Leave the robot still for 2 minutes.`,f:`DRIFT TEST (2 minutes, robot still)
+Gyro-only angle:  start ____  end ____
+Filtered angle:   start ____  end ____
+Why I think they differ:`},
+{k:`Must`,h:`Filter experiment`,b:`Run the sketch with 0.98, 0.80 and 1.00. Submit a Serial Plotter screenshot of each and one line on what changed.`},
+{k:`Must`,h:`Ultrasonic check`,b:`Measure with a ruler, then with the sensor.`,f:`ULTRASONIC CHECK
+Real distance (cm) | Sensor reading (cm) | Difference
+10                 |                     |
+20                 |                     |
+30                 |                     |
+50                 |                     |
+
+Surface test (real distance ____ cm)
+Pillow: ____ cm   Tilted book: ____ cm   Hand: ____ cm`},
+{k:`Stretch`,h:`Two sensors, one decision`,b:`Print "TOO CLOSE" when something is nearer than 15 cm and the robot is tilted more than 20°. One if statement, two sensors.`}
+],
+check:[`Filtered angle within about 2° of the phone`,`Filtered angle barely drifts in two minutes; the gyro-only angle drifts`,`Ultrasonic within about 1 cm on a flat, hard wall`],
+one:`Confirm which sign the angle takes when tipping forward and write it on their tuning sheet. Week 8 depends on it.`,
+notes:[`Students don't derive the filter. They use it, test it and explain the idea in their own words.`],
+code:{label:`The three lines that matter in tilt_angle`,c:`accAngle  = atan2(accY, accZ) * 180 / PI;   // axes depend on your axis map
+gyroAngle = gyroAngle + gyroRate * dt;      // drifts over time
+angle     = 0.98 * (angle + gyroRate * dt) + 0.02 * accAngle;
+
+// ultrasonic
+distanceCm = durationMicros * 0.0343 / 2;`},
+res:[`tilt_angle sketch`,`ultrasonic sketch`,`phyphox "Inclination"`]
+},
+{
+n:7, nav:`Motors and PWM`, title:`Actuators: PWM and the motor driver`, milestone:`Wheels follow tilt`, kit:`Kit needed`,
+dq:`A pin can only be on or off. How does the Arduino make a motor go slowly?`,
+goal:`Students understand PWM as fast on and off that gives an average voltage, why a motor driver is needed, and how to set each wheel's speed and direction in code. They measure each motor's dead zone and build a tilt follower that leads straight into control.`,
+leave:[`PWM, duty cycle and the average voltage formula`,`Why the battery powers the motors through a driver, and what an H-bridge does`,`Dead-zone numbers for both wheels (used again in week 9)`,`A tilt follower, and first-hand proof that full speed or nothing can't balance`],
+prepT:[`motor_test sketch with a setMotor(side, speed) helper, where negative speed means backward`,`A box or stand so the robot's wheels spin in the air`,`Tinkercad LED dimming demo`,`H-bridge drawing with four switches`],
+prepS:[`Robot charged`,`A box or a stack of books to lift the wheels off the table`],
+flow:[
+{m:5,ph:`Engage`,h:`Show last week`,trim:true,b:`Show the surface test results: which objects fooled the ultrasonic sensor?`},
+{m:10,ph:`Engage`,h:`On or off only`,b:`Pins give 0 V or 5 V, nothing in between. Yet the wheels turn slowly while balancing. Collect theories. Then flick your phone flashlight on and off quickly on camera.`,ask:[`How can a pin that only does on and off make a motor go slowly?`,`What if I could flick the light 1,000 times a second?`]},
+{m:15,ph:`Explain`,h:`PWM`,b:`PWM switches the pin on and off so fast that the motor only feels the average. Duty cycle is the share of time it is on. analogWrite(pin, value) takes 0 to 255. Average voltage = value ÷ 255 × 5 V, so 255 gives 5 V, 128 about 2.5 V and 64 about 1.25 V. Run two predictions, then dim an LED in Tinkercad. Link back to the ~ pins from week 3.`,ask:[`analogWrite(pin, 51) gives what average voltage?`,`What value gives about 3 V?`]},
+{m:10,ph:`Explain`,h:`The motor driver`,b:`An Arduino pin can safely give about 20 mA. A motor needs hundreds. Asking a pin to run a motor is like asking a phone charger to start a car. The driver chip is a gate: the small Arduino signal opens and closes it, and battery power flows through. Inside, an H-bridge has four switches. Close one diagonal pair and current flows one way (forward). Close the other pair and it flows back (reverse). Draw it.`,ask:[`Where does the power for the motors come from?`,`Which switches would you close to reverse?`]},
+{m:20,ph:`Explore`,h:`Wheels in the air`,b:`Robot on a box, wheels off the table, always. Upload motor_test. Run each wheel forward and back. Then the dead-zone hunt: sweep from 0 to 255 in steps of 5, print each value, and note when each wheel starts to turn.`,ask:[`At PWM 30, will the wheel turn? Predict first.`,`Why do left and right start at different values?`,`Why does it take more to start a wheel than to keep it turning?`]},
+{m:20,ph:`Elaborate`,h:`Tilt follower`,trim:true,b:`Combine with the week 6 angle. Above 2°, both wheels forward at 120. Below -2°, both back. Otherwise stop. Hold the robot and tilt it; the wheels chase the lean. Then let a few students try it on the floor with a hand ready to catch. It jerks and falls.`,ask:[`On the floor, will it balance? Predict.`,`What is wrong with full speed or nothing?`]},
+{m:10,ph:`Evaluate`,h:`Exit question and assignment`,ask:[`analogWrite(pin, 64): what share of full power is that?`]}
+],
+wrong:[[`PWM 128 means half speed.`,`It means half the average voltage. Speed also depends on load, friction and the dead zone.`],[`The Arduino powers the motors.`,`The battery does, through the driver. The Arduino only sends the signal.`],[`Forward is the same for both motors.`,`The motors face opposite ways. One may need its direction flipped in code.`]],
+tasks:[
+{k:`Must`,h:`Motor dance`,b:`Wheels in the air. Both forward 2 s, both back 2 s, spin (one forward, one back) 2 s, stop. Submit a video of up to 30 s and the .ino file.`},
+{k:`Must`,h:`Dead zone`,b:`Sweep each wheel and record the first value that moves it. Keep these numbers; you use them in week 9.`,f:`DEAD ZONE (wheels in the air)
+Wheel | Forward: first PWM that moves | Backward: first PWM that moves
+Left  |                               |
+Right |                               |`},
+{k:`Must`,h:`PWM math`,b:`Five questions on a 5 V pin.`,f:`PWM MATH (5 V pin)
+1. value 255          → ____ V
+2. value 64           → ____ V
+3. value 200          → ____ V
+4. You want 1 V       → value ____
+5. You want 3 V       → value ____`},
+{k:`Must`,h:`Tilt follower`,b:`Video of up to 45 s: you hold the robot and the wheels follow the tilt. Submit the .ino. Then one try on the floor; describe what happened in two lines.`},
+{k:`Stretch`,h:`Smooth follower`,b:`Make wheel speed grow with tilt instead of jumping to 120: speed = angle × 10, limited to 255. Does it behave better on the floor?`}
+],
+check:[`PWM math answers: 5 V, 1.25 V, 3.92 V, 51, 153`,`Dead-zone values recorded for both wheels in both directions`,`Both wheels turn forward when the code says forward`],
+one:`Check that a positive speed moves the robot forward on both wheels. Fix any flipped motor inside setMotor now.`,
+notes:[`PWM numbers: 128 ÷ 255 × 5 V is about 2.5 V. 120 gives about 2.35 V. On the robot the driver applies that same percentage to the battery voltage, so 50% means about half the battery voltage at the motor.`,`The Nano switches PWM about 490 times a second on most pins and about 980 on pins 5 and 6.`,`Put the pin details inside setMotor(side, speed) so students can read the analogWrite and direction lines without fighting the pin map.`,`The smooth follower stretch task is P control. Students who solve it have invented next week's lesson. Show their work in week 8.`],
+res:[`motor_test sketch with setMotor helper`,`H-bridge drawing`,`Tinkercad LED dimming demo`]
+},
+{
+n:8, nav:`Control: P and D`, title:`Control: P and D`, milestone:`First stand`, kit:`Kit needed`,
+dq:`How hard should the wheels push, and when?`,
+goal:`Students learn what feedback control is, complete the P line in the stub code, watch P alone overshoot and shake, then add D to calm it. Target for the class: a first hands-free stand of a few seconds.`,
+leave:[`Error, P and D in their own words`,`A completed stub with P and D`,`A tuning log of at least 8 runs`,`A first stand on video`],
+prepT:[`balance_stub sketch with blanks for error, P, D and the output limit`,`Find working gains on your own robot first, and compare with the values in Elegoo's demo code`,`Backup videos from your robot: P only shaking, and P plus D standing`,`Lane-drifting and stop-line slides`],
+prepS:[`Robot fully charged (this matters from now on)`,`Space on the floor, a soft surface nearby`,`Tuning sheet with their forward sign from week 6`],
+flow:[
+{m:10,ph:`Engage`,h:`Why the tilt follower failed`,b:`Replay two floor attempts from last week.`,ask:[`When you balanced the broom, did your hand move the same amount every time?`,`So how should the wheel speed depend on the tilt?`]},
+{m:15,ph:`Explain`,h:`Feedback control and P`,b:`Feedback control: measure, compare with the target, correct, repeat, hundreds of times a second. Error = target angle − measured angle. P pushes in proportion to the error, and Kp sets how hard. Analogy: drifting out of your lane, you steer back harder the further off you are. If anyone solved last week's smooth follower, show it. They invented P.`,ask:[`If the error doubles, what should happen to the push?`,`What would Kp = 0 do?`]},
+{m:20,ph:`Explore`,h:`P only`,b:`Fill in the error and P lines. Start with a small Kp. Hold the robot loosely between two fingers on the floor and never let go. Feel it push. Double Kp each run and log the result: lazy, fights back, or shakes hard. Everyone posts the Kp where shaking starts.`,ask:[`At what Kp does it start to shake?`,`When it reaches upright the error is zero. Why does it keep swinging past?`]},
+{m:15,ph:`Explain`,h:`D`,b:`D looks at how fast the robot is falling and pushes against that speed. Analogy: approaching a stop line, you brake before you reach it because you are moving fast. The gyro already measures how fast the robot tilts, so dTerm = Kd × gyro rate.`,ask:[`What does P look at? What does D look at?`,`The robot is upright but swinging fast. What does P do? What does D do?`]},
+{m:20,ph:`Explore`,h:`P plus D: first stand`,b:`Set Kp to about 60% of the value where shaking started. Raise Kd from small until the shaking calms. Then let go for a moment and catch it. Count the seconds. Celebrate any stand of 2 or 3 seconds. Mentors run breakout rooms. A robot that runs off in one direction is normal; park that for week 9. A robot that drives away from the lean has a sign error.`,ask:[`Did D calm it or make it worse? How can you tell?`,`Which way did it run off? Every time?`]},
+{m:10,ph:`Evaluate`,h:`Exit question and assignment`,ask:[`One sentence each: what does P do, and what does D do?`]}
+],
+wrong:[[`Bigger Kp is always better.`,`Past a point it shakes and falls. The log shows where.`],[`D makes the robot react faster.`,`D calms it by pushing against fast movement.`],[`If it falls, the hardware is broken.`,`Usually it is a sign, a gain or the battery. Check those first.`]],
+tasks:[
+{k:`Must`,h:`Complete the stub`,b:`Fill in error, P, D and the output limit. Submit the .ino.`},
+{k:`Must`,h:`Tuning log`,b:`At least 8 runs. Change one gain at a time.`,f:`TUNING LOG (week 8)
+Run | Kp | Kd | What happened (lazy / fights / shakes / stands) | Seconds standing
+1   |    |    |                                                 |
+2   |    |    |                                                 |
+3   |    |    |                                                 |
+4   |    |    |                                                 |
+5   |    |    |                                                 |
+6   |    |    |                                                 |
+7   |    |    |                                                 |
+8   |    |    |                                                 |`},
+{k:`Must`,h:`Video: P only`,b:`Up to 20 s. Robot held loosely, showing the shaking at a high Kp.`},
+{k:`Must`,h:`Video: P plus D`,b:`Up to 20 s. Your best attempt with hands released.`},
+{k:`Must`,h:`Explain it`,b:`Three sentences: what P does, what D does, and why P alone overshoots.`},
+{k:`Stretch`,h:`Plot while balancing`,b:`Plot the angle in the Serial Plotter while it balances. Print only every 10th loop so printing doesn't slow it down.`}
+],
+check:[`At least 8 logged runs covering lazy, shaking and in between`,`Wheels drive toward the lean (signs correct)`,`Any hands-free stand on video counts this week`],
+one:`Live tuning on camera. Watch them run, ask what they will change and why, then let them change one gain. This is the most important 1:1 of the course.`,
+notes:[`Don't run this class short. Students need the full 40 minutes of hands-on tuning.`,`Run the control code on a fixed timer, for example every 5 ms using millis(). Never use delay() inside the balance loop.`,`Use the gyro rate for D directly. It is cleaner than subtracting one angle from the last.`,`If D makes things worse, flip its sign. The gyro axis may point the opposite way to the angle.`,`Keep your own gains private. Share a range in the 1:1 only after 8 or more honest runs.`],
+code:{label:`balance_stub: the part students fill in`,c:`// runs every 5 ms
+float angle = getAngle();       // filtered angle from week 6
+float rate  = getGyroRate();    // degrees per second from week 5
+
+float error = ________ ;        // how far from the target?
+float pTerm = Kp * ________ ;
+float dTerm = Kd * ________ ;   // hint: how fast is it falling?
+
+int output = pTerm + dTerm;
+output = constrain(output, ____, ____);
+setBothMotors(output);`},
+res:[`balance_stub sketch`,`Tuning sheet`,`Your backup videos`]
+},
+{
+n:9, nav:`Balance point and I`, title:`Balance point, safety cut-off and I`, milestone:`Stands 15 s, stops safely`, kit:`Kit needed`,
+dq:`Why does my robot keep running off in one direction?`,
+goal:`Students find their robot's real balance point and use it as the target, add a safety cut-off, add the dead-zone values from week 7, and test a small I term. Target: 15 seconds hands-free.`,
+leave:[`Their robot's balance point, measured and in the code`,`A cut-off that stops the wheels when the robot falls`,`Dead-zone compensation`,`Their own evidence on whether I helps their robot`],
+prepT:[`A sketch that prints only the angle with the motors off`,`Three week 8 videos of robots that stood briefly, then ran away`,`Stub additions for target angle, cut-off, dead zone and I`],
+prepS:[`Robot fully charged`,`Week 7 dead-zone numbers and week 8 tuning log to hand`],
+flow:[
+{m:10,ph:`Engage`,h:`Runaways`,b:`Show three week 8 videos where the robot stood for a moment, then ran off in one direction.`,ask:[`It runs off forward every time. If it were perfectly balanced, would it prefer a direction?`,`What could make one side heavier?`]},
+{m:15,ph:`Explore`,h:`Find the balance point`,b:`Motors off; the sketch only prints the angle. Hold the robot at the top with two fingertips, very lightly, and find the position where it feels weightless and doesn't want to fall either way. Read the angle. Do it three times and average.`,ask:[`Is your balance point at 0°? How far off is it?`,`Why might two identical kits have different balance points?`]},
+{m:10,ph:`Explain`,h:`The target angle`,b:`The sensor's zero is where the chip is flat, not where the robot balances. The battery, board and wires are never perfectly centred, so the robot balances a few degrees off. If the code aims for 0°, the robot always leans a little, keeps driving to catch itself, and runs away. Set targetAngle to the measured average and run again.`},
+{m:15,ph:`Explore`,h:`Safety cut-off and dead zone`,b:`Add a rule: if the angle is more than 35° from the target, stop the motors. Tip the robot over: the wheels must stop. Then add the dead-zone values from week 7, so small corrections actually turn the wheels.`,ask:[`Without a cut-off, what happens when the robot falls?`,`Remember PWM 30 in week 7. Why does that matter for tiny corrections?`]},
+{m:20,ph:`Explain`,h:`I: fixing a slow lean`,b:`If it still leans and creeps one way, I adds up the error over time, so a small lean that lasts grows into a firmer push. Analogy: a parent who notices you have been slouching for ten minutes reminds you a little more firmly each time. Keep Ki tiny and cap the total (anti-windup). Many robots need little or no I. Students test and decide.`,ask:[`Did I help or make it worse? What is your evidence?`,`What happens if the total keeps growing while the robot lies on its side?`]},
+{m:15,ph:`Elaborate`,h:`15-second challenge`,trim:true,b:`Breakout rooms. Everyone tries for a 15-second hands-free stand. Mentors log the times.`},
+{m:5,ph:`Evaluate`,h:`Exit question and assignment`,ask:[`Why does a robot run away when its target angle is wrong?`]}
+],
+wrong:[[`The I term does the balancing.`,`P and D do the balancing. I only removes a slow, steady lean.`],[`0° is upright.`,`Upright is the robot's measured balance point.`],[`The cut-off should be as small as possible.`,`Too small and it switches off during normal corrections. Start around 35° to 45°.`]],
+tasks:[
+{k:`Must`,h:`Balance point`,b:`Measure three times, then compare stand times before and after.`,f:`BALANCE POINT
+Try 1: ____°   Try 2: ____°   Try 3: ____°   Average: ____°
+
+Before (target 0°):        runs off toward ________ after ____ s
+After (target = average):  stands ____ s`},
+{k:`Must`,h:`Cut-off video`,b:`Up to 15 s. Tip the robot over and show the wheels stop.`},
+{k:`Must`,h:`Dead zone and tuning log`,b:`Add dead-zone compensation. Log at least 6 runs.`,f:`TUNING LOG (week 9)
+Run | Target (°) | Kp | Kd | Ki | Seconds standing | Notes
+1   |            |    |    |    |                  |
+2   |            |    |    |    |                  |
+3   |            |    |    |    |                  |
+4   |            |    |    |    |                  |
+5   |            |    |    |    |                  |
+6   |            |    |    |    |                  |`},
+{k:`Must`,h:`15-second video`,b:`Up to 30 s. The robot stands 15 seconds with no hands.`},
+{k:`Stretch`,h:`Halving search`,b:`Find the balance point a second way: try a target, see which way it runs, then halve the step each time. Log each try and compare with your fingertip result.`}
+],
+check:[`Stands 15 seconds hands-free`,`Wheels stop when it tips over`,`Balance point recorded and used as the target`],
+one:`Anyone under 5 seconds gets a fix session. Check in this order: target angle, signs, battery charge, loose wheels or screws.`,
+notes:[`What "finding the balance point" means: the robot's weight is never perfectly centred over the axle, so it stands upright at an angle a few degrees away from the sensor's 0°. That angle is the balance point. Using it as the target stops the steady runaway.`,`Without wheel encoders the robot will still drift slowly across the floor. That is expected in this cohort. The bar is standing, not staying in one spot.`],
+code:{label:`Additions to the stub`,c:`float targetAngle = ____ ;               // your measured balance point
+
+if (abs(angle - targetAngle) > 35) {      // fallen over
+  setBothMotors(0);
+  errorSum = 0;
+  return;
+}
+
+errorSum += error * dt;
+errorSum = constrain(errorSum, -____, ____);   // cap the total
+float iTerm = Ki * errorSum;
+
+int output = pTerm + dTerm + iTerm;
+if (output > 0) output += deadZone;            // from week 7
+if (output < 0) output -= deadZone;
+output = constrain(output, -255, 255);`},
+res:[`Angle-only sketch`,`Stub additions`,`Runaway videos from week 8`]
+},
+{
+n:10, nav:`Push recovery`, title:`Push recovery: tuning and debugging`, milestone:`Stands 30 s, survives a push`, kit:`Kit needed`,
+dq:`How do we make it stand back up after a push?`,
+goal:`Robots stand for 30 seconds and recover from three taps. Students follow a tuning order, change one thing at a time, and diagnose problems with a checklist instead of guessing.`,
+leave:[`A tuning order they can repeat`,`The push test`,`The debugging checklist`,`A robot that meets the final bar, or a clear list of what is left`],
+prepT:[`Your robot set up twice: too little Kd, then the right Kd, for the same tap`,`Three broken-robot videos: runs away, buzzes, collapses after a push`,`Debugging checklist slide`],
+prepS:[`Robot fully charged at the start of class`,`Tuning log from week 9`],
+flow:[
+{m:10,ph:`Engage`,h:`Same robot, different behaviour`,b:`Show a tuning log where the same gains worked at the start of a session and failed 20 minutes later.`,ask:[`Nothing in the code changed. What did?`]},
+{m:15,ph:`Explain`,h:`Tuning order and the push test`,b:`Push test: a one-finger tap at the top plate, then a 2 cm nudge, then a 5 cm push. Tuning order: (1) raise Kp until it shakes fast, then back off about 30%; (2) raise Kd until the shaking stops, and lower it if the robot starts to buzz; (3) add a little Ki only if a slow lean remains. Change one gain at a time and log every run. Demo your robot with too little Kd and the right Kd under the same tap.`,ask:[`Why change only one gain at a time?`]},
+{m:35,ph:`Explore`,h:`Tuning lab`,b:`Breakout rooms of 6 to 8 with a mentor. Each student runs the tap test, logs, adjusts one gain and repeats. Others watch on camera and call it: lazy, shaky or good.`,ask:[`What did you change, and what did you expect to happen?`]},
+{m:15,ph:`Explain`,h:`Debug clinic`,b:`Play the three broken-robot videos. The class diagnoses each one with the checklist.`,ask:[`What would you check first?`,`What evidence would prove it?`]},
+{m:10,ph:`Elaborate`,h:`Live attempts`,trim:true,b:`Volunteers try the full bar on camera: 30 seconds and three taps.`},
+{m:5,ph:`Evaluate`,h:`Exit question and assignment`,ask:[`Your robot buzzes in place. Which gain do you change, and which way?`]}
+],
+wrong:[[`If it worked yesterday, the code is fine today.`,`Battery charge changes behaviour. Tune on a charged battery and recheck later.`],[`More printing helps debugging.`,`Printing every loop slows the loop and can break balance. Print every 20th loop.`],[`Change everything at once to save time.`,`Then you can't tell what helped.`]],
+tasks:[
+{k:`Must`,h:`Tuning log with taps`,b:`At least 8 runs.`,f:`TUNING LOG (week 10)
+Run | Kp | Kd | Ki | Battery (fresh / used) | Seconds | Tap 1 | Tap 2 | Tap 3
+1   |    |    |    |                       |         |  Y/N  |  Y/N  |  Y/N
+2   |    |    |    |                       |         |       |       |
+3   |    |    |    |                       |         |       |       |
+4   |    |    |    |                       |         |       |       |
+5   |    |    |    |                       |         |       |       |
+6   |    |    |    |                       |         |       |       |
+7   |    |    |    |                       |         |       |       |
+8   |    |    |    |                       |         |       |       |`},
+{k:`Must`,h:`The bar, on video`,b:`Up to 45 s, one take: 30 seconds standing, then three taps.`},
+{k:`Must`,h:`Bug story`,b:`Four to six lines: one problem you hit, the evidence that found it, and what fixed it.`},
+{k:`Must`,h:`Commented code`,b:`Updated .ino with a comment on every gain line saying why you chose that value.`},
+{k:`Stretch`,h:`How big a push?`,b:`Try the nudge and the push. Find the biggest push it survives and film it.`}
+],
+check:[`One video: 30 s standing plus three taps, single take`,`Log shows one gain changed per run`,`Bug story names the evidence, not only the fix`],
+one:`Rescue session for anyone below 15 seconds. Week 11 is the deadline.`,
+notes:[`Debugging checklist. Battery: charged? Tune on a fresh charge and recheck when it drops. Mechanics: wheels tight on their shafts, screws tight, board not wobbling, wires clear of wheels. Loop timing: no delay() in the loop, printing every 20th loop at most. Signs: tipping forward drives the wheels forward. Angle: does it still match the phone? Target: re-measure the balance point after any rebuild.`],
+res:[`Debugging checklist`,`Three broken-robot videos`,`Push test card`]
+},
+{
+n:11, nav:`Submission`, title:`Submission week`, milestone:`Submitted`, kit:`Kit needed`,
+dq:`Can I explain every line of what my robot is doing?`,
+goal:`Every student submits a working robot (30 seconds hands-free, recovers from three taps) with commented code. The live class is a pit stop with no new content.`,
+leave:[`A complete submission package`,`Code they can explain section by section`,`The brief for the final video`],
+prepT:[`Status list: green (meets the bar), amber (stands under 30 s), red (not standing)`,`Breakout rooms set by status`,`Week 12 video brief ready to post`],
+prepS:[`Robot charged`,`Latest code and tuning log open`],
+flow:[
+{m:10,ph:`Explain`,h:`Submission checklist`,b:`Walk through the four items in the package and the bar: 30 seconds hands-free and recovery from three taps. Due Saturday 8 PM ET.`},
+{m:40,ph:`Explore`,h:`Pit stop`,b:`Breakout rooms by status. Green: comment the code, plan the final video, start an optional extension. Amber: tuning with a mentor. Red: with you. Move between rooms.`,ask:[`What have you already ruled out?`]},
+{m:20,ph:`Evaluate`,h:`Peer code review`,trim:true,b:`Pairs swap code. Each finds one line they can't explain and asks, "Why this value?" The owner answers.`},
+{m:15,ph:`Elaborate`,h:`Explain it back`,b:`Three or four volunteers explain their robot's loop in 60 seconds: sense, decide, act; P, D and I; the balance point.`},
+{m:5,ph:`Evaluate`,h:`Final video brief`,b:`Post the week 12 brief. Final video due the Saturday before demo day.`}
+],
+wrong:[],
+tasks:[
+{k:`Must`,h:`Final code`,b:`One .ino with a comment heading each section: read sensor, angle, error, P, D, I, cut-off, motors.`},
+{k:`Must`,h:`The bar, on video`,b:`Up to 45 s, one take: 30 seconds standing, then three taps.`},
+{k:`Must`,h:`Final values and reflection`,b:`Fill in and paste as text.`,f:`FINAL VALUES
+Balance point: ____°   Kp: ____   Kd: ____   Ki: ____
+Cut-off angle: ____°   Dead zone L / R: ____ / ____
+
+REFLECTION
+1. What was hardest?
+2. Which bug took longest, and how did you find it?
+3. In your own words, what does D do?
+4. If you rebuilt it, what would you change?
+5. What do you want to build next?`},
+{k:`Must`,h:`Oral check`,b:`In your 1:1 this week, explain your code section by section in about 5 minutes.`}
+],
+check:[`Stands 30 seconds hands-free`,`Recovers from three taps`,`Every section of the code has a comment`,`Explains P and D in the 1:1 without notes`,`Reflection complete`],
+one:`Five-minute oral check: the student walks you through their code. This is how you know the work is theirs.`,
+notes:[`Decide the certificate rule before the cohort starts. Suggestion: a certificate of completion for a full submission, with a "Balanced" mark for meeting the bar.`,`Students who miss the bar submit their best attempt and a bug story by the week 12 class.`],
+res:[`Submission checklist`,`Week 12 video brief`]
+},
+{
+n:12, nav:`Demo day`, title:`Iterate, final video and demo day`, milestone:`Final video and demo day`, kit:`Kit needed`,
+dq:`What can you show, and explain, to someone who has never seen this before?`,
+goal:`Students polish their robot, record a final video, and present to parents on demo day. Optional extensions (ultrasonic stop, Bluetooth control) are offered as future projects.`,
+leave:[`A final video they can share`,`A certificate`,`A next project`],
+prepT:[`A 5-minute montage edited from every final video`,`8 to 10 students picked for live demos, tested on camera the day before`,`Week 1 reveal clip and the question wall slide`,`Certificates named and ready`,`Feedback form link`,`Written parent consent for any video used outside the class`],
+prepS:[`Robot charged, final code uploaded`,`Parents invited to join`],
+flow:[
+{m:10,ph:`Engage`,h:`Where we started`,b:`Play the week 1 reveal clip, then show the question wall. Answer three of the class's first questions using what they now know.`},
+{m:50,ph:`Elaborate`,h:`Showcase`,b:`Play the 5-minute montage. Then 8 to 10 live demos of 3 to 4 minutes each: the robot standing, three taps, and one thing the student learnt. Parents ask questions in chat.`},
+{m:15,ph:`Explore`,h:`Push challenge`,trim:true,b:`Volunteer robots on camera. A bigger push each round until one robot is left standing.`},
+{m:10,ph:`Evaluate`,h:`Certificates`,b:`Read every name. Then show next steps: extension projects and the next cohort.`},
+{m:5,ph:`Admin`,h:`Feedback`,b:`Five-minute feedback form for parents and students.`}
+],
+wrong:[],
+tasks:[
+{k:`Must`,h:`Final video`,b:`60 to 90 seconds, landscape, whole robot in frame. Follow the brief. Due the Saturday before demo day.`,f:`FINAL VIDEO (60–90 s, landscape, whole robot in frame)
+0–10 s    First name, grade, and what your robot does
+10–25 s   Robot standing on its own
+25–40 s   Three taps, and it recovers
+40–60 s   Sense, decide, act on your robot, in your words
+60–80 s   One bug and how you fixed it
+80–90 s   What you want to build next`},
+{k:`Must`,h:`Final code and README`,b:`Final .ino plus three lines at the top: what it does, your gains, your balance point.`},
+{k:`Must`,h:`Feedback form`,b:`Five minutes, filled in during or after demo day.`},
+{k:`Stretch`,h:`Ultrasonic stop`,b:`Shift the target angle 1 to 2 degrees forward so the robot creeps. When something is closer than 20 cm, go back to the balance point. 30-second video.`},
+{k:`Stretch`,h:`Bluetooth control`,b:`Read single characters from a phone Bluetooth terminal app: f creeps forward, b creeps back, s stops. Each one shifts the target angle. 30-second video.`}
+],
+check:[`Video follows the brief and shows a stand and three taps`,`Parent consent recorded before any video is shared publicly`],
+one:`Optional this week. Review extension attempts and suggest a next project.`,
+notes:[`Both extensions are future scope. Without encoders, the robot moves by shifting its target angle, so it will creep and drift. Present them as experiments, not requirements.`,`The Tumbller has a Bluetooth module. Check Elegoo's pin map for how it connects before you give the Bluetooth task.`],
+res:[`Final video brief`,`Extension starter notes`,`Feedback form`]
+}
+];
+
+const OVERVIEW = `
+<div class="eyebrow"><b>Overview</b><span>Read this first</span></div>
+<h2>How this cohort is taught</h2>
+
+<section class="blk">
+  <div class="goal">
+    <p>By week 11, every robot stands on its own for 30 seconds and recovers from three taps.</p>
+    <small>Not in this cohort: wheel encoders, speed control, driving around. Optional in week 12: stopping with the ultrasonic sensor, and Bluetooth control. Without encoders the robot drifts slowly while balancing. That is expected; the bar is standing, not staying in one spot.</small>
+  </div>
+</section>
+
+<section class="blk">
+  <h3>The robot, week by week</h3>
+  <ol class="ladder">__LADDER__</ol>
+</section>
+
+<section class="blk">
+  <h3>How we teach</h3>
+  <p class="lead">Every class is inquiry-led. Students meet a puzzle, try things, and form ideas before we name the concept. Use these five rules in every class.</p>
+  <ol class="rules">
+    <li><span><b>Ask before you tell.</b> Show the thing happening, ask "What do you notice? What do you wonder?", and only then name the idea.</span></li>
+    <li><span><b>Predict before every run.</b> Students type a prediction in chat before code runs or a demo starts. A wrong prediction followed by a test teaches more than a right answer given.</span></li>
+    <li><span><b>Answer a question with a question, for 30 seconds.</b> "What did the Serial Monitor say?" "What changed since it last worked?" Then help.</span></li>
+    <li><span><b>Treat wrong answers as data.</b> Don't say "no". Say "If that were true, what would we see? Let's test it."</span></li>
+    <li><span><b>Name the concept after they have felt it.</b> The broom comes before the control loop. The flashlight comes before PWM.</span></li>
+  </ol>
+</section>
+
+<section class="blk">
+  <h3>The five phases in each run of show</h3>
+  <div class="phases">
+    <div style="--c:var(--engage)"><b>Engage</b><small>A puzzle, a demo or a failure that makes them curious</small></div>
+    <div style="--c:var(--explore)"><b>Explore</b><small>Hands on: they try, measure and predict</small></div>
+    <div style="--c:var(--explain)"><b>Explain</b><small>You name what they found, with an analogy</small></div>
+    <div style="--c:var(--elaborate)"><b>Elaborate</b><small>They apply it to the robot</small></div>
+    <div style="--c:var(--evaluate)"><b>Evaluate</b><small>Exit question, then the assignment</small></div>
+  </div>
+</section>
+
+<section class="blk">
+  <h3>Running a class of 50 online</h3>
+  <ul class="dots">
+    <li><b>Chat waterfall.</b> Everyone types an answer, nobody presses Enter until you say go. Every student answers, not only the fastest.</li>
+    <li><b>Polls</b> for every prediction with a clear set of answers.</li>
+    <li><b>Second camera.</b> Students join from their phone as well, muted, pointing at their hands and robot.</li>
+    <li><b>Checkpoint photos</b> in the chat during builds and hands-on blocks, so you can see who is stuck.</li>
+    <li><b>Breakout rooms</b> of 6 to 8 with a mentor for build, coding practice and tuning.</li>
+    <li><b>Record every class.</b> Students who miss one, or whose kit arrives late, catch up from the recording and their 1:1.</li>
+  </ul>
+</section>
+
+<section class="blk">
+  <h3>The weekly rhythm</h3>
+  <div class="rhythm">
+    <div><span class="d">Sunday</span><b>Live class</b><small>Up to 90 minutes, recorded</small></div>
+    <div><span class="d">Sunday evening</span><b>Assignment posted</b><small>Tasks, formats and starter files</small></div>
+    <div><span class="d">Mon to Fri</span><b>30-minute 1:1</b><small>With you or a mentor</small></div>
+    <div><span class="d">Saturday 8 PM ET</span><b>Submission due</b><small>Two or three strong ones are shown next class, with permission</small></div>
+  </div>
+</section>
+
+<section class="blk">
+  <h3>How assignments work</h3>
+  <div class="two">
+    <div>
+      <h4>Sharing</h4>
+      <ul class="dots">
+        <li>One post per week in Google Classroom, up by Sunday evening.</li>
+        <li>Each post has the task list, the formats to copy, and the starter files.</li>
+        <li>Tasks are small. Plan for 1 to 4 hours a week: Must tasks first, then optional Stretch tasks.</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Submitting</h4>
+      <ul class="dots">
+        <li>Code as an .ino file named like W05_AnyaS.ino.</li>
+        <li>Readings pasted as text in the given format, not screenshots, unless the task asks for one.</li>
+        <li>Videos uploaded straight from the phone: landscape, under 60 seconds unless stated, whole robot in frame.</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Reviewing</h4>
+      <ul class="dots">
+        <li>Mark each Must task Done or Redo within 48 hours.</li>
+        <li>Give the deeper feedback in the 1:1.</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Late work</h4>
+      <ul class="dots">
+        <li>Catch up in the 1:1, no penalty.</li>
+        <li>Week 11 is the hard deadline.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="blk">
+  <h3>Class length</h3>
+  <p>Every plan runs 85 to 90 minutes. Blocks marked "Trim if short" can go when a class has 50 to 60 minutes; switch on "Short class" at the top to see that version with its timings. Weeks 2 and 8 should not run short. Below 45 minutes, move the Elaborate block into the 1:1.</p>
+  <p>Holiday breaks: post an optional challenge and no new content. Restart with a 5-minute recap of the last class.</p>
+</section>
+
+<section class="blk">
+  <h3>Tools</h3>
+  <div class="scroll"><table>
+    <tr><th>Tool</th><th>Used in</th><th>Cost</th></tr>
+    <tr><td>phyphox app</td><td>Weeks 1, 6</td><td>Free</td></tr>
+    <tr><td>Wokwi (browser Arduino simulator)</td><td>Week 1</td><td>Free</td></tr>
+    <tr><td>Tinkercad Circuits (blocks and text)</td><td>Weeks 3, 7</td><td>Free, account needed</td></tr>
+    <tr><td>Arduino IDE 2</td><td>Weeks 2 to 12</td><td>Free</td></tr>
+    <tr><td>Elegoo Tumbller manual and code pack</td><td>Weeks 2, 5, 7</td><td>Comes with the kit</td></tr>
+    <tr><td>Google Classroom</td><td>Every week</td><td>Free</td></tr>
+  </table></div>
+</section>
+
+<section class="blk">
+  <h3>Starter files to prepare</h3>
+  <p>Write and test each one on a real Tumbller before its week. Pin numbers and libraries come from Elegoo's code pack.</p>
+  <div class="scroll"><table>
+    <tr><th>Week</th><th>File</th><th>What it does</th></tr>
+    <tr><td>1</td><td>Wokwi starter</td><td>Nano, LED and MPU6050; blinks and prints sensor values</td></tr>
+    <tr><td>2</td><td>hello</td><td>Proves an upload works</td></tr>
+    <tr><td>3</td><td>Three Tinkercad circuits, snippets A to D</td><td>LED, button, potentiometer tilt alarm; predict-the-output</td></tr>
+    <tr><td>4</td><td>Two bug hunt sketches</td><td>Five bugs each, one of them a logic bug</td></tr>
+    <tr><td>5</td><td>raw_imu</td><td>Prints six raw sensor values every 100 ms</td></tr>
+    <tr><td>6</td><td>tilt_angle, ultrasonic</td><td>Three angles for the plotter; distance in cm</td></tr>
+    <tr><td>7</td><td>motor_test</td><td>setMotor(side, speed) helper and a PWM sweep</td></tr>
+    <tr><td>8</td><td>balance_stub</td><td>Control loop with blanks for error, P, D and the limit</td></tr>
+    <tr><td>9</td><td>Stub additions, angle-only sketch</td><td>Target angle, cut-off, dead zone, I</td></tr>
+  </table></div>
+</section>
+`;
+
+const state = {view:'overview', short:false};
+const copies = [];
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function pad(n){return String(n).padStart(2,'0')}
+function sum(a){return a.reduce((t,b)=>t+b.m,0)}
+function fmtBlock(text){copies.push(text);return `<div class="fmt"><pre>${esc(text)}</pre><button class="copy" data-i="${copies.length-1}" type="button">Copy</button></div>`}
+
+function renderNav(){
+  let h = `<button type="button" data-v="overview" class="${state.view==='overview'?'on':''}"><span class="nn">00</span><span class="nt">Overview</span><span class="nm">Method, rhythm, assignments</span></button><div class="sep"></div>`;
+  WEEKS.forEach(w=>{
+    const v='week-'+w.n;
+    h+=`<button type="button" data-v="${v}" class="${state.view===v?'on':''}"><span class="nn">W${pad(w.n)}</span><span class="nt">${esc(w.nav)}</span><span class="nm">${esc(w.milestone)}</span></button>`;
+  });
+  document.getElementById('nav').innerHTML=h;
+  const on=document.querySelector('nav button.on'); if(on&&window.innerWidth<=880) on.scrollIntoView({block:'nearest',inline:'center'});
+}
+
+function renderOverview(){
+  const ladder = WEEKS.map(w=>`<li><span class="wn">W${pad(w.n)}</span><span><button type="button" data-v="week-${w.n}">${esc(w.milestone)}</button><small>${esc(w.nav)}</small></span></li>`).join('');
+  return OVERVIEW.replace('__LADDER__',ladder) + pager(-1);
+}
+
+function renderWeek(w){
+  const blocks = w.flow.filter(b=>!(state.short&&b.trim));
+  const full = sum(w.flow), core = sum(w.flow.filter(b=>!b.trim));
+  let t=0;
+  const rows = blocks.map(b=>{
+    const s=t; t+=b.m;
+    return `<div class="row"><div class="tm">${s}–${t} min<small>${b.m} min</small></div><div>
+      <div class="rh"><span class="ph" style="--c:var(${PH[b.ph]})"><i></i>${esc(b.ph)}</span><strong>${esc(b.h)}</strong>${b.trim?'<span class="tag">Trim if short</span>':''}</div>
+      ${b.b?`<p>${esc(b.b)}</p>`:''}
+      ${b.ask&&b.ask.length?`<ul class="ask">${b.ask.map(q=>`<li>${esc(q)}</li>`).join('')}</ul>`:''}
+    </div></div>`;
+  }).join('');
+  const length = core===full ? `${full} min (keep it full length)` : `${full} min, ${core} min short`;
+  const wrong = w.wrong.length ? `<section class="blk"><h3>Common wrong ideas</h3><div class="scroll"><table><tr><th>Students often think</th><th>What we show them</th></tr>${w.wrong.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join('')}</table></div></section>`:'';
+  const tasks = w.tasks.map((k,i)=>`<div class="task"><div class="th"><span class="kind ${k.k==='Stretch'?'st':''}">${k.k}</span><span class="tid">${esc(k.id||('T'+(i+1)))}</span><b>${esc(k.h)}</b></div><p>${esc(k.b)}</p>${k.f?fmtBlock(k.f):''}</div>`).join('');
+  const notes = (w.notes&&w.notes.length)||w.code ? `<section class="blk"><h3>Teacher notes</h3>${w.notes&&w.notes.length?`<div class="note"><ul>${w.notes.map(n=>`<li>${esc(n)}</li>`).join('')}</ul></div>`:''}${w.code?`<p class="code-label">${esc(w.code.label)}</p>${fmtBlock(w.code.c)}`:''}</section>`:'';
+  return `
+  <div class="eyebrow"><b>Week ${pad(w.n)}</b><span>${esc(w.kit)}</span></div>
+  <h2>${esc(w.title)}</h2>
+  <div class="dq"><span>Driving question</span><p>${esc(w.dq)}</p></div>
+  <div class="facts">
+    <div class="fact"><div class="l">Class length</div><div class="v">${length}</div></div>
+    <div class="fact"><div class="l">Robot by the end of the week</div><div class="v">${esc(w.milestone)}</div></div>
+    <div class="fact"><div class="l">Assignment due</div><div class="v">Saturday, 8 PM ET</div></div>
+  </div>
+  <section class="blk"><h3>Goal</h3><p class="lead">${esc(w.goal)}</p>
+    <h4 style="font-size:14px;margin:18px 0 8px">Students leave with</h4><ul class="dots">${w.leave.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section>
+  <section class="blk"><h3>Before class</h3><div class="two">
+    <div><h4>You prepare</h4><ul class="dots">${w.prepT.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+    <div><h4>Students bring</h4><ul class="dots">${w.prepS.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+  </div></section>
+  <section class="blk"><h3>Run of show <em>${t} min${state.short&&core!==full?' (short version)':''}</em></h3><div class="flow">${rows}</div></section>
+  ${wrong}
+  <section class="blk"><h3>Assignment <em>due Saturday 8 PM ET</em></h3><div class="tasks">${tasks}</div></section>
+  <section class="blk"><div class="two">
+    <div><h3>What good looks like</h3><ul class="dots">${w.check.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+    <div><h3>1:1 focus this week</h3><p>${esc(w.one)}</p></div>
+  </div></section>
+  ${notes}
+  <section class="blk"><h3>Resources</h3><ul class="dots">${w.res.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section>
+  ${pager(w.n-1)}`;
+}
+
+function pager(i){
+  const prev = i<0 ? null : (i===0 ? {v:'overview',t:'Overview'} : {v:'week-'+WEEKS[i-1].n,t:'Week '+WEEKS[i-1].n+': '+WEEKS[i-1].nav});
+  const next = i+1<WEEKS.length ? {v:'week-'+WEEKS[i+1].n,t:'Week '+WEEKS[i+1].n+': '+WEEKS[i+1].nav} : null;
+  return `<div class="pager">${prev?`<button type="button" data-v="${prev.v}"><span>Previous</span>${esc(prev.t)}</button>`:''}${next?`<button type="button" class="nx" data-v="${next.v}"><span>Next</span>${esc(next.t)}</button>`:''}</div>`;
+}
+
+function render(scroll){
+  copies.length=0;
+  renderNav();
+  const m=document.getElementById('main');
+  if(state.view==='overview') m.innerHTML=renderOverview();
+  else { const w=WEEKS.find(x=>'week-'+x.n===state.view)||WEEKS[0]; m.innerHTML=renderWeek(w); }
+  if(scroll) window.scrollTo({top:0});
+}
+
+function go(v){
+  state.view=v;
+  try{localStorage.setItem('stg-view',v)}catch(e){}
+  try{ if(location.hash!=='#'+v) history.replaceState(null,'','#'+v) }catch(e){}
+  render(true);
+}
+
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-v]'); if(b){go(b.dataset.v);return;}
+  const c=e.target.closest('.copy');
+  if(c){
+    const text=copies[+c.dataset.i];
+    const done=()=>{c.textContent='Copied';setTimeout(()=>c.textContent='Copy',1400)};
+    const fallback=()=>{const r=document.createRange();r.selectNodeContents(c.previousElementSibling);const s=getSelection();s.removeAllRanges();s.addRange(r);c.textContent='Selected';setTimeout(()=>c.textContent='Copy',1400)};
+    try{navigator.clipboard.writeText(text).then(done,fallback)}catch(err){fallback()}
+  }
+});
+document.getElementById('short').addEventListener('change',e=>{state.short=e.target.checked;try{localStorage.setItem('stg-short',state.short?'1':'0')}catch(err){};render(false)});
+window.addEventListener('hashchange',()=>{const h=location.hash.slice(1);if(h&&h!==state.view&&(h==='overview'||/^week-\d+$/.test(h))){state.view=h;render(true)}});
+
+(function init(){
+  const h=location.hash.slice(1);
+  let v=null;
+  if(h==='overview'||/^week-(\d|1[0-2])$/.test(h)) v=h;
+  if(!v){try{v=localStorage.getItem('stg-view')}catch(e){}}
+  state.view=v||'overview';
+  try{state.short=localStorage.getItem('stg-short')==='1'}catch(e){}
+  document.getElementById('short').checked=state.short;
+  render(false);
+})();
+</script>
