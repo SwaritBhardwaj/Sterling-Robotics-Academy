@@ -1,0 +1,1 @@
+Vendored from https://github.com/sergebulaev/linkedin-skills @ bfa41ff on 2026-10-08. Excluded: CLAUDE.md, AGENTS.md (contributor instructions), assets/, evals/, tests/, .github/. Draft-only by default; no PUBLORA/APIFY keys configured.

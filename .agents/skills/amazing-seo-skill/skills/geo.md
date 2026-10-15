@@ -1,0 +1,271 @@
+---
+name: seo-geo
+description: >
+  Optimize content for AI Overviews (formerly SGE), ChatGPT web search,
+  Perplexity, and other AI-powered search experiences. Generative Engine
+  Optimization (GEO) analysis including brand mention signals, AI crawler
+  accessibility, llms.txt compliance, passage-level citability scoring, and
+  platform-specific optimization. Use when user says "AI Overviews", "SGE",
+  "GEO", "AI search", "LLM optimization", "Perplexity", "AI citations",
+  "ChatGPT search", or "AI visibility".
+---
+
+# AI Search / GEO Optimization (May 2026)
+
+<!-- Stats verified May 2026. Re-verify before relying on specific numbers
+     older than 90 days — AI-search landscape moves fast (e.g. the AI-Overview
+     top-10 citation share dropped from 92% to 38% between mid-2024 and
+     mid-2025 per Ahrefs). -->
+
+## Key Statistics
+
+| Metric | Value | Source |
+|--------|-------|--------|
+| AI Overviews reach | 2 billion users/month across 200+ countries | Google (early 2026 update) |
+| AI Overviews query coverage | 50%+ of all queries | Industry data |
+| AI-referred sessions growth | 527% (Jan-May 2025) | SparkToro |
+| ChatGPT weekly active users | 900 million | OpenAI |
+| Perplexity monthly queries | 500+ million | Perplexity |
+
+## Critical Insight: Brand Mentions > Backlinks
+
+**Brand mentions correlate ~3× more strongly with AI visibility than backlinks.**
+(Ahrefs 75K-brands study, 2025 update; YouTube-mentions update December 2025)
+
+| Signal | Correlation with AI Overview visibility |
+|--------|----------------------------------------|
+| YouTube mentions (titles, transcripts, descriptions) | ~0.737 (strongest single factor) |
+| Brand web mentions (any context) | 0.664 |
+| Backlinks (raw count) | 0.218 |
+
+**Only 11% of domains** are cited by both ChatGPT and Google AI Overviews for the same query — platform-specific optimization is essential.
+
+### Citation source mix — keep current
+
+The share of AI-Overview citations coming from **top-10 organic results**
+dropped from **~92% in mid-2024 to ~38% by late 2025** (Ahrefs longitudinal
+study). The implication: traditional rank-1-to-10 optimization alone no
+longer guarantees AI citation. Off-page brand signals (YouTube, Reddit,
+forums, earned media) now drive the majority of citations.
+
+### Proven content-side citation boost factors (2026 research)
+
+When your content includes these patterns, AI engines cite it more often:
+
+| Element | Citation rate boost | Why it works |
+|---------|---------------------|--------------|
+| **Expert quotes** with attribution | **+41%** | LLMs use quotation marks + attribution as a proxy for credibility |
+| **Statistics** with concrete numbers | **+30%** | Signals factual density; LLMs prefer specific over abstract |
+| **Inline citations** linking to primary sources | **+30%** | Shows the content itself is building on authoritative sources — chain of trust |
+
+Source: aggregated 2026 GEO research (ALM Corp, Backlinko, Frase, Searchengineland).
+
+### Platform-specific citation behaviour (verified 2026)
+
+LLMs cite far fewer sources than Google's 10 blue links — typically **2-7 domains per response**. Citation is much more competitive. Each platform has distinct preferences:
+
+| Platform | Citation behaviour | What it favours |
+|----------|--------------------|-----------------|
+| **Perplexity** | Always shows citations explicitly | Authoritative sources, original data, primary research |
+| **ChatGPT** | Lifts bullet points and FAQs verbatim | Structured formats: bullet lists, numbered steps, Q&A blocks. Wikipedia (13%) + Reddit (12%) dominate |
+| **Google AI Overviews** | Cites passages from top-ranked + brand-signal-strong sources | Short definitions, visuals, FAQ-style answers (though FAQ rich-result is gone, FAQ-structured content still ranks well in AIO) |
+| **Claude** | Conservative, cites sparingly when web search enabled | Well-cited primary sources, transparency markers |
+| **Grok** | Heavy social media + recent web | Recent X/Twitter content, breaking news |
+| **Gemini** | Same Google index + Gemini ranking | Same as AIO + structured data + entity clarity |
+
+---
+
+## GEO Analysis Criteria (Updated)
+
+### 1. Citability Score (25%)
+
+**Optimal passage length: 134-167 words** for AI citation.
+
+**Strong signals:**
+- Clear, quotable sentences with specific facts/statistics
+- Self-contained answer blocks (can be extracted without context)
+- Direct answer in first 40-60 words of section
+- Claims attributed with specific sources
+- Definitions following "X is..." or "X refers to..." patterns
+- Unique data points not found elsewhere
+
+**Weak signals:**
+- Vague, general statements
+- Opinion without evidence
+- Buried conclusions
+- No specific data points
+
+### 2. Structural Readability (20%)
+
+The share of AI-Overview citations from top-10 organic results has fallen
+to **~38%** (Ahrefs longitudinal study, late 2025) — meaning the majority
+of AI-Overview citations now come from pages outside the top 10. Ranking
+helps but is no longer the dominant signal.
+
+**Strong signals:**
+- Clean H1→H2→H3 heading hierarchy
+- Question-based headings (matches query patterns)
+- Short paragraphs (2-4 sentences)
+- Tables for comparative data
+- Ordered/unordered lists for step-by-step or multi-item content
+- FAQ sections with clear Q&A format
+
+**Weak signals:**
+- Wall of text with no structure
+- Inconsistent heading hierarchy
+- No lists or tables
+- Information buried in paragraphs
+
+### 3. Multi-Modal Content (15%)
+
+Content with multi-modal elements sees **156% higher selection rates**.
+
+**Check for:**
+- Text + relevant images
+- Video content (embedded or linked)
+- Infographics and charts
+- Interactive elements (calculators, tools)
+- Structured data supporting media
+
+### 4. Authority & Brand Signals (20%)
+
+**Strong signals:**
+- Author byline with credentials
+- Publication date and last-updated date
+- Citations to primary sources (studies, official docs, data)
+- Organization credentials and affiliations
+- Expert quotes with attribution
+- Entity presence in Wikipedia, Wikidata
+- Mentions on Reddit, YouTube, LinkedIn
+
+**Weak signals:**
+- Anonymous authorship
+- No dates
+- No sources cited
+- No brand presence across platforms
+
+### 5. Technical Accessibility (20%)
+
+**AI crawlers do NOT execute JavaScript** — server-side rendering is critical.
+
+**Check for:**
+- Server-side rendering (SSR) vs client-only content
+- AI crawler access in robots.txt
+- llms.txt file presence and configuration
+- RSL 1.0 licensing terms
+
+---
+
+## AI Crawler Detection
+
+Check `robots.txt` for these AI crawlers:
+
+| Crawler | Owner | Purpose |
+|---------|-------|---------|
+| GPTBot | OpenAI | ChatGPT web search |
+| OAI-SearchBot | OpenAI | OpenAI search features |
+| ChatGPT-User | OpenAI | ChatGPT browsing |
+| ClaudeBot | Anthropic | Claude web features |
+| PerplexityBot | Perplexity | Perplexity AI search |
+| CCBot | Common Crawl | Training data (often blocked) |
+| anthropic-ai | Anthropic | Claude training |
+| Bytespider | ByteDance | TikTok/Douyin AI |
+| cohere-ai | Cohere | Cohere models |
+
+**Recommendation:** Allow GPTBot, OAI-SearchBot, ClaudeBot, PerplexityBot for AI search visibility. Block CCBot and training crawlers if desired.
+
+---
+
+## llms.txt Standard
+
+The emerging **llms.txt** standard provides AI crawlers with structured content guidance.
+
+**Location:** `/llms.txt` (root of domain)
+
+**Format:**
+```
+# Title of site
+> Brief description
+
+## Main sections
+- [Page title](url): Description
+- [Another page](url): Description
+
+## Optional: Key facts
+- Fact 1
+- Fact 2
+```
+
+**Check for:**
+- Presence of `/llms.txt`
+- Structured content guidance
+- Key page highlights
+- Contact/authority information
+
+---
+
+## RSL 1.0 (Really Simple Licensing)
+
+New standard (December 2025) for machine-readable AI licensing terms.
+
+**Backed by:** Reddit, Yahoo, Medium, Quora, Cloudflare, Akamai, Creative Commons
+
+**Check for:** RSL implementation and appropriate licensing terms.
+
+---
+
+## Platform-Specific Optimization
+
+| Platform | Key Citation Sources | Optimization Focus |
+|----------|---------------------|-------------------|
+| **Google AI Overviews** | Top-10 ranking pages (~38%, down from ~92% mid-2024); strong YouTube share | Traditional SEO + YouTube + earned mentions |
+| **ChatGPT** | Wikipedia (~13%), Reddit (~12%), high overall Reddit/forum share across LLMs | Entity presence, authoritative sources, Reddit/forum visibility |
+| **Perplexity** | Reddit (heavy), Wikipedia, community sources | Community validation, discussions |
+| **Bing Copilot** | Bing index, authoritative sites | Bing SEO, IndexNow |
+| **Google AI Mode / Gemini** | Same Google index + Gemini ranking layer | Same as AIO + structured data + entity clarity |
+
+---
+
+## Output
+
+Generate `GEO-ANALYSIS.md` with:
+
+1. **GEO Readiness Score: XX/100**
+2. **Platform breakdown** (Google AIO, ChatGPT, Perplexity scores)
+3. **AI Crawler Access Status** (which crawlers allowed/blocked)
+4. **llms.txt Status** (present, missing, recommendations)
+5. **Brand Mention Analysis** (presence on Wikipedia, Reddit, YouTube, LinkedIn)
+6. **Passage-Level Citability** (optimal 134-167 word blocks identified)
+7. **Server-Side Rendering Check** (JavaScript dependency analysis)
+8. **Top 5 Highest-Impact Changes**
+9. **Schema Recommendations** (for AI discoverability)
+10. **Content Reformatting Suggestions** (specific passages to rewrite)
+
+---
+
+## Quick Wins
+
+1. Add "What is [topic]?" definition in first 60 words
+2. Create 134-167 word self-contained answer blocks
+3. Add question-based H2/H3 headings
+4. Include specific statistics with sources
+5. Add publication/update dates
+6. Implement Person schema for authors
+7. Allow key AI crawlers in robots.txt
+
+## Medium Effort
+
+1. Create `/llms.txt` file
+2. Add author bio with credentials + Wikipedia/LinkedIn links
+3. Ensure server-side rendering for key content
+4. Build entity presence on Reddit, YouTube
+5. Add comparison tables with data
+6. Implement FAQ sections (structured, not schema for commercial sites)
+
+## High Impact
+
+1. Create original research/surveys (unique citability)
+2. Build Wikipedia presence for brand/key people
+3. Establish YouTube channel with content mentions
+4. Implement comprehensive entity linking (sameAs across platforms)
+5. Develop unique tools or calculators

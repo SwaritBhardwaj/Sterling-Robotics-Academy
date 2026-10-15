@@ -1,0 +1,317 @@
+{
+  "version": 1,
+  "skills": {
+    "accelerator-application": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/accelerator-application/SKILL.md",
+      "computedHash": "f28c440ac6393b8b63e21563677afc87022b554b57f4b56e9115c9340cb1a049"
+    },
+    "amazing-seo-skill": {
+      "source": "metawhisp/amazing-seo-skill",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "95c9d140824a1153f0a20fa363c9f7a742c419c6bcbbf85630418dbc7a2e6127"
+    },
+    "architecture-design": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/architecture-design/SKILL.md",
+      "computedHash": "021c78aebce7c513193f87c29bfd6c66a41c105245bca558b15f319eee47ad74"
+    },
+    "board-update": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/board-update/SKILL.md",
+      "computedHash": "75631bcabe183e8723e8703d4f2eaac4bea71509db6893c88275c4609d37e994"
+    },
+    "churn-analysis": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/churn-analysis/SKILL.md",
+      "computedHash": "386159a89f8873abcd5932ef444816a1e849c131a78c471ebe1e4642ace11db2"
+    },
+    "cicd-setup": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/cicd-setup/SKILL.md",
+      "computedHash": "4c5dac4ae20a0695d3ca0860cc397d29b56d22bb931a66fff66bcf70153b2a9f"
+    },
+    "code-review": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/code-review/SKILL.md",
+      "computedHash": "f78e9e6fc929aa75ff2abd8ee89456ca3fd7e53b63dd9d1a5af70107b76f8285"
+    },
+    "cold-outreach": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/cold-outreach/SKILL.md",
+      "computedHash": "28ee88f19aa8a0bb8100dcca4009dcef09f7d156e8c4eb4b8831e0bb794bf4d4"
+    },
+    "community-discovery": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/community-discovery/SKILL.md",
+      "computedHash": "f24c34f781b28b64c7d41a1babf202299de29c82bd3908b69cce158fb3ae52fa"
+    },
+    "competitive-analysis": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/competitive-analysis/SKILL.md",
+      "computedHash": "e79d5b539f78e030edb550398544d3209ea27830e0ae727c7fa9c41e7c358a4d"
+    },
+    "competitor-monitoring": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/competitor-monitoring/SKILL.md",
+      "computedHash": "5ac29aa0c9aa7e5fcd030ba6a5ef323e3a46182c0319cb26d2997c4611fc1230"
+    },
+    "content-strategy": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/content-strategy/SKILL.md",
+      "computedHash": "acfeed170ee11a02ed52f1965596f6a25805f9af23d266035939af6e13d0eb03"
+    },
+    "contract-review": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/contract-review/SKILL.md",
+      "computedHash": "f16d67033a6288df56061388b35baa99b4303d134b6f9e9343bc31740cdf5bdf"
+    },
+    "daily-product-digest": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/daily-product-digest/SKILL.md",
+      "computedHash": "92d9ec60213e71f5f39c80683ad3ce30dd8cdc1913951ae20cff9385a15331da"
+    },
+    "data-room": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/data-room/SKILL.md",
+      "computedHash": "c1b4d313f0935239079a29ec9b6977c5279c24b8190b9804eb6cce8a2287a9f7"
+    },
+    "earned-media-outreach": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/earned-media-outreach/SKILL.md",
+      "computedHash": "3e5f69960477ed85546323fcbe90a04d80961139c517635c818f6fdeb62af72f"
+    },
+    "email-marketing": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/email-marketing/SKILL.md",
+      "computedHash": "ed27dcc2778ca8ac996f1c974767251431fc377da0dab83d4f6a4d31d7e64149"
+    },
+    "employer-brand": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/employer-brand/SKILL.md",
+      "computedHash": "25ba29e06d97f473ff7e227c69f9b69bd2e40acc521f7975f95d5ecaa111c894"
+    },
+    "event-hosting": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/event-hosting/SKILL.md",
+      "computedHash": "ccc950f5a0cb4970a12af2f86351a9bd18f3ad56f0edb8588a033b6b95d62a47"
+    },
+    "feedback-synthesis": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/feedback-synthesis/SKILL.md",
+      "computedHash": "5262399e44ca6168b8d6c68cf9e4ef91fabe395b25a2d057c7709a14be964b83"
+    },
+    "founder-thought-leadership": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/founder-thought-leadership/SKILL.md",
+      "computedHash": "a95b037229b0114956f5bffd8c6b0c63c8eeed583e42eadd3af3031a88860340"
+    },
+    "fundraising-email": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/fundraising-email/SKILL.md",
+      "computedHash": "08d762fa88c567536c7cd27b9a5523a3ce7e4ddc9131bca96dc29d967265ff2b"
+    },
+    "impeccable": {
+      "source": "pbakaus/impeccable",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/impeccable/SKILL.md",
+      "computedHash": "4f1c9edac4c110984200216ed05a2f0b5ced6aa871f5094a7cc4445eacf5477f"
+    },
+    "interview-kit": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/interview-kit/SKILL.md",
+      "computedHash": "11bce27decc98542ca2c43bbaf31e6a1f6defab474dab149366547478285cdd0"
+    },
+    "investor-research": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/investor-research/SKILL.md",
+      "computedHash": "3d62077659b3e102f008d1bbaf1bf353a18e071134c54917640d5ce8a32accc9"
+    },
+    "job-description": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/job-description/SKILL.md",
+      "computedHash": "1b9d418f3761d4eec397f3bceaa81752d39e7783722d758cab20fa480f9203ae"
+    },
+    "landing-page": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/landing-page/SKILL.md",
+      "computedHash": "2aacb7e2ead33aee370a3d0698765987bc814aa18bc3e5b5928177f93cdf2c2c"
+    },
+    "launch-strategy": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/launch-strategy/SKILL.md",
+      "computedHash": "6688f512bb1067fd8b1e0ea269ffc849457936fc31e063c05f9b1ece39b0065d"
+    },
+    "lead-scoring": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/lead-scoring/SKILL.md",
+      "computedHash": "ce2ca17d04d084a1709a680bd0d6da158e71ddfa6c1cbf266163aa388400e2fe"
+    },
+    "market-research": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/market-research/SKILL.md",
+      "computedHash": "8b77bd3f85d3e541e24f8880358106556b3fa9908b2b94225552d349fef195f9"
+    },
+    "mvp-scoping": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/mvp-scoping/SKILL.md",
+      "computedHash": "f5bdebffd16387393904ba2169e9f0723e864c26e4c582c70401fdf40cb61d4b"
+    },
+    "onboarding-flow": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/onboarding-flow/SKILL.md",
+      "computedHash": "32c3764446bf07f929194d89f810b6d8b367ea6dbb1d70e45ee293b31f70f972"
+    },
+    "partnership-outreach": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/partnership-outreach/SKILL.md",
+      "computedHash": "5b67048a8f0b6538bc5ebaea83d775292e40cb3eecabbc385780e2d0da09810a"
+    },
+    "pitch-deck": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/pitch-deck/SKILL.md",
+      "computedHash": "058c379ca602fa99232c33695a36e4f05f9d216b35172bb632d6d08a7fbd3ff9"
+    },
+    "prd-writing": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/prd-writing/SKILL.md",
+      "computedHash": "07278b875b47221e76eabef31bbfc8431529989bbf18be8d60c9c2b4d260fe15"
+    },
+    "privacy-policy": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/privacy-policy/SKILL.md",
+      "computedHash": "49bbabfec5dca1ac5c1105a106a952ce42cb2964bfda859c56e7a1a6f6f50b2e"
+    },
+    "process-docs": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/process-docs/SKILL.md",
+      "computedHash": "f84f4e81ce65d806e9a8e0345c5ae0aa19d3902e0abf203325280dad03822c4e"
+    },
+    "proposal-generation": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/proposal-generation/SKILL.md",
+      "computedHash": "ce12eae103116be01d29a8a0c3d9b182690b757261942cc40991dfd6dd190e30"
+    },
+    "review-mining": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/review-mining/SKILL.md",
+      "computedHash": "2f54590b1c25a5749f3bb43b81905d9f6ee16d4b846ad88760204d51dc6d87e7"
+    },
+    "roadmap-planning": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/roadmap-planning/SKILL.md",
+      "computedHash": "4e6394e4f39ceedb167eae50ab18ba57bc3a33c6e6f80a1ae3cd0069bdeefe43"
+    },
+    "sales-script": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/sales-script/SKILL.md",
+      "computedHash": "a5018434a794a32ee7ec6edc109a231b54ab0285156334848d7f4075646715b7"
+    },
+    "security-review": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/security-review/SKILL.md",
+      "computedHash": "f119650dcace8c1cf25f7b64b680ec6e9b5f7e9844db72a09171669599a4a701"
+    },
+    "sentiment-monitoring": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/sentiment-monitoring/SKILL.md",
+      "computedHash": "ec06e8ae9275da731d84aac92396ee0fa29e6acde949d0e33bd9e29f2467859f"
+    },
+    "seo-technical": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/seo-technical/SKILL.md",
+      "computedHash": "8bbefcc38d432ca05944cbbec39105bea14695885d51d39d4d894760c66cad8b"
+    },
+    "soc2-prep": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/soc2-prep/SKILL.md",
+      "computedHash": "fed7e2b4f27ac71d3b2213cb04beff7ff58d9fcfc5d4b6de4ea20c74930300df"
+    },
+    "social-content": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/social-content/SKILL.md",
+      "computedHash": "44fbd67653114286775601d4c8f810cefdb7fdf663db8107141896223a483f11"
+    },
+    "sourcing-outreach": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/sourcing-outreach/SKILL.md",
+      "computedHash": "055f825680780140eec4c864232623d4e9b80028c390c8a320d5344c965c8d06"
+    },
+    "startup-context": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/startup-context/SKILL.md",
+      "computedHash": "d15c19f73704d599c3bacfe99ac7a5fd79f9bf4e5687a8f12a92adfe83087b71"
+    },
+    "support-docs": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/support-docs/SKILL.md",
+      "computedHash": "2aae62a922b1de23bb7e13c2634a328acc34adaf436367e84762d1b275b8d395"
+    },
+    "tech-stack-eval": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/tech-stack-eval/SKILL.md",
+      "computedHash": "5684d9a703f08ef64945b768c9c7c05c07228be5ba63852b8586795a99bba15e"
+    },
+    "terms-of-service": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/terms-of-service/SKILL.md",
+      "computedHash": "044956db2c4b3ec158127a9e5efa0683e42ac4eaa97679cf15a15b1c10d496d3"
+    },
+    "user-research-synthesis": {
+      "source": "shawnpang/startup-founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/user-research-synthesis/SKILL.md",
+      "computedHash": "3210e2b187e6a36ba9d1aa7e52da36b42b446ebde8f4de3b87515d612c1d3da4"
+    }
+  }
+}

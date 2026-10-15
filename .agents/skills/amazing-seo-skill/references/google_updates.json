@@ -1,0 +1,158 @@
+{
+  "_meta": {
+    "description": "Verified Google search algorithm updates. Used by google_updates_correlator.py to align traffic data with algorithmic events.",
+    "last_verified": "2026-05-18",
+    "sources": [
+      "https://status.search.google.com/products/rGHU1u87FJnkP6W2GwMi/history",
+      "https://searchengineland.com/library/platforms/google/google-algorithm-updates",
+      "https://www.searchenginejournal.com/google-algorithm-history/"
+    ],
+    "notes": "Dates are official Google announcements. 'severity' field is editorial: major = broad observable impact across niches, medium = niche-specific or partial rollout, minor = small adjustment."
+  },
+  "updates": [
+    {
+      "id": "march_2024_core",
+      "name": "March 2024 Core Update",
+      "type": "core",
+      "start_date": "2024-03-05",
+      "end_date": "2024-04-19",
+      "severity": "major",
+      "notes": "45-day rollout. Helpful Content System integrated into core ranking. Largest core update in recent history."
+    },
+    {
+      "id": "march_2024_spam",
+      "name": "March 2024 Spam Update",
+      "type": "spam",
+      "start_date": "2024-03-05",
+      "end_date": "2024-03-20",
+      "severity": "major",
+      "notes": "Ran concurrently with March 2024 core. New spam policies on expired-domain abuse, scaled content, site-reputation abuse."
+    },
+    {
+      "id": "may_2024_ai_overviews",
+      "name": "AI Overviews Launch",
+      "type": "feature",
+      "start_date": "2024-05-14",
+      "end_date": "2024-05-14",
+      "severity": "major",
+      "notes": "AI Overviews (formerly SGE) became generally available in US. Mass CTR compression begins for informational queries."
+    },
+    {
+      "id": "june_2024_spam",
+      "name": "June 2024 Spam Update",
+      "type": "spam",
+      "start_date": "2024-06-20",
+      "end_date": "2024-06-27",
+      "severity": "medium",
+      "notes": "7-day rollout."
+    },
+    {
+      "id": "august_2024_core",
+      "name": "August 2024 Core Update",
+      "type": "core",
+      "start_date": "2024-08-15",
+      "end_date": "2024-09-03",
+      "severity": "major",
+      "notes": "Aimed to promote high-quality content, demote low-value SEO content."
+    },
+    {
+      "id": "november_2024_core",
+      "name": "November 2024 Core Update",
+      "type": "core",
+      "start_date": "2024-11-11",
+      "end_date": "2024-12-05",
+      "severity": "major",
+      "notes": "24-day rollout."
+    },
+    {
+      "id": "december_2024_core",
+      "name": "December 2024 Core Update",
+      "type": "core",
+      "start_date": "2024-12-12",
+      "end_date": "2024-12-18",
+      "severity": "medium",
+      "notes": "Unusual back-to-back core update one month after November 2024 core."
+    },
+    {
+      "id": "december_2024_spam",
+      "name": "December 2024 Spam Update",
+      "type": "spam",
+      "start_date": "2024-12-19",
+      "end_date": "2024-12-26",
+      "severity": "medium",
+      "notes": "7-day rollout immediately after Dec 2024 core."
+    },
+    {
+      "id": "march_2025_core",
+      "name": "March 2025 Core Update",
+      "type": "core",
+      "start_date": "2025-03-13",
+      "end_date": "2025-03-27",
+      "severity": "major",
+      "notes": "Focus on surfacing relevant, high-quality content from all types of sites."
+    },
+    {
+      "id": "june_2025_core",
+      "name": "June 2025 Core Update",
+      "type": "core",
+      "start_date": "2025-06-30",
+      "end_date": "2025-07-17",
+      "severity": "major",
+      "notes": "17-day rollout."
+    },
+    {
+      "id": "august_2025_spam",
+      "name": "August 2025 Spam Update",
+      "type": "spam",
+      "start_date": "2025-08-26",
+      "end_date": "2025-09-22",
+      "severity": "major",
+      "notes": "27-day rollout. Heavy focus on link spam and site reputation abuse enforcement."
+    },
+    {
+      "id": "december_2025_core",
+      "name": "December 2025 Core Update",
+      "type": "core",
+      "start_date": "2025-12-11",
+      "end_date": "2025-12-29",
+      "severity": "major",
+      "notes": "18-day rollout. Heavy demotion of generic informational content; first-hand experience signals reweighted upward."
+    },
+    {
+      "id": "february_2026_discover_core",
+      "name": "February 2026 Discover Core Update",
+      "type": "core_discover",
+      "start_date": "2026-02-05",
+      "end_date": "2026-02-26",
+      "severity": "medium",
+      "notes": "Discover-specific ranking update. Began with English US users, expanded to more languages."
+    },
+    {
+      "id": "march_2026_spam",
+      "name": "March 2026 Spam Update",
+      "type": "spam",
+      "start_date": "2026-03-24",
+      "end_date": "2026-03-25",
+      "severity": "major",
+      "notes": "Fastest rollout on record (~1 day). Targeted link manipulation and PBN networks."
+    },
+    {
+      "id": "march_2026_core",
+      "name": "March 2026 Core Update",
+      "type": "core",
+      "start_date": "2026-03-27",
+      "end_date": "2026-04-08",
+      "severity": "major",
+      "notes": "12-day rollout. First-hand experience signals weighted dominant across all niches per E-E-A-T framework."
+    },
+    {
+      "id": "may_2026_faq_richresult_removal",
+      "name": "FAQ Rich Result Removal",
+      "type": "feature",
+      "start_date": "2026-05-07",
+      "end_date": "2026-05-07",
+      "severity": "medium",
+      "notes": "Google removed FAQ rich result display. Schema FAQPage remains valid for parsing but no longer triggers rich result. Does NOT affect rankings, only SERP appearance."
+    }
+  ]
+}

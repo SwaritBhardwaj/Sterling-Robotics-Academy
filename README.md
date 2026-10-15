@@ -30,7 +30,8 @@ TODOS.md         deferred work with enough context to pick up cold
 07-DAILY/        YYYY-MM-DD.md daily notes
 08-QUEUE/        reserved for routines, not active
 09-GENERATED/    Claude outputs: briefings/, reports/, drafts/ (drafts until approved)
-SYSTEM/          branches, setup guide, usage patterns, protocols, artifacts, logs, archive
+SYSTEM/          branches, setup guide, usage patterns, protocols, artifacts, skills, logs, archive
+.agents/skills/  70 Claude skills (linked into .claude/skills/), pinned in skills-lock.json
 ```
 
 ## Principles

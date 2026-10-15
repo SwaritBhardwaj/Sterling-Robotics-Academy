@@ -77,3 +77,23 @@ _Week of 2026-10-12. Draft written 2026-10-15 from the handoff. Swarit to confir
 4. **Student platform PRD.** v0 drafted. Swarit decides 6 items, then build starts. Week 1 opens 9 Nov. See `02-PROJECTS/progress-database/overview.md`.
 5. **Redesign decision.** Preview is on branch `redesign`. Merge to `main` only on Swarit's yes.
 6. **Terms page and class time.** Both needed before families pay.
+
+## Skills
+
+70 skills vendored on this branch in `.agents/skills/`, symlinked into `.claude/skills/`, pinned in `skills-lock.json`. Copied 2026-10-15 from the Influenzo vault (same versions). Update with `npx skills update`. Full list and examples: `SYSTEM/skills.md`. gstack is not installed (it is per machine, see `TODOS.md`).
+
+Route by intent:
+
+| Work | Use |
+|---|---|
+| Product specs, what to build first | `prd-writing`, `mvp-scoping`, `roadmap-planning` |
+| System design, picking tools | `architecture-design`, `tech-stack-eval` |
+| Security of the site | `security-review` |
+| Site and page design | `impeccable` (Swarit wants it for all site design) |
+| Terms page, privacy, children's data | `terms-of-service`, `privacy-policy` |
+| Family onboarding, parent FAQ, SOPs | `onboarding-flow`, `support-docs`, `process-docs` |
+| The offer, pricing, guarantees | `hundred-million-offers` (default); `100m-offers`, `alex-hormozi-pitch` only for a second opinion |
+| Where families come from, referrals | `100m-leads` |
+| Writing an actual outreach message | `cold-outreach-board` |
+
+Skill output that a family will see is a draft until Swarit approves it. Writing style rules above still apply to every skill's output.
