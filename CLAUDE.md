@@ -8,9 +8,11 @@ Private course site on Cloudflare Workers (static assets + a Worker that runs fi
   - `site.json` (links, admins), `schedule.json` (cohort dates, unlock rules)
 - `build/build.mjs` turns content into `dist/`. `build/test.mjs` tests the access rules.
 - `worker/index.js` (entry, config in `wrangler.jsonc`, `run_worker_first: true`) calls `lib/guard.js` + `lib/course.js`: sign-in (Cloudflare Access JWT), enrolment, week and solution locks, private student pages. `lib/me.js`: home page data at `/api/me`.
-- `assets/`: site.css (brochure look: white, ink #1D1D1F, blue #1F55D6, Instrument Serif/Sans, Geist Mono) and app.js.
+- `assets/`: site.css (the mentor's notebook look, see DESIGN.md) and app.js (signed-in details, highlighter sweep, copy buttons).
 
 ## Rules
+- Never push to `main` without Swarit's approval: every push uses Workers build minutes. Work on a branch and merge in one push. Previews: `npx wrangler deploy -c wrangler.preview.jsonc --temporary`.
+- Design rules live in DESIGN.md (the mentor's notebook). Product context in PRODUCT.md. Full project history in MEMORY.md one folder up, if present.
 - Run `npm run build && npm test` before every push. All checks must pass.
 - Student pages hold notes about minors: never print them in logs, commit messages or anywhere public.
 - No secrets in the repo. Access settings are Cloudflare environment variables.
