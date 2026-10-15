@@ -11,6 +11,8 @@
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   let me = null, plat = null, R = null;
+  // A pencil tick, drawn, not a text symbol
+  const TICK = '<svg class="tick" viewBox="0 0 20 20" aria-hidden="true"><path d="M3.5 10.5 C5.5 12 7 14 8 16 C10.5 10.5 13.5 6.5 17 3.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   const KEY = 'sra.platform.v1';
 
   /* ---------- storage (prototype: this browser only) ---------- */
@@ -111,14 +113,14 @@
     if (!o) return;
     o.resources.forEach(r => {
       const el = $(`[data-state="${r.id}"]`), li = el && el.closest('li');
-      if (st.res[r.id]) { li.classList.add('done'); el.innerHTML = `<span class="tick" aria-hidden="true">✓</span> done`; }
+      if (st.res[r.id]) { li.classList.add('done'); el.innerHTML = `${TICK} done`; }
     });
     o.tasks.forEach(t => {
       const el = $(`[data-state="${t.id}"]`), li = el && el.closest('li'), s = lastSub(st, t.id);
       if (!s) return;
       const label = { submitted: 'submitted', done: 'done', redo: 'redo' }[s.status];
       li.classList.add(s.status === 'done' ? 'done' : s.status === 'redo' ? 'redo' : 'sent');
-      el.innerHTML = s.status === 'done' ? `<span class="tick" aria-hidden="true">✓</span> done` : esc(label);
+      el.innerHTML = s.status === 'done' ? `${TICK} done` : esc(label);
     });
     const mark = $(`[data-next-step="${n}"]`), step = me.admin ? null : nextStep(n, st);
     if (mark) mark.innerHTML = step ? `Next: ${esc(step.verb.toLowerCase())} <a href="${esc(step.url)}">“${esc(step.title)}”</a>.`
@@ -132,7 +134,7 @@
     const id = form.dataset.quiz, st = state();
     const result = $('.quiz-result', form);
     const doneMsg = got => { form.classList.add('passed'); $$('input', form).forEach(i => (i.disabled = true)); $('button', form).hidden = true;
-      result.innerHTML = `<mark>Passed.</mark> ${got ? `+${got} Volts.` : 'You already earned Volts for this page.'} ${nextHint()}`; };
+      result.innerHTML = `<span class="ok">Passed.</span> ${got ? `+${got} Volts.` : 'You already earned Volts for this page.'} ${nextHint()}`; };
     const nextHint = () => { const a = $('.pager a[rel="next"]'); return a ? `<a href="${esc(a.getAttribute('href'))}">Next: ${esc(a.lastChild.textContent)} →</a>` : ''; };
     if (st.res[id]) { doneMsg(0); return; }
     form.addEventListener('submit', async e => {
@@ -201,7 +203,7 @@
       const s = lastSub(state(), id);
       if (!s) return;
       fb.hidden = false;
-      if (s.status === 'done') { fb.className = 'feedback ok'; fb.innerHTML = `<p class="hand">Done ✓</p>${s.comment ? `<p>${esc(s.comment)}</p>` : ''}<p class="aside-note">Reviewed by Swarit.</p>`; form.hidden = true; }
+      if (s.status === 'done') { fb.className = 'feedback ok'; fb.innerHTML = `<p class="hand">Done ${TICK}</p>${s.comment ? `<p>${esc(s.comment)}</p>` : ''}<p class="aside-note">Reviewed by Swarit.</p>`; form.hidden = true; }
       else if (s.status === 'redo') { fb.className = 'feedback redo'; fb.innerHTML = `<p class="hand">Redo</p><p>${esc(s.comment || 'Have another go.')}</p><p class="aside-note">Fix it and submit again below.</p>`; form.hidden = false; }
       else { fb.className = 'feedback sent'; fb.innerHTML = `<p class="hand">Submitted ${esc(longDay(s.at))}</p><p class="aside-note">Swarit reviews work within 48 hours. You can change it until then.</p>`; }
     };

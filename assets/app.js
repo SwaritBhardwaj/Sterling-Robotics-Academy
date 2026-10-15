@@ -13,11 +13,28 @@
   const link = u => (PREVIEW ? ROOT + u.replace(/^\//, '') + (u.endsWith('/') ? 'index.html' : '') : u);
 
   // Copy buttons on fill-in templates
+  $$('.card-in .copy').forEach(b => b.setAttribute('aria-live', 'polite'));
   $$('.card-in .copy').forEach(b => b.addEventListener('click', () => {
     const t = b.parentElement.querySelector('code').innerText;
     const done = l => { b.textContent = l; setTimeout(() => (b.textContent = 'copy'), 1600); };
     (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(() => done('copied'), () => done('select and copy'));
   }));
+
+  // Wide templates: fade the right edge and say so, until scrolled to the end
+  $$('.card-in').forEach(card => {
+    const pre = card.querySelector('pre'); if (!pre) return;
+    const check = () => {
+      const wide = pre.scrollWidth > pre.clientWidth + 2;
+      card.classList.toggle('scrolls', wide);
+      card.classList.toggle('at-end', wide && pre.scrollLeft + pre.clientWidth >= pre.scrollWidth - 4);
+      let more = card.querySelector('.more');
+      if (wide && !more) { more = document.createElement('p'); more.className = 'more'; more.textContent = 'scroll sideways for more →'; card.prepend(more); }
+      if (!wide && more) more.remove();
+    };
+    pre.addEventListener('scroll', check, { passive: true });
+    addEventListener('resize', check);
+    check();
+  });
 
   // Restart the highlighter sweep after the text inside it changes
   function resweep(el) { el.classList.remove('sweep'); void el.offsetWidth; el.classList.add('sweep'); }
@@ -27,11 +44,21 @@
     : fetch('/api/me' + (cohortParam ? `?cohort=${encodeURIComponent(cohortParam)}` : ''), { credentials: 'same-origin' })
       .then(r => (r.ok ? r.json() : Promise.reject(r.status)));
   load.then(render).catch(() => {
-    const t = $('#todo'); if (t) t.textContent = 'Could not load your schedule. Reload the page.';
+    const t = $('#todo'); if (t) { t.classList.add('plain'); t.textContent = 'Could not load your schedule. Reload the page.'; }
   });
 
+  // Today in the course time zone (US Eastern), as YYYY-MM-DD
+  const today = () => new Date(Date.now() - 5 * 3600000).toISOString().slice(0, 10);
+  const sentKey = n => `sra.sent.w${n}`;
+  const sentOn = n => { try { return localStorage.getItem(sentKey(n)); } catch (_) { return null; } };
+
   function submitUrl(me, n) {
-    if (!me.site.homeworkForm) return me.site.whatsappLink || '#';
+    if (!me.site.homeworkForm) {
+      // WhatsApp with the week and name already typed in
+      const digits = String(me.site.whatsapp || '').replace(/\D/g, '');
+      if (!digits) return me.site.whatsappLink || '#';
+      return `https://wa.me/${digits}?text=${encodeURIComponent(`Week ${n} work from ${me.name.split(' ')[0]}:`)}`;
+    }
     const u = new URL(me.site.homeworkForm);
     u.searchParams.set('week', n);
     u.searchParams.set('student', me.name);
@@ -52,7 +79,8 @@
       const li = el.closest('li');
       const isNow = cur && w.n === cur.n;
       li.className = !w.unlocked ? 'locked' : isNow ? 'now' : '';
-      el.textContent = !w.unlocked ? `opens ${day(w.unlockDate)}` : isNow ? 'this week' : `class ${day(w.classDate)}`;
+      const sent = w.unlocked && sentOn(w.n);
+      el.textContent = !w.unlocked ? `opens ${day(w.unlockDate)}` : isNow ? (sent ? `this week, sent ${day(sent)}` : 'this week') : sent ? `sent ${day(sent)}` : `class ${day(w.classDate)}`;
     });
 
     if (document.body.classList.contains('home')) home(me, nw, cur);
@@ -63,8 +91,25 @@
       if (w) el.innerHTML = `class on<br><span class="big">${longDay(w.classDate)}</span>`;
     });
     $$('[data-submit]').forEach(a => {
-      a.href = submitUrl(me, a.dataset.submit);
-      if (!me.site.homeworkForm) a.innerHTML = 'Send your work on WhatsApp <span class="arr" aria-hidden="true">→</span>';
+      const n = a.dataset.submit;
+      a.href = submitUrl(me, n);
+      if (!me.site.homeworkForm) a.innerHTML = `Send week ${n} on WhatsApp <span class="arr" aria-hidden="true">→</span>`;
+      const note = document.createElement('p');
+      note.className = 'aside-note sent-note';
+      const show = () => { const s = sentOn(n); note.textContent = s ? `You marked this week as sent on ${longDay(s)}.` : ''; };
+      a.closest('p').after(note); show();
+      a.addEventListener('click', () => { try { localStorage.setItem(sentKey(n), today()); } catch (_) {} show(); });
+    });
+
+    // The highlighted line on a week page follows the week: get ready before class, submit after it
+    $$('[data-todo-week]').forEach(m => {
+      const w = me.weeks.find(x => x.n === Number(m.dataset.todoWeek)); if (!w) return;
+      const t = today();
+      const due = new Date(new Date(`${w.classDate}T12:00:00Z`).getTime() + 6 * 86400000).toISOString().slice(0, 10);
+      if (t <= w.classDate) m.innerHTML = `Before ${t === w.classDate ? 'class today' : longDay(w.classDate)}, get everything under <a href="#have-ready">Have ready for class</a> done.`;
+      else if (t <= due) m.innerHTML = sentOn(w.n) ? `Sent. Swarit will review it. Next up: week ${w.n + 1}.` : `Do the tasks below and <a href="#submit">send them</a> by ${longDay(due)}, 8 PM Eastern.`;
+      else m.innerHTML = sentOn(w.n) ? 'Done and sent. Look back here any time.' : `This week's work is due. <a href="#submit">Send it</a> as soon as you can.`;
+      resweep(m);
     });
   }
 

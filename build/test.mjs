@@ -100,6 +100,39 @@ await t('worker refuses a request with no sign-in and serves nothing', async () 
 await t('worker serves a page after a valid sign-in', async () => { const r = await worker.fetch(new Request('https://x.workers.dev/', { headers: { 'cf-access-jwt-assertion': good } }), wEnv); assert.equal(r.status, 200); assert.equal(await r.text(), 'page'); });
 await t('worker answers /api/me after sign-in', async () => { const r = await worker.fetch(new Request('https://x.workers.dev/api/me', { headers: { 'cf-access-jwt-assertion': good } }), wEnv); assert.equal(r.status, 200); assert.equal((await r.json()).admin, true); });
 
+// 7. Student platform: answers and hints stay private, quizzes and hints follow the week's dates
+Date.now = realNow;
+const priv = JSON.parse(fs.readFileSync(path.join(ROOT, 'build/.generated/private.json'), 'utf8'));
+const walk = d => fs.readdirSync(d, { withFileTypes: true }).flatMap(e => e.isDirectory() ? walk(path.join(d, e.name)) : [path.join(d, e.name)]);
+const distText = walk(path.join(ROOT, 'dist')).filter(f => /\.(html|json|js|css|md|txt)$/.test(f)).map(f => fs.readFileSync(f, 'utf8')).join('\n');
+await t('no private folder or Markdown source is published', async () => {
+  assert.equal(walk(path.join(ROOT, 'dist')).some(f => /\/private\/|\.md$/.test(f)), false);
+});
+await t('no hint text appears anywhere in the public site', async () => {
+  for (const h of Object.values(priv.hints)) assert.equal(distText.includes(h.slice(0, 40)), false, h.slice(0, 40));
+});
+const pEnv = { DEV_EMAIL: stu.emails[0], ASSETS: { fetch: async () => new Response('page') } };
+const api = (p, body, headers = {}) => worker.fetch(new Request('https://x.workers.dev' + p, { method: 'POST', headers: { 'content-type': 'application/json', ...headers }, body: JSON.stringify(body) }), pEnv);
+const [qid, qkey] = Object.entries(priv.answers)[0];
+const right = Object.fromEntries(qkey.map((k, i) => [i + 1, k.a]));
+const wrongA = Object.fromEntries(qkey.map((k, i) => [i + 1, k.a === 'A' ? 'B' : 'A']));
+setNow('2026-11-08T12:00:00-05:00');
+await t('quiz for a locked week is refused', async () => assert.equal((await api('/api/quiz', { resource: qid, answers: right })).status, 403));
+await t('hint for a locked week is refused', async () => assert.equal((await api('/api/hint', { hint: Object.keys(priv.hints)[0] })).status, 403));
+setNow('2026-11-10T12:00:00-05:00');
+await t('quiz passes with the right answers', async () => assert.equal((await (await api('/api/quiz', { resource: qid, answers: right })).json()).pass, true));
+await t('quiz fails with wrong answers and says where to look', async () => { const j = await (await api('/api/quiz', { resource: qid, answers: wrongA })).json(); assert.equal(j.pass, false); assert.ok(j.wrong.length && 'why' in j.wrong[0]); });
+await t('hint opens in an open week, not yet free', async () => { const j = await (await api('/api/hint', { hint: Object.keys(priv.hints)[0] })).json(); assert.ok(j.text); assert.equal(j.free, false); });
+await t('a post from another site is refused', async () => assert.equal((await api('/api/quiz', { resource: qid, answers: right }, { origin: 'https://evil.example' })).status, 400));
+setNow('2026-11-21T09:00:00-05:00');
+await t('hints are free once solutions open', async () => assert.equal((await (await api('/api/hint', { hint: Object.keys(priv.hints)[0] })).json()).free, true));
+setNow('2026-11-10T12:00:00-05:00');
+await t('a student cannot open the review page', async () => assert.equal((await hit('/admin/', sEnv)).status, 403));
+await t('pretend-date cookie is ignored without PREVIEW_CLOCK', async () => assert.equal((await hit('/weeks/week-03/', sEnv, { cookie: 'sim_date=2027-01-30' })).status, 403));
+await t('pretend-date cookie is ignored when real sign-in is set', async () => assert.equal((await hit('/weeks/week-03/', { ...xEnv, PREVIEW_CLOCK: '1' }, { cookie: `sim_date=2027-01-30; CF_Authorization=${await token({ aud: ['aud123'], iss: 'https://sterling.cloudflareaccess.com', exp: Math.floor(Date.now() / 1000) + 600, email: stu.emails[0] })}` })).status, 403));
+await t('view-as-admin cookie is ignored without PREVIEW_CLOCK', async () => assert.equal((await hit('/admin/', sEnv, { cookie: 'sim_as=admin' })).status, 403));
+await t('preview clock can open a later week on a preview Worker', async () => assert.equal((await hit('/weeks/week-03/', { ...sEnv, PREVIEW_CLOCK: '1' }, { cookie: 'sim_date=2026-11-23' })).status, 200));
+
 Date.now = realNow; globalThis.fetch = realFetch;
 fs.rmSync(tmp, { recursive: true, force: true });
 console.log(`\n${passed} checks passed`);
