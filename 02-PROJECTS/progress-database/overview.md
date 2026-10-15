@@ -1,15 +1,29 @@
-# Progress database
+# Student platform (progress, rewards, submissions)
+
+**PRD draft:** `09-GENERATED/reports/2026-10-15-student-platform-prd-v0.md`
 
 ## Brief
 Give each child a record on the course site: tasks per week, submissions inside the site, Swarit's review, and check marks that show progress. Replaces submitting on WhatsApp or a form.
 
 ## Status
-**Spec.** PRD to be written with Swarit next. No code yet.
+**Spec.** PRD v0 drafted 2026-10-15, waiting on Swarit's 6 decisions (section 12). No code yet.
 
 ## Code
-Not started. Will live on a feature branch off `redesign` (for example `feature/progress-db`). Never on `main` until approved.
+Not started. Will live on `feature/student-platform`, branched off `redesign`. Never on `main` until approved.
 
-## Swarit's ask (15 Oct 2026)
+## Swarit's vision (15 Oct 2026, second message)
+- Child signs in, sees the current week at the top. Minimal, smooth, the eye is drawn subtly to what matters.
+- Each week lists resources (blog, diagrams, video). Each opens its own page.
+- Completing a resource earns rewards.
+- Each assignment is broken into many small tasks that build slowly.
+- Each task has hints. Opening a hint costs rewards (for example 20 earned, a hint costs 5).
+- Student dashboard; also shown in live classes to keep kids engaged.
+- Easy submission (WhatsApp, Drive, link or form were options; still open).
+- Admin dashboards: every student's progress and their submissions.
+- Each student sees only their own progress, with their name on the page.
+- Super secure: no answers early, no GitHub access, no other students' data.
+
+## Swarit's ask (15 Oct 2026, first message)
 "I want database integrated, a few things for that is being saved for each child, like doing multiple tasks, etc. And giving them assignments in that way only, and they can submit it and uh, they should get a evaluator or a check mark that this much progress they have made till now." Content changes are also coming.
 
 ## What we already know (from the teaching guide and the site)
@@ -47,4 +61,4 @@ Not started. Will live on a feature branch off `redesign` (for example `feature/
 - [ ] Merge with the redesign in one push
 
 ## Next action
-- Write the PRD with Swarit. Draft goes to `09-GENERATED/reports/`.
+- Swarit answers the 6 decisions in the PRD. Then week 1 is rewritten in the new format as the sample.

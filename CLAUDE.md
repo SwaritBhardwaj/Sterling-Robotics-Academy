@@ -44,7 +44,7 @@
 |---|---|
 | A family or lead | `01-FAMILIES/leads.md` (+ `01-FAMILIES/<family>.md`) |
 | The course website (code, hosting, design) | `02-PROJECTS/course-site/overview.md` + `tasks.md` + `decisions.md` |
-| Student progress database (next feature) | `02-PROJECTS/progress-database/overview.md` |
+| Student platform: progress, rewards, submissions (next feature) | `02-PROJECTS/progress-database/overview.md` |
 | Launch checklist (payments, booking, terms) | `02-PROJECTS/launch/overview.md` + `tasks.md` |
 | Entry test (format, tool) | `02-PROJECTS/entry-test/overview.md` |
 | What we teach, week by week | `03-CURRICULUM/overview.md` + `teaching-guide/` |
@@ -74,6 +74,6 @@ _Week of 2026-10-12. Draft written 2026-10-15 from the handoff. Swarit to confir
 1. **Fill the founding cohort.** Enrolment closes 1 Nov (17 days). Send the referral messages and track every lead in `01-FAMILIES/leads.md`.
 2. **Booking calendar for entry tests.** Without it, /book and /test can't be sent. Blocks step 1.
 3. **Payment link.** Finish KYC, set the $150 link, run a $1 test. Blocks the first admission, and the $150 reserves fund the kit orders.
-4. **Progress database PRD.** Agree the spec before any code. See `02-PROJECTS/progress-database/overview.md`.
+4. **Student platform PRD.** v0 drafted. Swarit decides 6 items, then build starts. Week 1 opens 9 Nov. See `02-PROJECTS/progress-database/overview.md`.
 5. **Redesign decision.** Preview is on branch `redesign`. Merge to `main` only on Swarit's yes.
 6. **Terms page and class time.** Both needed before families pay.
