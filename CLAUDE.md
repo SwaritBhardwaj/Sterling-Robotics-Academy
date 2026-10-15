@@ -6,14 +6,14 @@
 ## Identity
 
 - **Brand:** Sterling Robotics Academy
-- **Legal entity:** not set yet (ask Swarit)
+- **Legal entity:** none registered yet. Trade as "Sterling Robotics Academy" (decided 2026-10-15).
 - **What we do:** a 12-week live online robotics course. Each child in grades 6 to 12 builds the Elegoo Tumbller self-balancing robot at home and writes the code that keeps it standing and recovering from pushes.
 - **Who for:** mostly Indian-origin families in the US. Reach also goes through relatives in Canada and Dubai.
 - **Tagline:** "Most kids follow the instructions. Yours will understand why they work."
 - **Owner:** Swarit Bhardwaj (swarit000@gmail.com). Public email: hellosterlingrobotics@gmail.com.
 - **Time zones:** logs in Asia/Kolkata (IST). The course runs on US Eastern (ET).
 - **Currency:** USD for fees and revenue. INR for costs paid in India, converted at a stated rate.
-- **North Star (draft, confirm with Swarit):** "Does this help a child understand why their robot works, or help a family decide to join?" If no, don't build it.
+- **North Star (confirmed 2026-10-15):** "Does this help a child understand why their robot works, or help a family decide to join?" If no, don't build it.
 
 ## Operating rules
 
@@ -73,7 +73,7 @@ _Week of 2026-10-12. Draft written 2026-10-15 from the handoff. Swarit to confir
 
 1. **Fill the founding cohort.** Enrolment closes 1 Nov (17 days). Send the referral messages and track every lead in `01-FAMILIES/leads.md`.
 2. **Booking calendar for entry tests.** Without it, /book and /test can't be sent. Blocks step 1.
-3. **Payment link.** Finish KYC, set the $150 link, run a $1 test. Blocks the first admission.
+3. **Payment link.** Finish KYC, set the $150 link, run a $1 test. Blocks the first admission, and the $150 reserves fund the kit orders.
 4. **Progress database PRD.** Agree the spec before any code. See `02-PROJECTS/progress-database/overview.md`.
 5. **Redesign decision.** Preview is on branch `redesign`. Merge to `main` only on Swarit's yes.
 6. **Terms page and class time.** Both needed before families pay.

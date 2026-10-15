@@ -10,7 +10,7 @@ _Status as of 2026-10-15, from the handoff checklist._
 
 ## Before 1 Nov
 - [ ] **Sunday class time** across US time zones. Suggested 11am ET (8am PT), not confirmed.
-- [ ] **Kit plan:** Elegoo US or Amazon US, price check, shipping addresses collected at payment. Pending.
+- [ ] **Kit plan:** Elegoo US or Amazon US, price check, shipping addresses collected at payment. Kits are paid from the $150 reserves (2026-10-15). Settle the refund clash first, see `SYSTEM/billing-process.md`.
 - [ ] **Weekly 1:1s:** 10 students is 5 hours a week. Needs a 1:1 booking link. Pending.
 - [ ] **Fill seats:** send referral messages, track every lead in `01-FAMILIES/leads.md`.
 - [ ] **Trust:** 2 or 3 testimonials and student photos (Swarit says they are coming).

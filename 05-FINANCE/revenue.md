@@ -3,7 +3,7 @@
 _Started 2026-10-15. Append only. Never edit old rows; log corrections as new rows._
 
 ## Cash on hand
-**Not logged yet.** Ask Swarit. Every runway and kit-buying decision depends on it.
+**Not tracked (Swarit's call, 2026-10-15).** Plan: collect $150 reserves as soon as possible and use them to buy kits and place orders. So the reserves received are the working budget until balances come in.
 
 ## Targets
 | Cohort | Target | Revenue at target |

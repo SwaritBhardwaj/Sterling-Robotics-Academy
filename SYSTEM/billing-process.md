@@ -14,6 +14,13 @@ _How money moves. Escalate every refund and every exception to Swarit._
 - Before the first real payment: run a $1 test end to end.
 - To decide: how refunds are paid back, and how referral credits are paid out.
 
+## Kit funding (decided 2026-10-15)
+- Kits are bought from the $150 reserves, as soon as they come in. No separate cash pool.
+- Open risks to settle before the first order:
+  - **Kit cost per child** (kit plus US shipping) must fit inside $150. Price check pending.
+  - **Refund clash.** The policy gives a full refund before the enrolment deadline, but a kit bought from that money can't be un-bought. Options: order kits only after the deadline (1 Nov), or change the policy so the reserve becomes non-refundable once the kit is ordered.
+  - **Shipping timing.** The old flow shipped kits after the $450 balance (8 Nov). Ordering earlier is fine, but decide whether kits ship to families before the balance is paid.
+
 ## Refunds
 | When | Refund |
 |---|---|

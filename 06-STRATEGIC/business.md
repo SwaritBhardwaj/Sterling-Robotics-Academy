@@ -1,5 +1,6 @@
 # The business
 
+- **Name:** Sterling Robotics Academy. No legal entity registered yet.
 - **What:** a 12-week live online robotics course. Each child builds the Elegoo Tumbller self-balancing robot at home and writes the code that keeps it standing and recovering from pushes.
 - **Who:** grades 6 to 12, mostly Indian-origin families in the US. Reach also through relatives and friends in Canada and Dubai (watch kit shipping and Sunday time zones there).
 - **Tagline:** "Most kids follow the instructions. Yours will understand why they work."
